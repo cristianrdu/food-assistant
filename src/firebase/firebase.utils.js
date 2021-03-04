@@ -60,22 +60,36 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   return await batch.commit();
 }
 
-// export const convertCollectionsSnapshotToMap = (collections) => {
-//   const transformedCollection = collections.docs.map(doc => {
-//     const { title, items } = doc.data();
-//     return {
-//       routeName: encodeURI(title.toLowerCase()),
-//       id: doc.id,
-//       title,
-//       items
-//     };
-//   });
+export const getCookbookioData = () => {
+  const recipes = []
+  var db = firestore.collection("cookbookio-recipes") 
+  db.get()
+  .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.data())
+        const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime} = doc.data();
+        recipes.push({source: url, recipeName: name, mealType: 'dinner', desc: description, img: images[0], ingred: ingredients, instruct: instructions[0].steps, cookTime: cookingTime });
+      });
+  })
+  // .then(() => {
+  //   addCollectionAndDocuments("main-recipes", recipes);
+  // }
+  // )
+  // console.log("Recipes: ", recipes);
+  
+  return recipes;
+}
+export const convertRecipesSnapshotToMap = (recipes) => {
 
-//   return transformedCollection.reduce((accumulator, collection) => {
-//     accumulator[collection.title.toLowerCase()] = collection;
-//     return accumulator;
-//   }, {});
-// };
+  return recipes.docs.map(doc => {
+    const recipe = doc.data();
+    return {
+      routeName: encodeURI(recipe.recipeName.toLowerCase()),
+      id: doc.id,
+      recipe
+    };
+  });
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

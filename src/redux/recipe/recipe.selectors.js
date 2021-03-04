@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const selectRecipe = state => state.recipe;
+const selectRecipeData = state => state.recipeData;
 
 export const selectRecipes = createSelector(
-  [selectRecipe],
-  shop => shop.recipes
+  [selectRecipeData],
+  recipeData => recipeData.recipes
 );
 
 export const selectRecipesForPreview = createSelector(
@@ -12,7 +12,7 @@ export const selectRecipesForPreview = createSelector(
   recipes => recipes ? Object.keys(recipes).map(key => recipes[key]) : []
 );
 
-export const selectCollection = recipeUrlParam =>
+export const selectRecipe = recipeUrlParam =>
   createSelector(
     [selectRecipes],
     recipes => (recipes ? recipes[recipeUrlParam] : null)
