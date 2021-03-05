@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import { firestore, convertRecipesSnapshotToMap } from '../../firebase/firebase.utils';
+
 import { updateRecipes } from '../../redux/recipe/recipe.actions';
-import RecipeList from '../../components/collection/collection';
+
+import RecipeList from '../../components/recipe-list/recipe-list';
+import RecipeCategorical from '../../components/recipe-categorical/recipe-categorical';
 
 import WithSpinner from '../../components/with-spinner/with-spinner';
 
-import './recipes-overview-page.css';
+import './recipes-page.css';
 const RecipeListWithSpinner = WithSpinner(RecipeList);
-
+const RecipeCategoricalWithSpinner = WithSpinner(RecipeCategorical);
 export class RecipesPage extends Component {
   state = {
     loading: true
@@ -30,12 +34,16 @@ export class RecipesPage extends Component {
   render() {
     const { match } = this.props;
     const { loading } = this.state;
-
+    console.log(`${match.path}/:routeUrl`)
     return (
       <div>
-        <Route
+        <Route exact
           path={`${match.path}`}
           render={(props) => <RecipeListWithSpinner isLoading={loading} {...props} />}
+        />
+        <Route 
+          path={`${match.path}/:routeUrl`}
+          render={(props) => <RecipeCategoricalWithSpinner isLoading={loading} {...props} />}
         />
       </div>
     )

@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import Header from './components/header/header'
-import RecipesPage from './pages/recipes-overview-page/recipes-overview-page';
+import RecipesPage from './pages/recipes-page/recipes-page';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import HomePage from './pages/home-page/home-page';
-import { auth, createUserProfileDocument
-  // , getCookbookioData, addCollectionAndDocuments
-} from './firebase/firebase.utils';
+import { auth, createUserProfileDocument/*, getCookbookioData, addCollectionAndDocuments*/ } from './firebase/firebase.utils';
 // import { searchWebnoxRecipes, postCookbookIORecipes, postSpoonacularRecipes, getSpoonacularRecipes } from './apis/recipes';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
@@ -54,17 +52,9 @@ class App extends React.Component {
       <div>
         <Header/>
         <Switch>
-          <Route exact path='/recipes' component={RecipesPage} />
           <Route exact path='/' component={HomePage} />
-          <Route
-            exact
-            path='/signin'
-            render={() => this.props.currentUser ? ( <Redirect to='/' /> ) :
-             (
-                  <SignInAndSignUpPage />
-                )
-            }
-          />
+          <Route path='/recipes' component={RecipesPage} />
+          <Route exact path='/signin' render={() => this.props.currentUser ? ( <Redirect to='/recipes' /> ) : ( <SignInAndSignUpPage /> )}/>
         </Switch>
       </div>
     );

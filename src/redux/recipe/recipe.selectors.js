@@ -12,8 +12,9 @@ export const selectRecipesForPreview = createSelector(
   recipes => recipes ? Object.keys(recipes).map(key => recipes[key]) : []
 );
 
-export const selectCategoricalRecipe = recipeUrlParam =>
-  createSelector(
+export const selectCategoricalRecipes = routeUrl => createSelector(
     [selectRecipes],
-    recipes => (recipes ? recipes[recipeUrlParam] : null)
+    recipes => {
+      console.log(routeUrl)
+      return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
   );

@@ -41,7 +41,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-// //this function batch updates firebase with any collections/documents
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);
   console.log(collectionRef);
@@ -79,12 +78,14 @@ export const getCookbookioData = () => {
   
   return recipes;
 }
+
 export const convertRecipesSnapshotToMap = (recipes) => {
 
   return recipes.docs.map(doc => {
     const recipe = doc.data();
     return {
       routeName: encodeURI(recipe.recipeName.toLowerCase()),
+      routeCategory: recipe.mealType,
       id: doc.id,
       recipe
     };
