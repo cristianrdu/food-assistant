@@ -3,13 +3,14 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firestore, convertRecipesSnapshotToMap } from '../../firebase/firebase.utils';
 import { updateRecipes } from '../../redux/recipe/recipe.actions';
-import CollectionPage from '../collection/collection.component';
+import RecipeList from '../../components/collection/collection';
 
-import WithSpinner from '../../components/with-spinner/with-spinner.component';
+import WithSpinner from '../../components/with-spinner/with-spinner';
 
-const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+import './recipes-overview-page.css';
+const RecipeListWithSpinner = WithSpinner(RecipeList);
 
-export class HomePage extends Component {
+export class RecipesPage extends Component {
   state = {
     loading: true
   };
@@ -34,7 +35,7 @@ export class HomePage extends Component {
       <div>
         <Route
           path={`${match.path}`}
-          render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />}
+          render={(props) => <RecipeListWithSpinner isLoading={loading} {...props} />}
         />
       </div>
     )
@@ -45,5 +46,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-export default connect(null, mapDispatchToProps)(HomePage);
+export default connect(null, mapDispatchToProps)(RecipesPage);
 

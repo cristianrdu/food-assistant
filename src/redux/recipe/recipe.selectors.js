@@ -12,7 +12,7 @@ export const selectRecipesForPreview = createSelector(
   recipes => recipes ? Object.keys(recipes).map(key => recipes[key]) : []
 );
 
-export const selectRecipe = recipeUrlParam =>
+export const selectCategoricalRecipe = recipeUrlParam =>
   createSelector(
     [selectRecipes],
     recipes => (recipes ? recipes[recipeUrlParam] : null)

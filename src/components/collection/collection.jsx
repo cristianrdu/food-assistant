@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RecipeCard from '../../components/recipe-card/recipe-card';
+import RecipeCard from '../recipe-card/recipe-card';
 
 import { selectRecipes } from '../../redux/recipe/recipe.selectors';
 
 import './collection.css';
 
-const CollectionPage = ({ recipes }) => {
+const RecipeList = ({ recipes }) => {
   console.log(recipes[0].id)
   return (
     <div className='cards'>
@@ -22,4 +22,4 @@ const mapStateToProps = (state, ownProps) => ({
   recipes: selectRecipes(state)
 });
 
-export default connect(mapStateToProps)(CollectionPage);
+export default connect(mapStateToProps)(RecipeList);
