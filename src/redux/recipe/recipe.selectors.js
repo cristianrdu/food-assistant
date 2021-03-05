@@ -14,7 +14,10 @@ export const selectRecipesForPreview = createSelector(
 
 export const selectCategoricalRecipes = routeUrl => createSelector(
     [selectRecipes],
-    recipes => {
-      console.log(routeUrl)
-      return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
+    recipes => {return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
   );
+
+export const selectRecipeDetails = recipeId => createSelector(
+  [selectRecipes],
+  recipes => {return recipes.find(recipe => recipe.id === recipeId)}
+)

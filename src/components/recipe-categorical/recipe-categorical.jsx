@@ -8,7 +8,6 @@ import { selectCategoricalRecipes } from '../../redux/recipe/recipe.selectors';
 import './recipe-categorical.css';
 
 const RecipeCategorical = ({ recipes }) => {
-  console.log("MUIE")
   return (
     <div className='cards'>
         {recipes.map(recipe => (<RecipeCard key={recipe.id} recipeData={recipe} />) )}

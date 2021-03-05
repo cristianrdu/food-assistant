@@ -8,12 +8,13 @@ import { updateRecipes } from '../../redux/recipe/recipe.actions';
 
 import RecipeList from '../../components/recipe-list/recipe-list';
 import RecipeCategorical from '../../components/recipe-categorical/recipe-categorical';
-
+import RecipeDetails from '../../components/recipe-details/recipe-details';
 import WithSpinner from '../../components/with-spinner/with-spinner';
 
 import './recipes-page.css';
 const RecipeListWithSpinner = WithSpinner(RecipeList);
 const RecipeCategoricalWithSpinner = WithSpinner(RecipeCategorical);
+const RecipeDetailsWithSpinner = WithSpinner(RecipeDetails);
 export class RecipesPage extends Component {
   state = {
     loading: true
@@ -34,7 +35,6 @@ export class RecipesPage extends Component {
   render() {
     const { match } = this.props;
     const { loading } = this.state;
-    console.log(`${match.path}/:routeUrl`)
     return (
       <div>
         <Route exact
@@ -44,6 +44,10 @@ export class RecipesPage extends Component {
         <Route 
           path={`${match.path}/:routeUrl`}
           render={(props) => <RecipeCategoricalWithSpinner isLoading={loading} {...props} />}
+        />
+        <Route 
+          path={`${match.path}/single/:recipeId`}
+          render={(props) => <RecipeDetailsWithSpinner isLoading={loading} {...props} />}
         />
       </div>
     )
