@@ -33,7 +33,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData
       })
     } catch (error) {
-      console.log('error creating user', error.meesage);
+      console.log('error creating user', error.message);
     }
 
   }
@@ -43,7 +43,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);
-  console.log(collectionRef);
 
   const batch = firestore.batch();
   if(Array.isArray(objectsToAdd))
@@ -57,9 +56,9 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     }
 
   return await batch.commit();
-}
+};
 
-export const getCookbookioData = () => {
+export const addCookbookioDataToDB = () => {
   const recipes = []
   var db = firestore.collection("cookbookio-recipes") 
   db.get()
@@ -77,7 +76,7 @@ export const getCookbookioData = () => {
   // console.log("Recipes: ", recipes);
   
   return recipes;
-}
+};
 
 export const convertRecipesSnapshotToMap = (recipes) => {
 
@@ -90,6 +89,20 @@ export const convertRecipesSnapshotToMap = (recipes) => {
       recipe
     };
   });
+};
+
+export const addRecipeToUserHistory = async (userId, recipeId) => {
+  console.log("starting")
+
+  const addedAt = new Date();
+
+  try 
+  {
+    await firestore.collection("users").doc(userId).collection("recipe-history").
+  doc().set({addedAt,recipeId}).then(console.log('done'));
+  } catch (error){
+    console.log('error updating recipe history ', error.message);
+  }
 };
 
 export const auth = firebase.auth();

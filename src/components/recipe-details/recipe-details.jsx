@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import CustomButton from '../material-ui/custom-button';
 
 import { selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
+import { addRecipeToUserHistory } from '../../firebase/firebase.utils';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
-
-const RecipeDetails = ({recipeData}) => {
-    const { recipe } = recipeData;
+const RecipeDetails = ({recipeData, currentUser}) => {
+    const { recipe, id } = recipeData;
     const { desc, img, recipeName, ingred, instruct } = recipe;
+
     return (
         <div className='main'>
             <div className='container'>
@@ -24,7 +26,6 @@ const RecipeDetails = ({recipeData}) => {
                     {ingred.map(ingredient =>(
                         <li key={ingredient.key}>{ingredient}</li>
                     ))}
-
                 </ul>
             </div>
             <div className='instructions'>
@@ -36,16 +37,22 @@ const RecipeDetails = ({recipeData}) => {
                 </ol>
             </div>
             <div className='btn'>
-                <CustomButton> 
+                {}
+                <CustomButton onClick={(currentUser) => 
+                currentUser ? 
+                    addRecipeToUserHistory(currentUser.id, id)
+                    : 
+                    alert("need to log in") 
+                     }> 
                     Coooked/Uncooked
                 </CustomButton>
-
             </div>
         </div>
     )
 }
 const mapStateToProps = (state, ownProps) => ({
-    recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state)
+    recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state),
+    currentUser: selectCurrentUser
 });
 
 export default connect(mapStateToProps)(RecipeDetails);

@@ -6,7 +6,6 @@ import CustomButton from '../material-ui/custom-button';
 export const RecipeCard = ({ history, match, recipeData}) => {
     const  {id, recipe} = recipeData;
     const { desc, img, recipeName } = recipe;
-    console.log(match.path);
     return (
         <div className='card'>
             <div className='container'>

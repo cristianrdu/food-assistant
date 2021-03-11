@@ -7,7 +7,7 @@ import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import HomePage from './pages/home-page/home-page';
-import { auth, createUserProfileDocument/*, getCookbookioData, addCollectionAndDocuments*/ } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument/*, addCookbookioDataToDB, addCollectionAndDocuments*/ } from './firebase/firebase.utils';
 // import { searchWebnoxRecipes, postCookbookIORecipes, postSpoonacularRecipes, getSpoonacularRecipes } from './apis/recipes';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
@@ -32,7 +32,7 @@ class App extends React.Component {
       }
 
       setCurrentUser(userAuth);
-      // getCookbookioData();
+      // addCookbookioDataToDB();
       // postSpoonacularRecipes('https://www.allrecipes.com/recipe/8975/chicken-parmigiana/');
       // postSpoonacularRecipes('https://www.allrecipes.com/recipe/257938/spicy-thai-basil-chicken-pad-krapow-gai/');
       // postWebnoxRecipes('https://www.gordonramsay.com/gr/recipes/beef-meatball-sandwich-with-melting-mozzarella-and-tomato-salsa/');
@@ -40,7 +40,7 @@ class App extends React.Component {
       // postYummlyRecipes();
       // searchWebnoxRecipes();
       // postCookbookIORecipes('https://www.gordonramsay.com/gr/recipes/chicken-and-autumn-vegetable-pies/');
-    });
+    }, error => console.log("error: ",error));
   }
 
   componentWillUnmount() {
