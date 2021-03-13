@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import {createStructuredSelector} from 'reselect';
 import { updateRecipesStartAsync } from '../../redux/recipe/recipe.actions';
-import { selectIsRecipeUpdating } from '../../redux/recipe/recipe.selectors';
+import { selectIsRecipeUpdated } from '../../redux/recipe/recipe.selectors';
 
 // import { firestore, convertRecipesSnapshotToMap } from '../../firebase/firebase.utils';
 
@@ -24,21 +24,21 @@ export class RecipesPage extends Component {
     updateRecipesStartAsync();
   }
   render() {
-    const { match, isRecipeUpdating } = this.props;
+    const { match, isRecipeUpdated } = this.props;
 
     return (
       <div>
         <Route exact
           path={`${match.path}`}
-          render={(props) => <RecipeListWithSpinner isLoading={isRecipeUpdating} {...props} />}
+          render={(props) => <RecipeListWithSpinner isLoading={!isRecipeUpdated} {...props} />}
         />
         <Route 
           path={`${match.path}/:routeUrl`}
-          render={(props) => <RecipeCategoricalWithSpinner isLoading={isRecipeUpdating} {...props} />}
+          render={(props) => <RecipeCategoricalWithSpinner isLoading={!isRecipeUpdated} {...props} />}
         />
         <Route 
           path={`${match.path}/single/:recipeId`}
-          render={(props) => <RecipeDetailsWithSpinner isLoading={isRecipeUpdating} {...props} />}
+          render={(props) => <RecipeDetailsWithSpinner isLoading={!isRecipeUpdated} {...props} />}
         />
       </div>
     )
@@ -47,7 +47,7 @@ export class RecipesPage extends Component {
 }
  
 const mapStateToProps = createStructuredSelector({
-  isRecipeUpdating: selectIsRecipeUpdating 
+  isRecipeUpdated: selectIsRecipeUpdated
 });
 const mapDispatchToProps = dispatch => ({
   updateRecipesStartAsync: () => dispatch(updateRecipesStartAsync())

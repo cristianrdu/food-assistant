@@ -9,7 +9,7 @@ export const RecipeCard = ({ history, match, recipeData}) => {
     return (
         <div className='card'>
             <div className='container'>
-                <img src={img}/>
+                <img src={img} alt=''/>
             </div>
             <div className='details'>
                 <h3>{recipeName}</h3>

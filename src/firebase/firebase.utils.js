@@ -23,13 +23,14 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
-    const createdAt = new Date();
+    const creationDate = new Date();
 
     try {
       await userRef.set({
         displayName,
         email,
-        createdAt,
+        creationDate,
+        recipeHistory: [],
         ...additionalData
       })
     } catch (error) {
@@ -79,7 +80,6 @@ export const addCookbookioDataToDB = () => {
 };
 
 export const convertRecipesSnapshotToMap = (recipes) => {
-
   return recipes.docs.map(doc => {
     const recipe = doc.data();
     return {
@@ -92,24 +92,25 @@ export const convertRecipesSnapshotToMap = (recipes) => {
 };
 
 export const addRecipeToUserHistory = async (userId, recipeId) => {
-  console.log("starting")
-
   const addedAt = new Date();
-
-  try 
-  {
-    await firestore.collection("users").doc(userId).collection("recipe-history").
-  doc().set({addedAt,recipeId}).then(console.log('done'));
-  } catch (error){
-    console.log('error updating recipe history ', error.message);
-  }
+  const userRef = firestore.collection("users").doc(userId);
+  let auxHistory = []
+  userRef.get().then(
+    (doc) => {
+      const userData = doc.data();
+      auxHistory = userData.recipeHistory;
+      auxHistory.push({addedAt,recipeId});
+      userRef.update({
+        recipeHistory: auxHistory
+      })
+    })
 };
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+// const provider = new firebase.auth.GoogleAuthProvider();
+// provider.setCustomParameters({ prompt: 'select_account' });
+// export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export default firebase;

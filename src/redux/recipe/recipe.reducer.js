@@ -2,7 +2,7 @@ import RecipeActionTypes from './recipe.types';
 
 const INITIAL_STATE = {
   recipes: null,
-  isUpdating: true,
+  isUpdating: false,
   errorMsg: undefined
 };
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import CustomButton from '../material-ui/custom-button';
-
+// https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
 import { selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
 import { addRecipeToUserHistory } from '../../firebase/firebase.utils';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
@@ -13,7 +13,7 @@ const RecipeDetails = ({recipeData, currentUser}) => {
     return (
         <div className='main'>
             <div className='container'>
-                <img src={img}/>
+                <img src={img} alt=''/>
             </div>
             <div className='details'>
                 <h3>{recipeName}</h3>
@@ -36,23 +36,17 @@ const RecipeDetails = ({recipeData, currentUser}) => {
                     ))}
                 </ol>
             </div>
-            <div className='btn'>
-                {}
-                <CustomButton onClick={(currentUser) => 
-                currentUser ? 
-                    addRecipeToUserHistory(currentUser.id, id)
-                    : 
-                    alert("need to log in") 
-                     }> 
-                    Coooked/Uncooked
+            <div className='btn' onClick={async () => currentUser ? await addRecipeToUserHistory(currentUser.id, id).then(alert("added to user history")) : alert("Need to login first")}>
+                <CustomButton> 
+                    Mark as cooked
                 </CustomButton>
             </div>
         </div>
     )
 }
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps) =>({ 
     recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state),
-    currentUser: selectCurrentUser
-});
+    currentUser: selectCurrentUser(state)
+})
 
 export default connect(mapStateToProps)(RecipeDetails);

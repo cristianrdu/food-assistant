@@ -26,3 +26,7 @@ export const selectIsRecipeUpdating = createSelector(
   [selectRecipeData],
   recipeData => recipeData.isUpdating
 )
+export const selectIsRecipeUpdated = createSelector(
+  [selectRecipeData],
+  recipeData => !!recipeData.recipes
+);

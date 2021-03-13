@@ -22,7 +22,6 @@ export const updateRecipesFailure = errorMsg => ({
 })
 
 export const updateRecipesStartAsync = () => {
-    console.log("STARTING YO ")
     return dispatch => {
 
         const recipesRef = firestore.collection('main-recipes');
