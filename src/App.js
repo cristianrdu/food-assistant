@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 
 import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
 import HomePage from './pages/home-page/home-page';
 import { auth, createUserProfileDocument/*, addCookbookioDataToDB, addCollectionAndDocuments*/ } from './firebase/firebase.utils';
 // import { searchWebnoxRecipes, postCookbookIORecipes, postSpoonacularRecipes, getSpoonacularRecipes } from './apis/recipes';
