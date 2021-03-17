@@ -12,6 +12,7 @@ const RecipeDetails = ({recipeData, currentUser}) => {
 
     return (
         <div className='main'>
+            <p>{id}</p>
             <div className='container'>
                 <img src={img} alt=''/>
             </div>

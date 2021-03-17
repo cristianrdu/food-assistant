@@ -18,7 +18,7 @@ const SignIn = () => {
       await auth.signInWithEmailAndPassword(email, password);
       setCredentials({ email: '', password: '' });
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     } 
   };
 

@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-
+import generateIngredientKeywords from './data.utils';
 const config = {
   apiKey: "AIzaSyC9T4PSJUWlYgrYwoRFcq-PInwUTCdUNEU",
   authDomain: "food-assistant-29fb3.firebaseapp.com",
@@ -65,16 +65,27 @@ export const addCookbookioDataToDB = () => {
   db.get()
   .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // console.log(doc.data())
-        const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime} = doc.data();
-        recipes.push({source: url, recipeName: name, mealType: 'dinner', desc: description, img: images[0], ingred: ingredients, instruct: instructions[0].steps, cookTime: cookingTime });
+        const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime, "prep-time": preppingTime} = doc.data();
+        const parsedKeywords = generateIngredientKeywords(ingredients);
+        recipes.push({
+          source: url, 
+          recipeName: name,
+          mealType: 'dinner',
+          desc: description,
+          img: images[0],
+          ingred: ingredients,
+          instruct: instructions[0].steps,
+          cookTime: cookingTime,
+          prepTime: preppingTime,
+          ingredKeywords: parsedKeywords 
+        });
       });
   })
-  // .then(() => {
-  //   addCollectionAndDocuments("main-recipes", recipes);
-  // }
-  // )
-  // console.log("Recipes: ", recipes);
+  .then(() => {
+    addCollectionAndDocuments("main-recipes", recipes);
+  }
+  )
+  console.log("Recipes: ", recipes);
   
   return recipes;
 };
