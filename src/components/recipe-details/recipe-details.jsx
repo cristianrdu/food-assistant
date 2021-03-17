@@ -36,7 +36,7 @@ const RecipeDetails = ({recipeData, currentUser}) => {
                     ))}
                 </ol>
             </div>
-            <div className='btn' onClick={async () => currentUser ? await addRecipeToUserHistory(currentUser.id, id).then(alert("added to user history")) : alert("You need to login first")}>
+            <div className='btn' onClick={async () => currentUser ? await addRecipeToUserHistory(currentUser.id, id).then(alert("added to user history")) : alert("You n.eed to login first")}>
                 <CustomButton> 
                     Mark as cooked
                 </CustomButton>
