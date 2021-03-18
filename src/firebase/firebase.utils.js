@@ -62,23 +62,25 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 export const addCookbookioDataToDB = () => {
   const recipes = []
   var db = firestore.collection("cookbookio-recipes") 
-  db.get()
+  db
+  .get()
   .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime, "prep-time": preppingTime} = doc.data();
-        const parsedKeywords = generateIngredientKeywords(ingredients);
-        recipes.push({
-          source: url, 
-          recipeName: name,
-          mealType: 'dinner',
-          desc: description,
-          img: images[0],
-          ingred: ingredients,
-          instruct: instructions[0].steps,
-          cookTime: cookingTime,
-          prepTime: preppingTime,
-          ingredKeywords: parsedKeywords 
-        });
+      querySnapshot.forEach(
+        (doc) => {
+          const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime, "prep-time": preppingTime} = doc.data();
+          const parsedKeywords = generateIngredientKeywords(ingredients);
+          recipes.push({
+            source: url, 
+            recipeName: name,
+            mealType: 'dinner',
+            desc: description,
+            img: images[0],
+            ingred: ingredients,
+            instruct: instructions[0].steps,
+            cookTime: cookingTime,
+            prepTime: preppingTime,
+            ingredKeywords: parsedKeywords 
+          });
       });
   })
   .then(() => {

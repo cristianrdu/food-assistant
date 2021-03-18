@@ -1,7 +1,12 @@
 import axios from "axios";
 
+function sleep(delay = 1000) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, delay);
+    });
+  }
 
-export const searchIngredients = (input) => {
+export const searchIngredients = async (input) => {
     const options = {
     method: 'GET',
     url: 'https://edamam-food-and-grocery-database.p.rapidapi.com/parser',
@@ -12,9 +17,17 @@ export const searchIngredients = (input) => {
     }
     };
 
+    let returnedData;
+    
     axios.request(options).then((response) => {
-        return response.data;
+        returnedData = response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
     }).catch( (error) => {
-        return error;
+        returnedData = error;
     });
+    
+    await sleep();
+    
+    return returnedData;
 }
+
+export default searchIngredients;

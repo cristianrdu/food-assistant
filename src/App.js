@@ -7,7 +7,7 @@ import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
 import HomePage from './pages/home-page/home-page';
-import { auth, createUserProfileDocument, addCookbookioDataToDB } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument/*, addCookbookioDataToDB*/ } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
