@@ -5,27 +5,15 @@
   justify-content: space-between;
   margin-bottom: 25px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.18);
-
-  @media screen and (max-width: 800px) {
-    height: 60px;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
 }
+
 .logo-container {
   height: 50%;
   width: 70px;
   padding: 10px;
   margin-bottom: 10px;
-
-  @media screen and (max-width: 800px) {
-    width: 50px;
-    padding: 0;
-  }
 }
 
-.logo {
-}
 .options {
   width: 50%;
   height: 100%;
@@ -33,7 +21,27 @@
   align-items: center;
   justify-content: flex-end;
 }
+
 .option {
   padding: 10px 15px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .logo-container {
+    width: 50px;
+    padding: 0;
+  }
+  .logo {
+    width: 100px;
+    height: auto;
+  }
+  .options {
+    width: 80%;
+  }
+  .header {
+    height: 60px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
 }

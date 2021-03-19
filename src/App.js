@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 
 import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
+import LogPage from './pages/log-page/log-page';
 import HomePage from './pages/home-page/home-page';
 import { auth, createUserProfileDocument/*, addCookbookioDataToDB*/ } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
@@ -40,7 +40,7 @@ const App = ( {setCurrentUser, currentUser} ) => {
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route path='/recipes' component={RecipesPage} />
-        <Route exact path='/signin' render={() => currentUser ? ( <Redirect to='/recipes' /> ) : ( <SignInAndSignUpPage /> )}/>
+        <Route exact path='/signin' render={() => currentUser ? ( <Redirect to='/recipes' /> ) : ( <LogPage /> )}/>
       </Switch>
     </div>
   );
