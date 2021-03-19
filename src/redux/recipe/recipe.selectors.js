@@ -7,11 +7,6 @@ export const selectRecipes = createSelector(
   recipeData => recipeData.recipes
 );
 
-export const selectRecipesForPreview = createSelector(
-  [selectRecipes],
-  recipes => recipes ? Object.keys(recipes).map(key => recipes[key]) : []
-);
-
 export const selectCategoricalRecipes = routeUrl => createSelector(
   [selectRecipes],
   recipes => {return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
@@ -20,12 +15,13 @@ export const selectCategoricalRecipes = routeUrl => createSelector(
 export const selectRecipeDetails = recipeId => createSelector(
   [selectRecipes],
   recipes => {return recipes.find(recipe => recipe.id === recipeId)}
-)
+);
 
 export const selectIsRecipeUpdating = createSelector(
   [selectRecipeData],
   recipeData => recipeData.isUpdating
-)
+);
+
 export const selectIsRecipeUpdated = createSelector(
   [selectRecipeData],
   recipeData => !!recipeData.recipes
