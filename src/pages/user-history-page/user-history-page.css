@@ -1,0 +1,12 @@
+body {
+  height: 100vh;
+  display: grid;
+  place-items: center center;
+  /* font-family: "Poppins", sans-serif; */
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 20px;
+  grid-gap: 30px;
+}

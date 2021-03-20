@@ -25,12 +25,6 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
         isUpdating: false,
         errorMsg: action.payload
       }
-
-    case RecipeActionTypes.UPDATE_RECIPES:
-      return {
-        ...state,
-        recipes: action.payload
-      }
     default:
       return state;
   }

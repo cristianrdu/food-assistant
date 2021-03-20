@@ -104,17 +104,17 @@ export const convertRecipesSnapshotToMap = (recipes) => {
   });
 };
 
-export const addRecipeToUserHistory = async (userId, recipeId) => {
+export const addRecipeToUserHistory = async (userId, recipeId, img, desc, recipeName) => {
   const addedAt = new Date();
   const userRef = firestore.collection("users").doc(userId);
-  let auxHistory = []
+  let historyData = []
   userRef.get().then(
     (doc) => {
       const userData = doc.data();
-      auxHistory = userData.recipeHistory;
-      auxHistory.push({addedAt,recipeId});
+      historyData = userData.recipeHistory;
+      historyData.push({addedAt, recipeId, img, desc, recipeName});
       userRef.update({
-        recipeHistory: auxHistory
+        recipeHistory: historyData
       })
     })
 };
