@@ -49,9 +49,14 @@ const RecipeDetails = ({recipeData, currentUser}) => {
         </div>
     )
 }
+// const mapDispatchToProps = dispatch => ({
+//     addToUserHistory: (id, img, desc, recipeName) => dispatch(addToUserHistory(id, img, desc, recipeName,dispatch))
+// });
+
 const mapStateToProps = (state, ownProps) =>({ 
     recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state),
     currentUser: selectCurrentUser(state)
 })
 
 export default connect(mapStateToProps)(RecipeDetails);
+

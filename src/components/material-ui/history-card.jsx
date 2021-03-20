@@ -22,8 +22,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const RecipeReviewCard = ({recipeData}) => { 
-  console.log(recipeData);
+export const HistoryCard = ({recipeData}) => { 
   const { addedAt, recipeId, img, desc, recipeName} = recipeData;
   
   const date = new Intl.DateTimeFormat("en-GB", {
@@ -65,4 +64,4 @@ export const RecipeReviewCard = ({recipeData}) => {
   );
 }
 
-export default RecipeReviewCard;
+export default HistoryCard;
