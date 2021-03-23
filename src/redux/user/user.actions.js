@@ -8,21 +8,18 @@ export const setCurrentUser = user => ({
   payload: user
 });
 
-export const addToUserHistory = (id, img, desc, recipeName) => {
-  return (dispatch,getState )=> {
-    const {user} =getState();
+export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes) => {
+  // console.log('test:',id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes);
+  return (dispatch, getState)=> {
+    const {user} = getState();
+    const addedAt = new Date();    
+    let historyData = []        
     const userRef = firestore.collection("users").doc(user.currentUser.id);
-    const addedAt = new Date();
-    
-    let historyData = []
-    
-    
     userRef.get()
     .then((doc) => {
-        console.log(doc.exists);
         const userData = doc.data();
         historyData = userData.recipeHistory;
-        historyData.push({addedAt, id, img, desc, recipeName});
+        historyData.unshift({id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, addedAt});
         userRef.update({recipeHistory: historyData});
       })
     .then(() => {

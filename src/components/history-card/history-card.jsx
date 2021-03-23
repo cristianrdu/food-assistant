@@ -18,6 +18,9 @@ const useStyles = makeStyles(() => ({
     maxWidth: 345,
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.18)'
   },
+  title: {
+    color:'#42850c'
+  },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -25,8 +28,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const HistoryCard = ({history, recipeData}) => { 
-  const { addedAt, recipeId, img, desc, recipeName} = recipeData;
-  
+  const { addedAt, id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes} = recipeData;
   const date = new Intl.DateTimeFormat("en-GB", {
     hour: "numeric",
     minute: "numeric",
@@ -39,6 +41,7 @@ export const HistoryCard = ({history, recipeData}) => {
   return (
     <Card className={classes.root}>
         <CardHeader 
+            className={classes.title}
             title={recipeName}
             subheader={`Cooked on ${date}`}
         />
@@ -52,7 +55,7 @@ export const HistoryCard = ({history, recipeData}) => {
             </Typography>
         </CardContent>
         <CardActions disableSpacing>
-            <Button size="small" color="primary" onClick={() => history.push(`recipes/all/${recipeId}`)}>
+            <Button size="small" color="primary" onClick={() => history.push(`recipes/all/${id}`)}>
             View Recipe
             </Button>
             <IconButton aria-label="add to favorites">

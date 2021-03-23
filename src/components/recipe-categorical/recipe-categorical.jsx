@@ -7,10 +7,13 @@ import { selectCategoricalRecipes } from '../../redux/recipe/recipe.selectors';
 
 import './recipe-categorical.css';
 
-const RecipeCategorical = ({ recipes }) => {
+const RecipeCategorical = ({ recipes, match }) => {
   return (
-    <div className='cards'>
-        {recipes.map(recipe => (<RecipeCard key={recipe.id} recipeData={recipe} />) )}
+    <div>
+      <h2 style={{justifyContent:'center', display:'flex'}}>{match.params.routeUrl} Recipes</h2>
+      <div className='cards'>
+          {recipes.map(recipe => (<RecipeCard key={recipe.id} recipeData={recipe} />) )}
+      </div>
     </div>
   );
 };
