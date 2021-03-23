@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 
+import { withRouter } from 'react-router-dom';
+
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 345,
@@ -22,7 +24,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const HistoryCard = ({recipeData}) => { 
+export const HistoryCard = ({history, recipeData}) => { 
   const { addedAt, recipeId, img, desc, recipeName} = recipeData;
   
   const date = new Intl.DateTimeFormat("en-GB", {
@@ -50,7 +52,7 @@ export const HistoryCard = ({recipeData}) => {
             </Typography>
         </CardContent>
         <CardActions disableSpacing>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={() => history.push(`recipes/all/${recipeId}`)}>
             View Recipe
             </Button>
             <IconButton aria-label="add to favorites">
@@ -64,4 +66,4 @@ export const HistoryCard = ({recipeData}) => {
   );
 }
 
-export default HistoryCard;
+export default withRouter(HistoryCard);

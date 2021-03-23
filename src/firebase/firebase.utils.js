@@ -112,7 +112,7 @@ export const addRecipeToUserHistory = async (userId, recipeId, img, desc, recipe
     (doc) => {
       const userData = doc.data();
       historyData = userData.recipeHistory;
-      historyData.push({addedAt, recipeId, img, desc, recipeName});
+      historyData.unshift({addedAt, recipeId, img, desc, recipeName});
       userRef.update({
         recipeHistory: historyData
       })
