@@ -1,5 +1,5 @@
 import RecipeActionTypes from './recipe.types';
-import { firestore, convertRecipesSnapshotToMap} from '../../firebase/firebase.utils';
+import { firestore, convertRecipesSnapshotToMap} from '../../data/firebase/firebase.utils';
 
 export const updateRecipesStart = () => ({
     type: RecipeActionTypes.UPDATE_RECIPES_START

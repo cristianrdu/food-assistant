@@ -1,6 +1,6 @@
 import { UserActionTypes } from './user.types';
 // import { addRecipeToUserHistory } from '../../firebase/firebase.utils';
-import { firestore } from '../../firebase/firebase.utils';
+import { firestore } from '../../data/firebase/firebase.utils';
 
 
 export const setCurrentUser = user => ({

@@ -19,10 +19,10 @@ const INITIAL_STATE = {
       linkUrl: 'recipes/breakfast'
     },
     {
-      title: 'Dessert',
+      title: 'Snacks & Dessert',
       imageUrl: 'https://i2.wp.com/www.eatthis.com/wp-content/uploads/2019/07/spring-fruit-and-cream-tart-recipe-photo.jpg?fit=1200%2C879&ssl=1',
       id: 4,
-      linkUrl: 'recipes/dessert'
+      linkUrl: 'recipes/snacks+dessert'
     }
   ]
 };

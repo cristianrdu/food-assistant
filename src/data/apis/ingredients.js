@@ -1,10 +1,5 @@
 import axios from "axios";
-
-function sleep(delay = 1000) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, delay);
-    });
-  }
+import {sleep} from '../data.utils';
 
 export const searchIngredients = async (input) => {
     const options = {

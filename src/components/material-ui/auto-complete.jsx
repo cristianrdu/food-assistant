@@ -1,14 +1,16 @@
 import React,{useState, useEffect} from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import searchIngredients from '../../apis/ingredients';
+import searchIngredients from '../../data/apis/ingredients';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {fetchSearchQueryResults} from '../../data/firebase/firebase.utils';
 
 export const AutoComplete = () => {
-  
+
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState([]);
   const loading = open && options.length === 0;
 
   
@@ -37,6 +39,17 @@ export const AutoComplete = () => {
     }
   }, [open]);
 
+  //async db call with "array-contains-any" using a logical OR.
+  useEffect(() => {
+    if(searchQuery.length)
+      {
+        (async () => {
+        const recipes = await fetchSearchQueryResults(searchQuery);        
+        console.log(recipes);
+        })();      
+      }
+  },[searchQuery])
+
   return (
     <Autocomplete
     open={open}
@@ -51,13 +64,13 @@ export const AutoComplete = () => {
     getOptionSelected={(option, value) => option=== value}
     getOptionLabel={(option) => option}
     onChange={(event,value) => {
-      console.log("value: ", value);
+      // sets the search query terms
+      setSearchQuery(value);
     }}
     onInputChange={(event, value, reason) => {
       if(reason ==='input' && value.length >= 3)
         setOpen(true);
         setSearchTerm(value);
-        // changeOptionBaseOnValue(value);
     }}
     renderInput={(params) => (
       <TextField

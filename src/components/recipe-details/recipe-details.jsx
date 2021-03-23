@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import CustomButton from '../material-ui/custom-button';
 // https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
 import { selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
-import { addRecipeToUserHistory } from '../../firebase/firebase.utils';
+import { addRecipeToUserHistory } from '../../data/firebase/firebase.utils';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 const RecipeDetails = ({recipeData, currentUser}) => {

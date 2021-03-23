@@ -1,7 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import generateIngredientKeywords from './data.utils';
+import {sleep, generateIngredientKeywords} from '../data.utils';
+
 const config = {
   apiKey: "AIzaSyC9T4PSJUWlYgrYwoRFcq-PInwUTCdUNEU",
   authDomain: "food-assistant-29fb3.firebaseapp.com",
@@ -119,6 +120,25 @@ export const addRecipeToUserHistory = async (userId, recipeId, img, desc, recipe
     })
 };
 
+export const fetchSearchQueryResults = async (queryParams) => {
+
+  let data = [];
+
+  const parsedQueryParams = generateIngredientKeywords(queryParams.map(param => param.toLowerCase()));
+  
+  const recipeRef = firestore.collection('main-recipes');
+
+  recipeRef.where('ingredKeywords', 'array-contains-any', parsedQueryParams).get().then(
+    (doc) => {
+      doc.forEach( obj => {    
+        data.unshift(obj.data());    
+      })
+    }).catch(err => console.log("ERROR: ",err.message))
+    
+    await sleep();   
+    
+    return data;
+}
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 

@@ -8,8 +8,8 @@ import RecipesPage from './pages/recipes-page/recipes-page';
 import LogPage from './pages/log-page/log-page';
 import HomePage from './pages/home-page/home-page';
 import UserHistoryPage from './pages/user-history-page/user-history-page';
-import { auth, createUserProfileDocument, addCookbookioDataToDB } from './firebase/firebase.utils';
-import { postCookbookIORecipes } from './apis/recipes';
+import { auth, createUserProfileDocument, addCookbookioDataToDB } from './data/firebase/firebase.utils';
+import { postCookbookIORecipes } from './data/apis/recipes';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
@@ -42,7 +42,7 @@ const App = ( {setCurrentUser, currentUser} ) => {
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route path='/recipes' component={RecipesPage} />
-        <Route exact path='/signin' render={() => currentUser ? ( <Redirect to='/recipes' /> ) : ( <LogPage/> )}/>
+        <Route exact path='/signin' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <LogPage/> )}/>
         <Route exact path='/user-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/signin' /> )}/>
         {/* <Route exact path='/user-history' component={UserHistoryPage}/> */}
       </Switch>
