@@ -72,7 +72,7 @@ export const addCookbookioDataToDB = () => {
           recipes.push({
             source: url, 
             recipeName: name,
-            mealType: 'dinner',
+            mealType: 'breakfast',
             desc: description,
             img: images[0],
             ingred: ingredients,

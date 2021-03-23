@@ -13,7 +13,7 @@ import WithSpinner from '../../components/with-spinner/with-spinner';
 
 import './recipes-page.css';
 
-const RecipeListWithSpinner = WithSpinner(RecipeList);
+const RecipeListWithSpinner = WithSpinner(RecipeList); // deprecated/ RecipeCategorical inherited its functionality
 const RecipeCategoricalWithSpinner = WithSpinner(RecipeCategorical);
 const RecipeDetailsWithSpinner = WithSpinner(RecipeDetails);
 
@@ -24,16 +24,16 @@ const RecipesPage = ({updateRecipesStartAsync, match, isRecipeUpdated}) => {
 
   return (
     <div>
-      <Route exact
+      {/* <Route exact
         path={`${match.path}`}
         render={(props) => <RecipeListWithSpinner isLoading={!isRecipeUpdated} {...props} />}
-      />
-      <Route 
+      /> */}
+      <Route exact
         path={`${match.path}/:routeUrl`}
         render={(props) => <RecipeCategoricalWithSpinner isLoading={!isRecipeUpdated} {...props} />}
       />
       <Route 
-        path={`${match.path}/single/:recipeId`}
+        path={`${match.url}/:routeUrl/:recipeId`}
         render={(props) => <RecipeDetailsWithSpinner isLoading={!isRecipeUpdated} {...props} />}
       />
     </div>

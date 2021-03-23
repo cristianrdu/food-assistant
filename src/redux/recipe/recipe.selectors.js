@@ -9,7 +9,11 @@ export const selectRecipes = createSelector(
 
 export const selectCategoricalRecipes = routeUrl => createSelector(
   [selectRecipes],
-  recipes => {return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
+  recipes => {
+    if (routeUrl === 'all')
+      {return recipes}
+    else
+    return recipes.filter(recipe => recipe.routeCategory === routeUrl)}
 );
 
 export const selectRecipeDetails = recipeId => createSelector(

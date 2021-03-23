@@ -15,11 +15,10 @@ export const RecipeCard = ({ history, match, recipeData}) => {
                 <h3>{recipeName}</h3>
                 <p>{desc}</p>
             </div>
-            <div className='btn' onClick={() => history.push(`${match.path}/single/${id}`)}>
+            <div className='btn' onClick={() => history.push(`${match.url}/${id}`)}>
                 <CustomButton> 
                     View Recipe
                 </CustomButton>
-
             </div>
         </div>
     )

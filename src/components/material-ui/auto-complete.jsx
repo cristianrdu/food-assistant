@@ -40,9 +40,6 @@ export const AutoComplete = () => {
   return (
     <Autocomplete
     open={open}
-    onOpen={() => {
-      
-    }}
     onClose={() => {
       setOpen(false);
     }}
