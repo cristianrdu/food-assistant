@@ -6,6 +6,7 @@ import CustomButton from '../material-ui/custom-button';
 export const RecipeCard = ({ history, match, recipeData}) => {
     const  {id, recipe} = recipeData;
     const { desc, img, recipeName } = recipe;
+    const recipeUrl = match.url == '/' ? 'recipes/all' : match.url;
     return (
         <div className='card'>
             <div className='container'>
@@ -15,7 +16,7 @@ export const RecipeCard = ({ history, match, recipeData}) => {
                 <h3>{recipeName}</h3>
                 <p>{desc}</p>
             </div>
-            <div className='btn' onClick={() => history.push(`${match.url}/${id}`)}>
+            <div className='btn' onClick={() => history.push(`${recipeUrl}/${id}`)}>
                 <CustomButton> 
                     View Recipe
                 </CustomButton>

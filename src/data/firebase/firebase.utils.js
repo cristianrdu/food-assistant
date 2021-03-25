@@ -88,7 +88,6 @@ export const addCookbookioDataToDB = () => {
     addCollectionAndDocuments("main-recipes", recipes);
   }
   )
-  console.log("Recipes: ", recipes);
   
   return recipes;
 };
@@ -97,27 +96,11 @@ export const convertRecipesSnapshotToMap = (recipes) => {
   return recipes.docs.map(doc => {
     const recipe = doc.data();
     return {
-      routeName: encodeURI(recipe.recipeName.toLowerCase()),
       routeCategory: recipe.mealType,
       id: doc.id,
       recipe
     };
   });
-};
-
-export const addRecipeToUserHistory = async (userId, recipeId, img, desc, recipeName) => {
-  const addedAt = new Date();
-  const userRef = firestore.collection("users").doc(userId);
-  let historyData = []
-  userRef.get().then(
-    (doc) => {
-      const userData = doc.data();
-      historyData = userData.recipeHistory;
-      historyData.unshift({addedAt, recipeId, img, desc, recipeName});
-      userRef.update({
-        recipeHistory: historyData
-      })
-    })
 };
 
 export const fetchSearchQueryResults = async (queryParams) => {

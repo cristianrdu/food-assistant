@@ -5,7 +5,6 @@ import {selectCurrentUserHistory} from '../../redux/user/user.selectors';
 import HistoryCard from '../../components/history-card/history-card';
 
 export const UserHistoryPage = ({props, userHistory}) => {
-    console.log(userHistory)
     return (
         <div className='cards'>
             {

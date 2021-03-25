@@ -1,11 +1,13 @@
 import React,{useState, useEffect} from "react";
+import { connect } from 'react-redux';
+import { fetchSearchQueryResults, setSearchToOff } from '../../redux/search/search.actions';
+
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import searchIngredients from '../../data/apis/ingredients';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {fetchSearchQueryResults} from '../../data/firebase/firebase.utils';
 
-export const AutoComplete = () => {
+export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -42,12 +44,13 @@ export const AutoComplete = () => {
   //async db call with "array-contains-any" using a logical OR.
   useEffect(() => {
     if(searchQuery.length)
-      {
-        (async () => {
-        const recipes = await fetchSearchQueryResults(searchQuery);        
-        console.log(recipes);
-        })();      
-      }
+    {
+      (async () => {
+        await fetchSearchQueryResults(searchQuery);      
+      })();      
+    }else{
+      setSearchToOff();
+    }
   },[searchQuery])
 
   return (
@@ -82,7 +85,6 @@ export const AutoComplete = () => {
           endAdornment: (
             <React.Fragment>
               {loading ? <CircularProgress color="inherit" size={20} /> : null}
-              {params.InputProps.endAdornment}
             </React.Fragment>
           ),
         }}
@@ -92,4 +94,10 @@ export const AutoComplete = () => {
   )
 }
 
-export default AutoComplete;
+
+const mapDispatchToProps = dispatch => ({
+  fetchSearchQueryResults: (queryParams) => dispatch(fetchSearchQueryResults(queryParams, dispatch)),
+  setSearchToOff: () => dispatch(setSearchToOff(dispatch))
+});
+
+export default connect(null, mapDispatchToProps)(AutoComplete);

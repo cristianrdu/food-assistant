@@ -11,43 +11,61 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 // https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
 
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
-    const [open, setOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [instructNotes, setInstructions] = useState('');
     const [ingredNotes, setIngredients] = useState('');
     const [additionalNotes, setAdditional] = useState('');
+    const [alert, setAlert] = useState({severity:'',message:'',open:false});
 
     const { recipe, id } = recipeData;
     const { desc, img, recipeName, ingred, instruct } = recipe;
 
     const handleClickOpen = () => {
-        currentUser ? setOpen(true) : alert("You need to login first");
+        if(currentUser) 
+        {
+            setModalOpen(true)
+        }
+        else{
+            setAlert({severity:'warning',message:'You need to login first',open:true});
+        }
     };
   
-    const handleClose = () => {
-        setOpen(false); 
+    const handleModalClose = () => {
+        setModalOpen(false); 
     };
     
     const handleSubmit = async () => {
-        setOpen(false);
-        
         addToUserHistory(id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes);
-        alert("added to user history"); 
-        
+        setModalOpen(false)
+        setAlert({severity:'success',message:'Recipe successfully added to history.',open:true});
     };
 
-    const onChange = event => {
+    const handleAlertClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setAlert({open:false});
+      };
+
+    const handleInputChange = event => {
         switch (event.target.id){
-            case 'note1':
+            case 'instructions':
                 setInstructions(event.target.value);
                 break;
-            case 'note2':
+            case 'ingredients':
                 setIngredients(event.target.value);
                 break;
-            case 'note3':
+            case 'additional':
                 setAdditional(event.target.value);
                 break;
             default:
@@ -88,7 +106,7 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
                 <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                     Add to History
                 </Button>
-                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <Dialog open={modalOpen} onClose={handleModalClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Add Recipe to History</DialogTitle>
                     <DialogContent>
                     <DialogContentText>
@@ -97,30 +115,30 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="note1"
+                        id="instructions"
                         label="Instruction notes"
-                        onChange={onChange}
+                        onChange={handleInputChange}
                         fullWidth
                     />
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="note2"
+                        id="ingredients"
                         label="Ingredient notes"
-                        onChange={onChange}
+                        onChange={handleInputChange}
                         fullWidth
                     />
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="note3"
+                        id="additional"
                         label="Any other additional notes"
-                        onChange={onChange}
+                        onChange={handleInputChange}
                         fullWidth
                     />
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleModalClose} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleSubmit} color="primary">
@@ -129,12 +147,18 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
                     </DialogActions>
                 </Dialog>
             </div>
+            <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleAlertClose}>
+                <Alert onClose={handleAlertClose} severity={alert.severity}>
+                    {alert.message}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
 //need to fix order
 const mapDispatchToProps = dispatch => ({
-    addToUserHistory: (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes) => dispatch(addToUserHistory(id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, dispatch))
+    addToUserHistory: (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes) => 
+    dispatch(addToUserHistory(id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, dispatch))
 });
 
 const mapStateToProps = (state, ownProps) =>({ 
