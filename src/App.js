@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import Header from './components/header/header.mui'
+import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
 import SignInPage from './pages/sign-in-page/sign-in-page';
 import SignUpPage from './pages/sign-up-page/sign-up-page';
@@ -49,7 +49,7 @@ const App = ( {setCurrentUser, currentUser} ) => {
           <Route path='/recipes' component={RecipesPage} />
           <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignInPage/> )}/>
           <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignUpPage/> )}/>
-          <Route exact path='/user-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/signin' /> )}/>
+          <Route exact path='/recipe-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
         </Switch>
       </ThemeProvider>
     </div>

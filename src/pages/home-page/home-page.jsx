@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import { selectSearchIsOn, selectIsUpdating } from '../../redux/search/search.selectors';
 
-import Directory from '../../components/directory/directory.mui';
+import Directory from '../../components/directory/directory';
 import SearchBox from '../../components/search-box/search-box';
 import SpinningLoader from '../../components/loader/loader';
 import SearchList from '../../components/search-list/search-list';
