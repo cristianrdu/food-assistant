@@ -3,22 +3,23 @@ import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import { selectSearchIsOn, selectIsUpdating } from '../../redux/search/search.selectors';
 
-import Directory from '../../components/directory/directory';
+import Directory from '../../components/directory/directory.mui';
 import SearchBox from '../../components/search-box/search-box';
-import WithSpinner from '../../components/with-spinner/with-spinner';
+import SpinningLoader from '../../components/loader/loader';
 import SearchList from '../../components/search-list/search-list';
 
 import './home-page.css';
 
 
-const SearchListWithSpinner = WithSpinner(SearchList);
+const SearchListLoader = SpinningLoader(SearchList);
+
 const HomePage = ({searchIsOn, isUpdated}) => {
     return (
         <div className='homepage'>
             <SearchBox/>
             {
                 searchIsOn ?
-                (<SearchListWithSpinner isLoading={!isUpdated}/>)
+                (<SearchListLoader isLoading={!isUpdated}/>)
                 :
                 (<Directory/>)
             }

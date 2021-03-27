@@ -8,12 +8,12 @@ import { selectIsRecipeUpdated } from '../../redux/recipe/recipe.selectors';
 
 import RecipeCategorical from '../../components/recipe-categorical/recipe-categorical';
 import RecipeDetails from '../../components/recipe-details/recipe-details';
-import WithSpinner from '../../components/with-spinner/with-spinner';
+import SpinningLoader from '../../components/loader/loader';
 
 import './recipes-page.css';
 
-const RecipeCategoricalWithSpinner = WithSpinner(RecipeCategorical);
-const RecipeDetailsWithSpinner = WithSpinner(RecipeDetails);
+const RecipeCategoricalLoader = SpinningLoader(RecipeCategorical);
+const RecipeDetailsLoader = SpinningLoader(RecipeDetails);
 
 const RecipesPage = ({updateRecipesStartAsync, match, isRecipeUpdated}) => {
   useEffect(() => {
@@ -24,11 +24,11 @@ const RecipesPage = ({updateRecipesStartAsync, match, isRecipeUpdated}) => {
     <div>
       <Route exact
         path={`${match.path}/:routeUrl`}
-        render={(props) => <RecipeCategoricalWithSpinner isLoading={!isRecipeUpdated} {...props} />}
+        render={(props) => <RecipeCategoricalLoader isLoading={!isRecipeUpdated} {...props} />}
       />
       <Route 
         path={`${match.url}/:routeUrl/:recipeId`}
-        render={(props) => <RecipeDetailsWithSpinner isLoading={!isRecipeUpdated} {...props} />}
+        render={(props) => <RecipeDetailsLoader isLoading={!isRecipeUpdated} {...props} />}
       />
     </div>
   )

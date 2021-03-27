@@ -3,15 +3,19 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import Header from './components/header/header'
+import Header from './components/header/header.mui'
 import RecipesPage from './pages/recipes-page/recipes-page';
-import LogPage from './pages/log-page/log-page';
+import SignInPage from './pages/sign-in-page/sign-in-page';
+import SignUpPage from './pages/sign-up-page/sign-up-page';
 import HomePage from './pages/home-page/home-page';
 import UserHistoryPage from './pages/user-history-page/user-history-page';
 import { auth, createUserProfileDocument, addCookbookioDataToDB } from './data/firebase/firebase.utils';
 import { postCookbookIORecipes } from './data/apis/recipes';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
+import { ThemeProvider } from '@material-ui/styles';
+import createMuiTheme from './components/material-ui/Theme';
 
 const App = ( {setCurrentUser, currentUser} ) => {
   useEffect(() => {
@@ -38,14 +42,16 @@ const App = ( {setCurrentUser, currentUser} ) => {
 
   return (
     <div>
-      <Header/>
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/recipes' component={RecipesPage} />
-        <Route exact path='/signin' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <LogPage/> )}/>
-        <Route exact path='/user-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/signin' /> )}/>
-        {/* <Route exact path='/user-history' component={UserHistoryPage}/> */}
-      </Switch>
+      <ThemeProvider theme={createMuiTheme}>
+        <Header/>
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/recipes' component={RecipesPage} />
+          <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignInPage/> )}/>
+          <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignUpPage/> )}/>
+          <Route exact path='/user-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/signin' /> )}/>
+        </Switch>
+      </ThemeProvider>
     </div>
   );
 }
