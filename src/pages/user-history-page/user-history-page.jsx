@@ -8,9 +8,10 @@ export const UserHistoryPage = ({props, userHistory}) => {
     return (
         <div className='cards'>
             {
+            userHistory ?
             userHistory.map( dataItem => (
                 <HistoryCard key={dataItem.key} recipeData={dataItem} {...props} />
-            ))
+            )) : null
             }
         </div>
     )

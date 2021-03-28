@@ -10,7 +10,15 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
   // console.log('test:',id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes);
   return (dispatch, getState)=> {
     const {user} = getState();
-    const addedAt = new Date();    
+    
+    const addedAt = new Intl.DateTimeFormat("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+      year: "numeric",
+      month: "long",
+      day: "2-digit"
+    }).format(new Date());
+
     let historyData = []        
     const userRef = firestore.collection("users").doc(user.currentUser.id);
     userRef.get()

@@ -45,13 +45,6 @@ export const HistoryCard = ({history, recipeData}) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const { addedAt, id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes} = recipeData;
-  const date = new Intl.DateTimeFormat("en-GB", {
-    hour: "numeric",
-    minute: "numeric",
-    year: "numeric",
-    month: "long",
-    day: "2-digit"
-  }).format(addedAt.toDate())
   
   console.log(instructNotes, ingredNotes, additionalNotes);
   const handleExpandClick = () => {
@@ -62,7 +55,7 @@ export const HistoryCard = ({history, recipeData}) => {
       <CardHeader 
           className={classes.title}
           title={recipeName}
-          subheader={`Cooked on ${date}`}
+          subheader={`Cooked on ${addedAt}`}
       />
       <CardMedia
           className={classes.media}

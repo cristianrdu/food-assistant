@@ -4,7 +4,7 @@ const mainIngredientList = [
     'eggs', 
     'chicken',
     'beef',
-    // 'ground beef', // 1 word ingredients are better for algorithm
+    'ground beef',
     'turkey',
     'pork',
     'bacon',
@@ -31,8 +31,8 @@ const mainIngredientList = [
     'shallot',
     'pea',
     'onion',
-    // 'garlic',
-    // 'brussels sprout', // 1 word ingredients are better for algorithm
+    // 'garlic', // *
+    'brussels sprout', 
     'broccoli',
     'tomato',
     'carrot',
