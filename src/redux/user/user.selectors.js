@@ -14,5 +14,20 @@ export const selectCurrentUserId = createSelector(
 
 export const selectCurrentUserHistory = createSelector(
   [selectCurrentUser],
-  (currentUser) => currentUser ? currentUser.recipeHistory : undefined
+  (currentUser) => currentUser ? currentUser.recipeHistory : null
 );
+
+export const selectIngredFrequencyList = createSelector(
+  [selectCurrentUser],
+  (currentUser) => currentUser && currentUser.ingredFrequencyList ? 
+  currentUser.ingredFrequencyList
+  .slice(0, 10)
+  .filter(ingredFrequency => ingredFrequency.frequency != 0)
+  .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), [])
+  : null
+)
+
+export const selectHistoricalRecipeIds = createSelector(
+  [selectCurrentUserHistory],
+  (userHistory) => {return userHistory.reduce((acc, userHistoryElement) => (acc.push(userHistoryElement.id), acc), []);}
+)

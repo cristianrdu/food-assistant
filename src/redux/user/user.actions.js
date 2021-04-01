@@ -1,12 +1,12 @@
 import { UserActionTypes } from './user.types';
 import { firestore } from '../../data/firebase/firebase.utils';
-
+import { singleIngredListFrequency } from '../../data/recommender';
 export const setCurrentUser = user => ({
   type: UserActionTypes.SET_CURRENT_USER,
   payload: user
 });
 
-export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes) => {
+export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, ingred) => {
   // console.log('test:',id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes);
   return (dispatch, getState)=> {
     const {user} = getState();
@@ -25,8 +25,10 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
     .then((doc) => {
         const userData = doc.data();
         historyData = userData.recipeHistory;
+        const updatedFrequencyList = singleIngredListFrequency(ingred, userData.ingredFrequencyList);
+        
         historyData.unshift({id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, addedAt});
-        userRef.update({recipeHistory: historyData});
+        userRef.update({recipeHistory: historyData, ingredFrequencyList: updatedFrequencyList});
       })
     .then(() => {
       dispatch({

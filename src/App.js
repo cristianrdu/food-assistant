@@ -9,6 +9,7 @@ import SignInPage from './pages/sign-in-page/sign-in-page';
 import SignUpPage from './pages/sign-up-page/sign-up-page';
 import HomePage from './pages/home-page/home-page';
 import UserHistoryPage from './pages/user-history-page/user-history-page';
+import RecommenderPage from './pages/recommender-page/recommender-page';
 import { auth, createUserProfileDocument, addCookbookioDataToDB } from './data/firebase/firebase.utils';
 import { postCookbookIORecipes } from './data/apis/recipes';
 import { setCurrentUser } from './redux/user/user.actions';
@@ -50,6 +51,7 @@ const App = ( {setCurrentUser, currentUser} ) => {
           <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignInPage/> )}/>
           <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignUpPage/> )}/>
           <Route exact path='/recipe-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
+          <Route exact path='/suggestions' render={() => currentUser ? ( <RecommenderPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
         </Switch>
       </ThemeProvider>
     </div>

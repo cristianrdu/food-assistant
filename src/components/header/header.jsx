@@ -102,7 +102,8 @@ export const Header = ({currentUser}) => {
         <Tab className={tab} component={RouterLink} to='/recipes/all' label='Recipes'/>
         {currentUser ? (
           <React.Fragment>
-            <Tab className={tab} component={RouterLink} to='/recipe-history' label='RECIPE HISTORY'/>
+            <Tab className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>
+            <Tab className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>
             <div onClick={() => auth.signOut()}>
               <Tab className={tab} label = 'SIGN OUT'/>
             </div>
@@ -138,8 +139,11 @@ export const Header = ({currentUser}) => {
             {
               currentUser ? (
               <React.Fragment>
-                <Link component= {RouterLink} to= '/recipe-history' color= 'inherit' key= 'Recipe History'>
-                  <MenuItem>RECIPE HISTORY</MenuItem>
+                <Link component= {RouterLink} to= '/recipe-history' color= 'inherit' key= 'History'>
+                  <MenuItem>HISTORY</MenuItem>
+                </Link>
+                <Link component= {RouterLink} to= '/suggestions' color= 'inherit' key= 'Suggestions'>
+                  <MenuItem>SUGGESTIONS</MenuItem>
                 </Link>
                 <Link component= {RouterLink} color= 'inherit' key= 'Sign Out'>
                   <div onClick={() => {auth.signOut(); handleDrawerClose();}}>

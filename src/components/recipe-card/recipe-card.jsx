@@ -6,7 +6,7 @@ import CustomButton from '../material-ui/custom-button';
 export const RecipeCard = ({ history, match, recipeData}) => {
     const  {id, recipe, searchKeywords} = recipeData;
     const { desc, img, recipeName } = recipe;
-    const recipeUrl = match.url === '/' ? 'recipes/all' : match.url;
+    const recipeUrl = match.url === '/' || match.url === '/suggestions' ? 'recipes/all' : match.url;
     return (
         <div className='card'>
             <div className='container'>

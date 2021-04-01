@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import {sleep, generateIngredientKeywords} from '../data.utils';
+import { getEmptyFrequencyList } from '../recommender';
 
 const config = {
   apiKey: "AIzaSyC9T4PSJUWlYgrYwoRFcq-PInwUTCdUNEU",
@@ -25,13 +26,14 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const creationDate = new Date();
-
+    const ingredFrequencyList = getEmptyFrequencyList();
     try {
       await userRef.set({
         displayName,
         email,
         creationDate,
         recipeHistory: [],
+        ingredFrequencyList,
         ...additionalData
       })
     } catch (error) {

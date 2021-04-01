@@ -6,6 +6,7 @@ import userReducer from './user/user.reducer';
 import recipeDataReducer from './recipe/recipe.reducer';
 import directoryReducer from './directory/directory.reducer';
 import searchReducer from './search/search.reducer';
+import recommenderReducer from './recommender/recommender.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   recipeData: recipeDataReducer,
   directory: directoryReducer,
-  searchData: searchReducer
+  searchData: searchReducer,
+  recommenderData: recommenderReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);
