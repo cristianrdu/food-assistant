@@ -79,7 +79,7 @@ export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
       <TextField
         {...params}
         variant="outlined"
-        placeholder="Search an ingredient"
+        placeholder="Search by ingredient..."
         InputProps={{
           ...params.InputProps,
           endAdornment: (

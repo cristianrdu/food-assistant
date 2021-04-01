@@ -20,7 +20,7 @@ const mainIngredientList = [
     'salmon',
     'tuna',
     //Dairy & Eggs
-    'eggs',
+    // 'eggs',
     'egg',
     'mozzarella',
     // 'milk', // *

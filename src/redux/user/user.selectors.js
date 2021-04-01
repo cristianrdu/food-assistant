@@ -21,8 +21,8 @@ export const selectIngredFrequencyList = createSelector(
   [selectCurrentUser],
   (currentUser) => currentUser && currentUser.ingredFrequencyList ? 
   currentUser.ingredFrequencyList
-  .slice(0, 10)
-  .filter(ingredFrequency => ingredFrequency.frequency != 0)
+  .slice(0, 5)
+  .filter(ingredFrequency => ingredFrequency.frequency !== 0)
   .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), [])
   : null
 )
