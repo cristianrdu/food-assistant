@@ -87,12 +87,10 @@ export const Header = ({currentUser}) => {
       setValue(false);
     } else if (window.location.pathname === '/recipes/all' & value !== 0) {
       setValue(0);
-    }  
-    else if ((window.location.pathname === '/recipe-history' ||
+    } else if ((window.location.pathname === '/recipe-history' ||
      window.location.pathname === '/sign-in') & value !== 1) {
       setValue(1);
-    }  
-    else if ((window.location.pathname === '/suggestions' ||
+    } else if ((window.location.pathname === '/suggestions' ||
      window.location.pathname === '/sign-up') & value !== 2) {
       setValue(2);
     }  
