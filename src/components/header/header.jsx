@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft:'auto'
   },
   tab: {
-      fontFamily: 'Open Sans, sans-serif',
+      fontFamily: 'Roboto',
       fontWeight: 700,
       size: '18px',
       minWidth: 10,
@@ -101,18 +101,18 @@ export const Header = ({currentUser}) => {
       <Tabs  className={tabContainer} indicatorColor='white'>
         <Tab className={tab} component={RouterLink} to='/recipes/all' label='Recipes'/>
         {currentUser ? (
-          <React.Fragment>
-            <Tab className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>
-            <Tab className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>
-            <div onClick={() => auth.signOut()}>
-              <Tab className={tab} label = 'SIGN OUT'/>
-            </div>
-          </React.Fragment>
+          [
+          <Tab className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>,
+          <Tab className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>,
+          <div onClick={() => auth.signOut()}>
+            <Tab className={tab} label = 'SIGN OUT'/>
+          </div>
+          ]
         ) : (
-          <React.Fragment>
-            <Tab className={tab} component={RouterLink} to='/sign-in' label='Sign In'/>
-            <Tab className={tab} component={RouterLink} to='/sign-up' label='Sign Up'/>
-          </React.Fragment>
+          [
+          <Tab className={tab} component={RouterLink} to='/sign-in' label='Sign In'/>,
+          <Tab className={tab} component={RouterLink} to='/sign-up' label='Sign Up'/>
+          ]
         )}
       </Tabs>
     </Toolbar>

@@ -56,8 +56,8 @@ const mainIngredientList = [
     'lentil',
     'rice',
     'pasta',
-
 ]
+
 export const getEmptyFrequencyList = () => {
     let frequencyArray = [];
         
@@ -116,7 +116,6 @@ export const singleIngredListFrequency = (ingredientList, frequencyList) => {
             )
         
     )
-
     
     return frequencyArray.sort((a,b) => (a.frequency < b.frequency) ? 1 : -1);
 }
