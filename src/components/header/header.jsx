@@ -1,8 +1,6 @@
 import {AppBar,
     Toolbar,
-    Typography,
     makeStyles,
-    Button,
     IconButton,
     Drawer,
     Link,
@@ -13,10 +11,6 @@ import {AppBar,
     useScrollTrigger
   } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-// import Tabs from '@material-ui/core/Tabs';
-// import Tab from '@material-ui/core/Tab';
-// import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-// import CssBaseline from '@material-ui/core/CssBaseline';
 
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
@@ -42,6 +36,7 @@ const ElevationScroll = (props) => {
 
 const useStyles = makeStyles((theme) => ({
   header: {
+    background: 'white',
     color: 'black',
     paddingRight: '79px',
     paddingLeft: '20px',
@@ -72,15 +67,36 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = ({currentUser}) => {
   const { header, logo, drawerContainer, tabContainer, tab, toolbarMargin } = useStyles();
-
+  
   const [state, setState] = useState({
     mobileView: false,
     drawerOpen: false,
   });
-
+  
+  const [value, setValue] = useState(false);
+  
   const { mobileView, drawerOpen } = state;
 
+  const handleChange = (e, value) => {
+    setValue(value)
+  }
+  
   useEffect(() => {
+    //HEADER TABS VALUE SETTER CODE SECTION
+    if (window.location.pathname === '/' & value !== false) {
+      setValue(false);
+    } else if (window.location.pathname === '/recipes/all' & value !== 0) {
+      setValue(0);
+    }  
+    else if ((window.location.pathname === '/recipe-history' ||
+     window.location.pathname === '/sign-in') & value !== 1) {
+      setValue(1);
+    }  
+    else if ((window.location.pathname === '/suggestions' ||
+     window.location.pathname === '/sign-up') & value !== 2) {
+      setValue(2);
+    }  
+    //RESPONSIVENESS -- USER VIEW SETTER
     const setResponsiveness = () => {
       return window.innerWidth < 900
         ? setState((prevState) => ({ ...prevState, mobileView: true }))
@@ -95,23 +111,21 @@ export const Header = ({currentUser}) => {
   const displayDesktop = () => {
   return (
     <Toolbar disableGutters>
-      <Link component={RouterLink} to ='/'>
+      <Link component={RouterLink} to ='/' onClick={() => {setValue(false)}}>
         <Logo className={logo} />
       </Link>
-      <Tabs  className={tabContainer} indicatorColor='white'>
-        <Tab className={tab} component={RouterLink} to='/recipes/all' label='Recipes'/>
+      <Tabs value={value} onChange = {handleChange} className={tabContainer}>
+        <Tab key='RECIPES ALL' className={tab} component={RouterLink} to='/recipes/all' label='Recipes'/>
         {currentUser ? (
           [
-          <Tab className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>,
-          <Tab className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>,
-          <div onClick={() => auth.signOut()}>
-            <Tab className={tab} label = 'SIGN OUT'/>
-          </div>
+          <Tab key='HISTORY' className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>,
+          <Tab key='SUGGESTIONS' className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>,
+          <Tab key='SIGN OUT' className={tab} onClick={() => auth.signOut()} label = 'SIGN OUT'/>
           ]
         ) : (
           [
-          <Tab className={tab} component={RouterLink} to='/sign-in' label='Sign In'/>,
-          <Tab className={tab} component={RouterLink} to='/sign-up' label='Sign Up'/>
+          <Tab key='SIGN IN' className={tab} component={RouterLink} to='/sign-in' label='Sign In'/>,
+          <Tab key='SIGN UP' className={tab} component={RouterLink} to='/sign-up' label='Sign Up'/>
           ]
         )}
       </Tabs>
@@ -138,28 +152,28 @@ export const Header = ({currentUser}) => {
             </Link>
             {
               currentUser ? (
-              <React.Fragment>
+                [
                 <Link component= {RouterLink} to= '/recipe-history' color= 'inherit' key= 'History'>
                   <MenuItem>HISTORY</MenuItem>
-                </Link>
+                </Link>,
                 <Link component= {RouterLink} to= '/suggestions' color= 'inherit' key= 'Suggestions'>
                   <MenuItem>SUGGESTIONS</MenuItem>
-                </Link>
+                </Link>,
                 <Link component= {RouterLink} color= 'inherit' key= 'Sign Out'>
                   <div onClick={() => {auth.signOut(); handleDrawerClose();}}>
                     <MenuItem>SIGN OUT</MenuItem>
                   </div>
                 </Link>
-              </React.Fragment>
+                ]
               ):(
-              <React.Fragment>
+                [
                 <Link component= {RouterLink} to= '/sign-in' color= 'inherit' key= 'Sign In'>
                   <MenuItem>SIGN IN</MenuItem>
-                </Link>
+                </Link>,
                 <Link component= {RouterLink} to= '/sign-up' color= 'inherit' key= 'Sign Up'>
                   <MenuItem>SIGN UP</MenuItem>
                 </Link>
-              </React.Fragment>
+                ]
               )
             }
           </div>
@@ -175,7 +189,7 @@ export const Header = ({currentUser}) => {
   <React.Fragment>
     <CssBaseline />
     <ElevationScroll>
-      <AppBar className={header} position='fixed' color='white'>
+      <AppBar className={header} position='fixed'>
         {mobileView ? displayMobile() : displayDesktop()}
       </AppBar>
     </ElevationScroll>    
