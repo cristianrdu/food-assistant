@@ -9,7 +9,7 @@ export default createMuiTheme({
             main:'#42850c'
         },
         secondary:{
-            main:'#42850c'
+            main:'#679D3C'
         },
         appBar:{
             main:'white'
