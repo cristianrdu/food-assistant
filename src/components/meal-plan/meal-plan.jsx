@@ -6,18 +6,22 @@ import { getRandomRecipes } from '../../data/firebase/firebase.utils';
 const MealPlan = ({days}) => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
-    useEffect(async () => {
-        try {
-            // set loading to true before calling API
-            setLoading(true);
-            const data = await getRandomRecipes(3);
-            setRecipes(data);
-            // switch loading to false after fetch is complete
-            setLoading(false);
-        } catch (error) {
-            // add error handling here
-            setLoading(false);
-            console.log(error);
+    useEffect(() =>{
+        populateRecipes();
+
+        async function populateRecipes(){
+            try {
+                // set loading to true before calling API
+                setLoading(true);
+                const data = await getRandomRecipes(days);
+                setRecipes(data);
+                // switch loading to false after fetch is complete
+                setLoading(false);
+            } catch (error) {
+                // add error handling here
+                setLoading(false);
+                console.log(error);
+            }
         }
     },[]);
 

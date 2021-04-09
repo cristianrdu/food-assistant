@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import { fetchRecommenderQueryResults } from '../../redux/recommender/recommender.actions';
@@ -31,7 +31,7 @@ const RecommenderPage = ({frequencyList, fetchRecommenderQueryResults, isUpdated
                 </Grid>
                 <Grid item xs={12} sm={10}>
                     <RecipeListLoader isLoading={!isUpdated}/>
-                    <MealPlan days={3}/>
+                    <MealPlan days={4}/>
                 </Grid>
             </Grid>
         </div>
