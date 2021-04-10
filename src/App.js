@@ -30,8 +30,9 @@ const App = ( {setCurrentUser, currentUser} ) => {
             ...snapShot.data()
           });
         });
-      } 
-      setCurrentUser(userAuth);
+      } else {
+        setCurrentUser(userAuth);
+      }
     }, error => console.log("error: ",error));
     // addCookbookioDataToDB();
     // postCookbookIORecipes('https://www.allrecipes.com/recipe/261547/chorizo-breakfast-tacos-with-potato-hash-and-eggs/');

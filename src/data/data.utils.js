@@ -24,3 +24,32 @@ export const addSearchKeywordsForRecipeCard = (ingredList, queryIngredients) => 
   )
   return searchKeywords;
 }
+
+export const sortRecipesByDay = (recipes) => {
+  const breakfast = [];
+  const lunch = [];
+  const dinner = [];
+  const data = [];
+
+  for(let i = 0; i < recipes.length; i++) {
+    switch(recipes[i].mealType){
+      case 'breakfast':
+        breakfast.push(recipes[i]);
+        break;
+      case 'lunch':
+        lunch.push(recipes[i]);
+        break;
+      case 'dinner':
+        dinner.push(recipes[i]);
+        break;
+      default:
+        break;
+    }
+  }
+  
+  for(let i = 0; i < breakfast.length; i++) {
+    data.push({breakfast: breakfast[i],lunch: lunch[i],dinner: dinner[i]})
+  }
+
+  return data;
+}
