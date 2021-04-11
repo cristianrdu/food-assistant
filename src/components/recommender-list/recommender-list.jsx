@@ -5,9 +5,7 @@ import RecipeCard from '../recipe-card/recipe-card';
 
 import { selectRecommendedRecipes } from '../../redux/recommender/recommender.selectors';
 
-import './recommender-list.css';
-
-const RecipeList = ({ recipes }) => {
+const RecommenderList = ({ recipes }) => {
   return (
     <div className='cards'>
       {
@@ -21,4 +19,4 @@ const mapStateToProps = (state) => ({
   recipes: selectRecommendedRecipes(state)
 });
 
-export default connect(mapStateToProps)(RecipeList);
+export default connect(mapStateToProps)(RecommenderList);

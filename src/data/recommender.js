@@ -3,7 +3,7 @@ const mainIngredientList = [
     //Meats 
     'chicken',
     'beef',
-    'ground beef',
+    // 'ground beef',
     'turkey',
     'pork',
     'bacon',

@@ -8,7 +8,7 @@ import { selectIsUpdated } from '../../redux/recommender/recommender.selectors';
 
 import Grid from '@material-ui/core/Grid';
 
-import RecipeList from '../../components/recommender-list/recommender-list';
+import RecommenderList from '../../components/recommender-list/recommender-list';
 import MealPlan from '../../components/meal-plan/meal-plan';
 import SpinningLoader from '../../components/loader/loader';
 
@@ -23,7 +23,7 @@ import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Button } from '@material-ui/core';
 
-const RecipeListLoader = SpinningLoader(RecipeList);
+const RecommenderListLoader = SpinningLoader(RecommenderList);
 const MealPlanLoader = SpinningLoader(MealPlan);
 
 const TabPanel = (props) => {
@@ -121,7 +121,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 15
   },
   sliderButton: {
-    marginTop: '10px', 
+    marginTop: '10px',     
+    marginLeft:'auto'
   }
 }));
 
@@ -176,7 +177,14 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
               valueLabelDisplay="auto"
               marks={sliderMarks}
             />
-            <Button className={classes.sliderButton} variant="contained" color="secondary" onClick={() => setMealPlan(days)}>Generate Meal Plan</Button>
+            <Button 
+            className={classes.sliderButton} 
+            variant="contained" 
+            color="secondary" 
+            onClick={() => setMealPlan(days)}
+            >
+              Generate
+            </Button>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={10}>
@@ -193,10 +201,9 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
               </Tabs>
             </AppBar>
             <TabPanel value={currentTab} index={0}>
-              <RecipeListLoader isLoading={!isUpdated}/>
+              <RecommenderListLoader isLoading={!isUpdated}/>
             </TabPanel>
             <TabPanel value={currentTab} index={1}>
-              {/* <MealPlanLoader isLoading={!mealPlanFetched}/> */}
               {mealPlanFetched ? 
               <MealPlan/> : <Typography>You don't have a meal plan set up yet.</Typography>}
             </TabPanel>
