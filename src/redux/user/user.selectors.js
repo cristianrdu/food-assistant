@@ -14,7 +14,7 @@ export const selectCurrentUserId = createSelector(
 
 export const selectMealPlan = createSelector(
   [selectCurrentUser],
-  currentUser => currentUser ? currentUser.mealPlan : []
+  currentUser => currentUser ? currentUser.mealPlan : null
 );
 
 export const selectNrDaysMealPlan = createSelector(
@@ -23,8 +23,8 @@ export const selectNrDaysMealPlan = createSelector(
 );
 
 export const selectMealPlanFetched = createSelector(
-  [selectCurrentUser],
-  currentUser => currentUser ? currentUser.mealPlanFetched : false
+  [selectMealPlan],
+  mealPlan => mealPlan && mealPlan.length > 0 ? true : false
 );
 
 export const selectCurrentUserHistory = createSelector(

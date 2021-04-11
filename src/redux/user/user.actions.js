@@ -1,5 +1,5 @@
 import { UserActionTypes } from './user.types';
-import { firestore, getRandomRecipes } from '../../data/firebase/firebase.utils';
+import { firestore, getRandomRecipes, updateMealPlan } from '../../data/firebase/firebase.utils';
 import { singleIngredListFrequency } from '../../data/recommender';
 import { sortRecipesByDay } from '../../data/data.utils';
 
@@ -50,32 +50,28 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
   }
 };
 
-export const setMealPlan = async (days) => {
-  return async (dispatch, getState) => {
+export const setMealPlan = (days) => {
+  return (dispatch, getState) => {
     dispatch({
       type: UserActionTypes.SET_MEAL_PLAN_START
     })
-
     const {user} = getState();
-    const sortedData = [];
+    let mealPlanData = [];
     getRandomRecipes(days)
     .then(data => {
-      sortedData.push(sortRecipesByDay(data));
-    })
-    .then(
-      firestore.collection("users").doc(user.currentUser.id)
-      .update({mealPlan: sortedData})
-      .then(dispatch({
-        type: UserActionTypes.SET_MEAL_PLAN_SUCCESS,
-        payload: sortedData
-      }))
-      .catch(error => {
-        dispatch({
-          type: UserActionTypes.SET_MEAL_PLAN_FAIL,
-          payload: error
-        })  
-        console.log(error)
+      updateMealPlan(user.currentUser.id, data);
+      dispatch({
+      type: UserActionTypes.SET_MEAL_PLAN_SUCCESS,
+      payload: sortRecipesByDay(data)
       })
-    )
+    })
+    .catch(error => {
+      dispatch({
+        type: UserActionTypes.SET_MEAL_PLAN_FAIL,
+        payload: error
+      })  
+      console.log(error)
+    })
+    
   }
 };

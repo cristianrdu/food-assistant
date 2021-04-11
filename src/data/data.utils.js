@@ -32,7 +32,7 @@ export const sortRecipesByDay = (recipes) => {
   const data = [];
 
   for(let i = 0; i < recipes.length; i++) {
-    switch(recipes[i].mealType){
+    switch(recipes[i].recipe.mealType){
       case 'breakfast':
         breakfast.push(recipes[i]);
         break;
@@ -47,8 +47,17 @@ export const sortRecipesByDay = (recipes) => {
     }
   }
   
-  for(let i = 0; i < breakfast.length; i++) {
-    data.push({breakfast: breakfast[i],lunch: lunch[i],dinner: dinner[i]})
+  for(let i = 0; i < recipes.length / 3; i++) {
+    let breakfastData = {};
+    let lunchData = {};
+    let dinnerData = {};
+    if(breakfast[i] !== undefined)
+      breakfastData = breakfast[i]
+    if(lunch[i] !== undefined)
+      lunchData = lunch[i]
+    if(dinner[i] !== undefined)
+      dinnerData = dinner[i]
+    data.push({breakfast: breakfastData, lunch: lunchData, dinner: dinnerData, day: i + 1})
   }
 
   return data;

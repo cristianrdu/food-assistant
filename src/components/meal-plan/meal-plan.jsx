@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { getRandomRecipes } from '../../data/firebase/firebase.utils';
-import { sortRecipesByDay } from '../../data/data.utils';
+import React, { useState } from 'react'
+import { selectMealPlan } from '../../redux/user/user.selectors';
+import { connect } from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 
 import RecipeCard from '../recipe-card/recipe-card';
 
@@ -10,6 +11,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,92 +39,66 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 224,
+  },
+  tab: {
+    fontWeight: 501,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
+    textColor: 'primary'
   },
 }));
 // https://www.techiedelight.com/initialize-array-with-range-from-0-to-n-javascript/
 // https://stackoverflow.com/questions/57739391/firestore-query-for-loop-with-multiple-values
-const MealPlan = () => {
-    const classes = useStyles();
-    const days = 4;
-    const [recipes, setRecipes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [value, setValue] = useState(0);
-        
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    
-    useEffect(() =>{
-        populateRecipes();
-
-        async function populateRecipes(){
-            try {
-                // set loading to true before calling API
-                setLoading(true);
-                const data = await getRandomRecipes(days);
-                setRecipes(sortRecipesByDay(data));
-                console.log(data);
-                // switch loading to false after fetch is complete
-                setLoading(false);
-            } catch (error) {
-                // add error handling here
-                setLoading(false);
-                console.log(error);
-            }
-        }
-    },[]);
-
-    return (
-        <div>
-            { !loading ? 
-                
-                (
-                    <div className={classes.root}>
-                        <Tabs
-                            orientation="vertical"
-                            variant="scrollable"
-                            value={value}
-                            onChange={handleChange}
-                            aria-label="Vertical tabs example"
-                            className={classes.tabs}
-                        >
-                        {
-                            [...Array(days).keys()].map(number => <Tab label={`Day ${number + 1}`} id= {`day-${number + 1}`} /> )
-                        }
-                        </Tabs>
-                        {   recipes && recipes.length > 0 ?
-                            recipes.map(oneDayRecipes => 
-                            (<TabPanel value={value} index={oneDayRecipes.key + 1}>
-                                {
-                                    oneDayRecipes.map(recipe => (<RecipeCard key={recipe.id} recipeData={recipe}/>))
-                                }
-                            </TabPanel>)) 
-                            : undefined
-                        }
-                        
-                    </div>
-                )
-
-                : null
-            }
-        </div>
-    )
+const MealPlan = ({mealPlan}) => {
+  console.log("TESTER:", mealPlan);
+  const classes = useStyles();
+  const [value, setValue] = useState(0);
+      
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <div>
+      <div className={classes.root}>
+          <Tabs
+            textColor="secondary"
+            indicatorColor="secondary"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs"
+            className={classes.tabs}
+            centered
+            >
+          {
+            [...Array(mealPlan.length).keys()].map(number => <Tab className={classes.tab} label={`Day ${number + 1}`} id= {number + 1} /> )
+          }
+          </Tabs>
+        {mealPlan.map(data => 
+          (<TabPanel value={value} index={data.day - 1}>
+            {data.breakfast.recipe ? (
+              <RecipeCard key={`day-${data.day}-breakfast`} recipeData={{id: data.breakfast.id, recipe: data.breakfast.recipe}}/>
+            ): null}
+            {data.lunch.recipe ? (
+              <RecipeCard key={`day-${data.day}-lunch`} recipeData={{id: data.lunch.id, recipe: data.lunch.recipe}}/>
+            ): null}
+            {data.dinner.recipe ? (
+              <RecipeCard key={`day-${data.day}-dinner`} recipeData={{id: data.dinner.id, recipe: data.dinner.recipe}}/>
+            ): null}
+          </TabPanel>))
+        } 
+      </div>
+    </div>
+  )
 }
 
-export default MealPlan
+const mapStateToProps = createStructuredSelector({
+  mealPlan: selectMealPlan
+});
+
+export default connect(mapStateToProps, null)(MealPlan);

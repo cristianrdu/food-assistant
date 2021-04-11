@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import {sleep, generateIngredientKeywords} from '../data.utils';
+import {sleep, generateIngredientKeywords, sortRecipesByDay} from '../data.utils';
 import { getEmptyFrequencyList } from '../recommender';
 
 const config = {
@@ -140,7 +140,8 @@ export const getRandomRecipes = async (days) => {
       .then(snapshot => {
         if(snapshot.size > 0) {
           snapshot.forEach(doc => {
-            data.push(doc.data());
+            data.push({['id']: doc.id, recipe: doc.data()});
+            // data.push(doc.data());
           });
           return;
         } else {
@@ -149,7 +150,8 @@ export const getRandomRecipes = async (days) => {
           .where(firebase.firestore.FieldPath.documentId(), '<', key).limit(1).get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              data.push(doc.data());
+              data.push({['id']: doc.id, recipe: doc.data()});
+              // data.push(doc.data());
             });
             return;
           })
@@ -173,6 +175,14 @@ export const getRandomRecipes = async (days) => {
     console.log(err);
   })
 };
+
+export const updateMealPlan = async (userId, mealData) => {
+  const mealPlan = sortRecipesByDay(mealData);
+  
+  const userRef = firestore.collection("users").doc(userId)
+  userRef.update({ mealPlan })
+  .catch(err => { console.log('ERR', err)});
+}
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

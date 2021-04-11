@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import { fetchRecommenderQueryResults } from '../../redux/recommender/recommender.actions';
 import { setMealPlan } from '../../redux/user/user.actions';
-import { selectIngredFrequencyList, selectMealPlan, selectNrDaysMealPlan, selectMealPlanFetched } from '../../redux/user/user.selectors';
+import { selectIngredFrequencyList, selectNrDaysMealPlan, selectMealPlanFetched } from '../../redux/user/user.selectors';
 import { selectIsUpdated } from '../../redux/recommender/recommender.selectors';
 
 import Grid from '@material-ui/core/Grid';
@@ -21,7 +21,7 @@ import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 
 const RecipeListLoader = SpinningLoader(RecipeList);
 const MealPlanLoader = SpinningLoader(MealPlan);
@@ -119,6 +119,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '90vw',
     marginTop: '20px',
     padding: 15
+  },
+  sliderButton: {
+    marginTop: '10px', 
   }
 }));
 
@@ -126,14 +129,14 @@ const useStyles = makeStyles((theme) => ({
 const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryResults, isUpdated, mealPlanFetched, setMealPlan}) => {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState(0);
+  const [days, setDays] = useState(0);
 
   const changeCurrentTab = (event, newValue) => {
     setCurrentTab(newValue);
   };
   
   const setMealPlanDays = (event, day) => {
-    console.log("test");
-    setMealPlan(valueLabelFormat(day));
+    setDays(valueLabelFormat(day));
   };
 
   useEffect(() => {
@@ -142,6 +145,7 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
     }
   }, [fetchRecommenderQueryResults]);
   
+
   return (
     <div>
       <Grid container spacing={2} className={classes.root}>
@@ -161,10 +165,10 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
           </Paper>
           <Paper component="ul" className={classes.daySlider}>
             <Typography id="discrete-slider" gutterBottom>
-              Nr. of Days in Meal Plan
+              Nr. of days in Meal Plan
             </Typography>
             <Slider
-              defaultValue={nrDaysMealPlan}
+              defaultValue={nrDaysMealPlan * 20}
               valueLabelFormat={valueLabelFormat}
               aria-labelledby="discrete-slider"
               step={null}
@@ -172,6 +176,7 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
               valueLabelDisplay="auto"
               marks={sliderMarks}
             />
+            <Button className={classes.sliderButton} variant="contained" color="secondary" onClick={() => setMealPlan(days)}>Generate Meal Plan</Button>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={10}>
@@ -179,6 +184,7 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
             <AppBar position="static" className={classes.appBar} >
               <Tabs 
                 textColor="primary"
+                centered
                 value={currentTab} 
                 onChange={changeCurrentTab} 
               >
@@ -190,7 +196,9 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
               <RecipeListLoader isLoading={!isUpdated}/>
             </TabPanel>
             <TabPanel value={currentTab} index={1}>
-              <MealPlanLoader isLoading={!mealPlanFetched}/>
+              {/* <MealPlanLoader isLoading={!mealPlanFetched}/> */}
+              {mealPlanFetched ? 
+              <MealPlan/> : <Typography>You don't have a meal plan set up yet.</Typography>}
             </TabPanel>
           </div>
         </Grid>
@@ -202,7 +210,6 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
 const mapStateToProps = createStructuredSelector({
   frequencyList: selectIngredFrequencyList,
   isUpdated: selectIsUpdated,
-  mealPlan: selectMealPlan,
   mealPlanFetched: selectMealPlanFetched,
   nrDaysMealPlan: selectNrDaysMealPlan
 });
