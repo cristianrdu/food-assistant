@@ -131,8 +131,6 @@ export const singleIngredListFrequency = (ingredientList, frequencyList) => {
 
 export const collateFrequencyLists = (frequencyLists) => {
     let accumulatorList = getEmptyFrequencyList();
-    console.log("TESTINGGFDGFD",frequencyLists.slice(0,3));
-    console.log("TESTINGGFDGFD",frequencyLists.slice(0,3));
     let freqLists = frequencyLists;
 
     if (freqLists.length > 3) {

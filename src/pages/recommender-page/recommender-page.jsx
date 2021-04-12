@@ -15,31 +15,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Button } from '@material-ui/core';
-
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <>{children}</>
-        </Box>
-      )}
-    </div>
-  );
-};
+import TabPanel from '../../components/material-ui/tab-panel';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -141,13 +121,10 @@ const RecommenderPage = ({fetchRecentsSearchResults, fetchAllTimeSearchResults, 
   }, [fetchAllTimeSearchResults]);
 
   useEffect(() => {
-      if (historyFrequencyList && historyFrequencyList.length > 0) {
+      if (historyFrequencyList) {
           fetchRecentsSearchResults(historyFrequencyList);
       }
   }, [fetchRecentsSearchResults]);
-
-
-  
 
   return (
     <div>

@@ -55,7 +55,7 @@ export const fetchRecentsSearchResults = (queryParams) => {
 
     const parsedQueryParams = generateIngredientKeywords(queryParams.map(param => param.toLowerCase()));
     const recipeRef = firestore.collection('main-recipes');
-    // if parsedQueryParams
+
     if (parsedQueryParams.length > 0){
       recipeRef
       .where('ingredKeywords', 'array-contains-any', parsedQueryParams)
@@ -90,5 +90,4 @@ export const fetchRecentsSearchResults = (queryParams) => {
       });
     }
   }
-
 };
