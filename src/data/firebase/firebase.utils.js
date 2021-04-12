@@ -140,8 +140,7 @@ export const getRandomRecipes = async (days) => {
       .then(snapshot => {
         if(snapshot.size > 0) {
           snapshot.forEach(doc => {
-            data.push({['id']: doc.id, recipe: doc.data()});
-            // data.push(doc.data());
+            data.push({id: doc.id, recipe: doc.data()});
           });
           return;
         } else {
@@ -150,8 +149,7 @@ export const getRandomRecipes = async (days) => {
           .where(firebase.firestore.FieldPath.documentId(), '<', key).limit(1).get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              data.push({['id']: doc.id, recipe: doc.data()});
-              // data.push(doc.data());
+              data.push({id: doc.id, recipe: doc.data()});
             });
             return;
           })
@@ -168,6 +166,8 @@ export const getRandomRecipes = async (days) => {
       
   }
 
+  await sleep();
+
   return Promise.all(promises).then(() => {
     return data;
   })
@@ -176,13 +176,11 @@ export const getRandomRecipes = async (days) => {
   })
 };
 
-export const updateMealPlan = async (userId, mealData) => {
-  const mealPlan = sortRecipesByDay(mealData);
-  
+export const updateMealPlan = async (userId, mealPlan) => {
   const userRef = firestore.collection("users").doc(userId)
   userRef.update({ mealPlan })
   .catch(err => { console.log('ERR', err)});
-}
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

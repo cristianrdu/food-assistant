@@ -1,7 +1,7 @@
 import { UserActionTypes } from './user.types';
 import { firestore, getRandomRecipes, updateMealPlan } from '../../data/firebase/firebase.utils';
 import { singleIngredListFrequency } from '../../data/recommender';
-import { sortRecipesByDay } from '../../data/data.utils';
+import { sortRecipesByDay, sleep } from '../../data/data.utils';
 
 export const setCurrentUser = user => ({
   type: UserActionTypes.SET_CURRENT_USER,
@@ -29,6 +29,7 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
     const userRef = firestore.collection("users").doc(user.currentUser.id);
     userRef.get()
     .then((doc) => {
+      //TODO, add single recipe history frequency list
         const userData = doc.data();
         historyData = userData.recipeHistory;
         const updatedFrequencyList = singleIngredListFrequency(ingred, userData.ingredFrequencyList);
@@ -56,13 +57,13 @@ export const setMealPlan = (days) => {
       type: UserActionTypes.SET_MEAL_PLAN_START
     })
     const {user} = getState();
-    let mealPlanData = [];
     getRandomRecipes(days)
     .then(data => {
-      updateMealPlan(user.currentUser.id, data);
+      const mealData = sortRecipesByDay(data);
+      updateMealPlan(user.currentUser.id, mealData);
       dispatch({
       type: UserActionTypes.SET_MEAL_PLAN_SUCCESS,
-      payload: sortRecipesByDay(data)
+      payload: mealData
       })
     })
     .catch(error => {

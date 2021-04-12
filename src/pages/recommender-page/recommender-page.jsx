@@ -24,7 +24,6 @@ import Paper from '@material-ui/core/Paper';
 import { Typography, Button } from '@material-ui/core';
 
 const RecommenderListLoader = SpinningLoader(RecommenderList);
-const MealPlanLoader = SpinningLoader(MealPlan);
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -130,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
 const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryResults, isUpdated, mealPlanFetched, setMealPlan}) => {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState(0);
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState(nrDaysMealPlan);
 
   const changeCurrentTab = (event, newValue) => {
     setCurrentTab(newValue);
@@ -152,17 +151,19 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
       <Grid container spacing={2} className={classes.root}>
         <Grid item xs={12} sm={2} className={classes.leftBar}>
           <Paper component="ul" className={classes.stats}>
-            <Typography className={classes.chip}>
-                Your all-time top ingredients: 
-            </Typography>
-            {frequencyList ? 
+            {frequencyList && frequencyList.length > 0 ? 
+                [<Typography className={classes.chip}>
+                    Your all-time top ingredients: 
+                </Typography>,
                 frequencyList.map((data) => {
                     return (
                     <li key={data}>
                         <Chip label={data} className={classes.chip} color="secondary"/>
                     </li>
                     );
-                }) : undefined}
+                })] : <Typography className={classes.chip}>
+                  You need to add recipes to history in order to see your top ingredients used.
+              </Typography>}
           </Paper>
           <Paper component="ul" className={classes.daySlider}>
             <Typography id="discrete-slider" gutterBottom>

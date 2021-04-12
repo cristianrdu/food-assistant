@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 // https://www.techiedelight.com/initialize-array-with-range-from-0-to-n-javascript/
 // https://stackoverflow.com/questions/57739391/firestore-query-for-loop-with-multiple-values
 const MealPlan = ({mealPlan}) => {
-  console.log("TESTER:", mealPlan);
   const classes = useStyles();
   const [value, setValue] = useState(0);
       
@@ -73,7 +72,6 @@ const MealPlan = ({mealPlan}) => {
             onChange={handleChange}
             aria-label="Vertical tabs"
             className={classes.tabs}
-            centered
             >
           {
             [...Array(mealPlan.length).keys()].map(number => <Tab className={classes.tab} label={`Day ${number + 1}`} id= {number + 1} /> )
