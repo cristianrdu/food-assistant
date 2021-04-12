@@ -22,7 +22,7 @@ const recommenderReducer = (state = INITIAL_STATE, action) => {
     case RecommenderActionTypes.RECOMMENDER_SEARCH_FAILURE:
       return {
         ...state,
-        isUpdated: false,
+        isUpdated: true,
         errorMsg: action.payload
       }
     default:

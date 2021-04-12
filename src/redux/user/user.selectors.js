@@ -39,7 +39,7 @@ export const selectIngredFrequencyList = createSelector(
   .slice(0, 5)
   .filter(ingredFrequency => ingredFrequency.frequency !== 0)
   .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), [])
-  : null
+  : undefined
 );
 
 export const selectHistoricalRecipeIds = createSelector(
