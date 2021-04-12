@@ -2,12 +2,22 @@ import { createSelector } from 'reselect';
 
 const selectRecommenderData = state => state.recommenderData;
 
-export const selectRecommendedRecipes = createSelector(
+export const selectAllTimeRecommendedRecipes = createSelector(
   [selectRecommenderData],
-  recommenderData => recommenderData.recommendedRecipes
+  recommenderData => recommenderData.allTimeRecommendedRecipes
 );
 
-export const selectIsUpdated = createSelector(
+export const selectRecentsRecommendedRecipes = createSelector(
   [selectRecommenderData],
-  recommenderData => recommenderData.isUpdated
+  recommenderData => recommenderData.recentsRecommendedRecipes
+);
+
+export const selectAllTimeUpdated = createSelector(
+  [selectRecommenderData],
+  recommenderData => recommenderData.allTimeUpdated
+);
+
+export const selectRecentsUpdated = createSelector(
+  [selectRecommenderData],
+  recommenderData => recommenderData.recentsUpdated
 );

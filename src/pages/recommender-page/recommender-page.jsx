@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import { fetchRecommenderQueryResults } from '../../redux/recommender/recommender.actions';
 import { setMealPlan } from '../../redux/user/user.actions';
-import { selectIngredFrequencyList, selectNrDaysMealPlan, selectMealPlanFetched } from '../../redux/user/user.selectors';
-import { selectIsUpdated } from '../../redux/recommender/recommender.selectors';
+import { selectHistoryFrequencyList, selectIngredFrequencyList, selectNrDaysMealPlan, selectMealPlanFetched } from '../../redux/user/user.selectors';
+import { fetchAllTimeSearchResults, fetchRecentsSearchResults } from '../../redux/recommender/recommender.actions';
 
 import Grid from '@material-ui/core/Grid';
 
-import RecommenderList from '../../components/recommender-list/recommender-list';
 import MealPlan from '../../components/meal-plan/meal-plan';
-import SpinningLoader from '../../components/loader/loader';
+import RecommenderTab from '../../components/recommender-tab/recommender-tab';
 
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,8 +20,6 @@ import Slider from '@material-ui/core/Slider';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Button } from '@material-ui/core';
-
-const RecommenderListLoader = SpinningLoader(RecommenderList);
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -125,8 +121,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryResults, isUpdated, mealPlanFetched, setMealPlan}) => {
+const RecommenderPage = ({fetchRecentsSearchResults, fetchAllTimeSearchResults, nrDaysMealPlan, frequencyList, mealPlanFetched, setMealPlan, historyFrequencyList}) => {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState(0);
   const [days, setDays] = useState(nrDaysMealPlan);
@@ -140,10 +135,18 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
   };
 
   useEffect(() => {
-    if (frequencyList) {
-      fetchRecommenderQueryResults(frequencyList);
-    }
-  }, [fetchRecommenderQueryResults]);
+      if (frequencyList) {
+          fetchAllTimeSearchResults(frequencyList);
+      }
+  }, [fetchAllTimeSearchResults]);
+
+  useEffect(() => {
+      if (historyFrequencyList && historyFrequencyList.length > 0) {
+          fetchRecentsSearchResults(historyFrequencyList);
+      }
+  }, [fetchRecentsSearchResults]);
+
+
   
 
   return (
@@ -163,6 +166,21 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
                     );
                 })] : <Typography className={classes.chip}>
                   You need to add recipes to history in order to see your top ingredients used.
+              </Typography>}
+          </Paper>
+          <Paper component="ul" className={classes.stats}>
+            {historyFrequencyList && historyFrequencyList.length > 0 ? 
+                [<Typography className={classes.chip}>
+                    Recently used ingredients: 
+                </Typography>,
+                historyFrequencyList.map((data) => {
+                    return (
+                    <li key={data}>
+                        <Chip label={data} className={classes.chip} color="secondary"/>
+                    </li>
+                    );
+                })] : <Typography className={classes.chip}>
+                  You need to add recipes to history in order to see your recent ingredients used.
               </Typography>}
           </Paper>
           <Paper component="ul" className={classes.daySlider}>
@@ -193,7 +211,6 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
             <AppBar position="static" className={classes.appBar} >
               <Tabs 
                 textColor="primary"
-                centered
                 value={currentTab} 
                 onChange={changeCurrentTab} 
               >
@@ -202,7 +219,7 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
               </Tabs>
             </AppBar>
             <TabPanel value={currentTab} index={0}>
-              <RecommenderListLoader isLoading={!isUpdated}/>
+              <RecommenderTab/>
             </TabPanel>
             <TabPanel value={currentTab} index={1}>
               {mealPlanFetched ? 
@@ -217,14 +234,15 @@ const RecommenderPage = ({nrDaysMealPlan, frequencyList, fetchRecommenderQueryRe
 
 const mapStateToProps = createStructuredSelector({
   frequencyList: selectIngredFrequencyList,
-  isUpdated: selectIsUpdated,
+  historyFrequencyList: selectHistoryFrequencyList,
   mealPlanFetched: selectMealPlanFetched,
   nrDaysMealPlan: selectNrDaysMealPlan
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecommenderQueryResults: (queryParams) => dispatch(fetchRecommenderQueryResults(queryParams, dispatch)),
-  setMealPlan: (days) => dispatch(setMealPlan(days, dispatch))
+  setMealPlan: (days) => dispatch(setMealPlan(days, dispatch)),
+  fetchAllTimeSearchResults: (queryParams) => dispatch(fetchAllTimeSearchResults(queryParams, dispatch)),
+  fetchRecentsSearchResults: (queryParams) => dispatch(fetchRecentsSearchResults(queryParams, dispatch))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecommenderPage);

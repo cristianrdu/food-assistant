@@ -104,18 +104,49 @@ export const parseRecipeIngredients = (recipesHistory) => {
 }
 
 export const singleIngredListFrequency = (ingredientList, frequencyList) => {
-    let frequencyArray = frequencyList;
-            
+    let alltimeFrequencyArray = frequencyList;
+    let recentsFrequencyArray = getEmptyFrequencyList();
+
     ingredientList.forEach(
-        recipeIngred => 
-            frequencyArray.forEach(
+        recipeIngred => {
+            alltimeFrequencyArray.forEach(
                 (frequencyObject) => {
                     if (recipeIngred.includes(frequencyObject.ingredient))
                         frequencyObject.frequency += 1;
                 }
             )
+            recentsFrequencyArray.forEach(
+                (frequencyObject) => {
+                    if (recipeIngred.includes(frequencyObject.ingredient))
+                        frequencyObject.frequency += 1;
+                }
+            )
+        }
         
     )
     
-    return frequencyArray.sort((a,b) => (a.frequency < b.frequency) ? 1 : -1);
+    return {alltimeFrequencyArray: alltimeFrequencyArray.sort((a,b) => (a.frequency < b.frequency) ? 1 : -1),
+        recentsFrequencyArray: recentsFrequencyArray}
+}
+
+export const collateFrequencyLists = (frequencyLists) => {
+    let accumulatorList = getEmptyFrequencyList();
+    console.log("TESTINGGFDGFD",frequencyLists.slice(0,3));
+    console.log("TESTINGGFDGFD",frequencyLists.slice(0,3));
+    let freqLists = frequencyLists;
+
+    if (freqLists.length > 3) {
+        freqLists = freqLists.slice(0,3);
+    }
+    
+    freqLists.forEach(list => {
+        for(let j = 0; j < accumulatorList.length; j++){
+            accumulatorList[j].frequency += list[j].frequency;
+        }
+    })
+    
+    return accumulatorList
+    .sort((a,b) => (a.frequency < b.frequency) ? 1 : -1)
+    .filter(ingredFrequency => ingredFrequency.frequency !== 0)
+    .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), []);
 }

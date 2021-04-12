@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { collateFrequencyLists } from '../../data/recommender';
 
 const selectUser = state => state.user;
 
@@ -42,7 +43,11 @@ export const selectIngredFrequencyList = createSelector(
   : undefined
 );
 
-export const selectHistoricalRecipeIds = createSelector(
-  [selectCurrentUserHistory],
-  userHistory => {return userHistory.reduce((acc, userHistoryElement) => (acc.push(userHistoryElement.id), acc), []);}
+export const selectHistoryFrequencyList = createSelector(
+  [selectCurrentUser],
+  currentUser => currentUser && currentUser.recipeHistory ?  
+  
+  collateFrequencyLists(currentUser.recipeHistory
+    .reduce((acc, userHistoryElement) => (acc.push(userHistoryElement.ingredFrequency), acc), []))
+  : undefined
 );

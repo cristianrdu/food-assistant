@@ -32,10 +32,10 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
       //TODO, add single recipe history frequency list
         const userData = doc.data();
         historyData = userData.recipeHistory;
-        const updatedFrequencyList = singleIngredListFrequency(ingred, userData.ingredFrequencyList);
+        const frequencyLists = singleIngredListFrequency(ingred, userData.ingredFrequencyList);
         
-        historyData.unshift({id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, addedAt});
-        userRef.update({recipeHistory: historyData, ingredFrequencyList: updatedFrequencyList});
+        historyData.unshift({id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, addedAt, ingredFrequency: frequencyLists.recentsFrequencyArray});
+        userRef.update({recipeHistory: historyData, ingredFrequencyList: frequencyLists.alltimeFrequencyArray});
       })
     .then(() => {
       dispatch({

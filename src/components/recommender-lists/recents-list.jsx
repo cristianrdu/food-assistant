@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { selectRecentsRecommendedRecipes } from '../../redux/recommender/recommender.selectors';
+
 import RecipeCard from '../recipe-card/recipe-card';
 
-import { selectRecommendedRecipes } from '../../redux/recommender/recommender.selectors';
 import { Typography } from '@material-ui/core';
 
-const RecommenderList = ({ recipes }) => {
+const RecentsList = ({ recipes }) => {
   return (
     <div className='cards'>
       { recipes !== null ?
@@ -18,7 +19,7 @@ const RecommenderList = ({ recipes }) => {
 };
 
 const mapStateToProps = (state) => ({
-  recipes: selectRecommendedRecipes(state)
+  recipes: selectRecentsRecommendedRecipes(state)
 });
 
-export default connect(mapStateToProps)(RecommenderList);
+export default connect(mapStateToProps)(RecentsList);
