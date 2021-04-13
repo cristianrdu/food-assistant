@@ -41,13 +41,10 @@ export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
     }
   }, [open]);
 
-  //async db call with "array-contains-any" using a logical OR.
   useEffect(() => {
     if(searchQuery.length)
     {
-      (async () => {
-        await fetchSearchQueryResults(searchQuery);      
-      })();      
+      fetchSearchQueryResults(searchQuery);      
     }else{
       setSearchToOff();
     }
@@ -92,8 +89,7 @@ export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
     )}
     />
   )
-}
-
+};
 
 const mapDispatchToProps = dispatch => ({
   fetchSearchQueryResults: (queryParams) => dispatch(fetchSearchQueryResults(queryParams, dispatch)),

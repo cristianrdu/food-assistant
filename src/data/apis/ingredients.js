@@ -11,12 +11,10 @@ export const searchIngredients = async (input) => {
     }
     };
 
-    let returnedData;
-    
     return axios.request(options).then((response) => {
-        return returnedData = response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
+        return response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
     }).catch( (error) => {
-        returnedData = error;
+        return error;
     });
     
 }

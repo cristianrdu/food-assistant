@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import {sleep, generateIngredientKeywords, sortRecipesByDay} from '../data.utils';
+import { sleep, generateIngredientKeywords } from '../data.utils';
 import { getEmptyFrequencyList } from '../recommender';
 
 const config = {
@@ -105,24 +105,25 @@ export const convertRecipesSnapshotToMap = (recipes) => {
   });
 };
 
-export const fetchSearchQueryResults = async (queryParams) => {
+export const fetchSearchQueryResults = (queryParams) => {
 
-  let data = [];
+  const data = [];
 
   const parsedQueryParams = generateIngredientKeywords(queryParams.map(param => param.toLowerCase()));
   
   const recipeRef = firestore.collection('main-recipes');
 
-  recipeRef.where('ingredKeywords', 'array-contains-any', parsedQueryParams).get().then(
+  return recipeRef
+  .where('ingredKeywords', 'array-contains-any', parsedQueryParams).get()
+  .then(
     (doc) => {
       doc.forEach( obj => {    
         data.unshift(obj.data());    
       })
-    }).catch(err => console.log("ERROR: ",err.message))
+    })
+  .then(() => {return data;})
+  .catch(err => console.log("ERROR: ",err.message))
     
-    await sleep();   
-    
-    return data;
 };
 
 export const getRandomRecipes = async (days) => {
@@ -176,7 +177,7 @@ export const getRandomRecipes = async (days) => {
   })
 };
 
-export const updateMealPlan = async (userId, mealPlan) => {
+export const updateMealPlan = (userId, mealPlan) => {
   const userRef = firestore.collection("users").doc(userId)
   userRef.update({ mealPlan })
   .catch(err => { console.log('ERR', err)});
