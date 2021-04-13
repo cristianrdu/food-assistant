@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {createStructuredSelector} from 'reselect';
-import { updateRecipesStartAsync } from '../../redux/recipe/recipe.actions';
+import { updateRecipesAsync } from '../../redux/recipe/recipe.actions';
 import { selectIsRecipeUpdated } from '../../redux/recipe/recipe.selectors';
 
 import RecipeCategorical from '../../components/recipe-categorical/recipe-categorical';
@@ -15,10 +15,10 @@ import './recipes-page.css';
 const RecipeCategoricalLoader = SpinningLoader(RecipeCategorical);
 const RecipeDetailsLoader = SpinningLoader(RecipeDetails);
 
-const RecipesPage = ({updateRecipesStartAsync, match, isRecipeUpdated}) => {
+const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
   useEffect(() => {
-    updateRecipesStartAsync();
-}, [updateRecipesStartAsync])
+    updateRecipesAsync();
+}, [updateRecipesAsync])
 
   return (
     <div>
@@ -40,7 +40,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateRecipesStartAsync: () => dispatch(updateRecipesStartAsync())
+  updateRecipesAsync: () => dispatch(updateRecipesAsync())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipesPage);

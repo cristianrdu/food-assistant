@@ -22,3 +22,10 @@ export const searchRecipes = async (queryParams) => {
         }
     );
 }
+
+export const getAllRecipes = () => {
+    return firestore.collection('main-recipes')
+    .get()
+    .then( snapshot => {return convertRecipesSnapshotToMap(snapshot);})
+    .catch(error => {return error})
+}

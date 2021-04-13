@@ -1,34 +1,21 @@
+import { getAllRecipes } from '../../data/firebase/recipe.utils';
 import RecipeActionTypes from './recipe.types';
-import { firestore, convertRecipesSnapshotToMap} from '../../data/firebase/firebase.utils';
 
-export const updateRecipesStart = () => ({
-    type: RecipeActionTypes.UPDATE_RECIPES_START
-})
-
-export const updateRecipesSuccessful = recipesMap => ({
-    type: RecipeActionTypes.UPDATE_RECIPES_SUCCESSFUL,
-    payload: recipesMap
-})
-
-export const updateRecipesFailure = errorMsg => ({
-    type: RecipeActionTypes.UPDATE_RECIPES_FAILURE,
-    payload: errorMsg
-})
-
-export const updateRecipesStartAsync = () => {
+export const updateRecipesAsync = () => {
     return dispatch => {
-
-        const recipesRef = firestore.collection('main-recipes');
-        dispatch(updateRecipesStart());
-
-        recipesRef
-        .get()
-        .then(
-            snapshot => {
-                const recipesMap = convertRecipesSnapshotToMap(snapshot);
-                dispatch(updateRecipesSuccessful(recipesMap));
-            }
-        )
-        .catch(error => dispatch(updateRecipesFailure(error.message)));
+        dispatch({ type: RecipeActionTypes.UPDATE_RECIPES_START });
+        getAllRecipes().then( data =>{
+            if(data instanceof Error) {
+                dispatch({
+                    type: RecipeActionTypes.UPDATE_RECIPES_FAILURE,
+                    payload: data
+                })
+              } else {
+                dispatch({
+                    type: RecipeActionTypes.UPDATE_RECIPES_SUCCESSFUL,
+                    payload: data
+                })
+              }
+        })
     }
 }
