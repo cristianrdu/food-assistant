@@ -47,7 +47,9 @@ export const selectHistoryFrequencyList = createSelector(
   [selectCurrentUser],
   currentUser => currentUser && currentUser.recipeHistory ?  
   
-  collateFrequencyLists(currentUser.recipeHistory
-    .reduce((acc, userHistoryElement) => (acc.push(userHistoryElement.ingredFrequency), acc), []))
+  collateFrequencyLists(
+    currentUser.recipeHistory
+    .reduce((acc, userHistoryElement) => (acc.push(userHistoryElement.ingredFrequency), acc), [])
+    )
   : undefined
 );

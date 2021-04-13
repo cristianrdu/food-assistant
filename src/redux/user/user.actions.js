@@ -9,7 +9,6 @@ export const setCurrentUser = user => ({
 });
 
 export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, ingred) => {
-  // console.log('test:',id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes);
   return (dispatch, getState)=> {
     dispatch({
       type: UserActionTypes.ADD_USER_HISTORY_START
@@ -29,7 +28,6 @@ export const addToUserHistory = (id, img, desc, recipeName, instructNotes, ingre
     const userRef = firestore.collection("users").doc(user.currentUser.id);
     userRef.get()
     .then((doc) => {
-      //TODO, add single recipe history frequency list
         const userData = doc.data();
         historyData = userData.recipeHistory;
         const frequencyLists = singleIngredListFrequency(ingred, userData.ingredFrequencyList);

@@ -131,11 +131,7 @@ export const singleIngredListFrequency = (ingredientList, frequencyList) => {
 
 export const collateFrequencyLists = (frequencyLists) => {
     let accumulatorList = getEmptyFrequencyList();
-    let freqLists = frequencyLists;
-
-    if (freqLists.length > 3) {
-        freqLists = freqLists.slice(0,3);
-    }
+    let freqLists = frequencyLists.length > 3 ? frequencyLists : frequencyLists.slice(0,3)
     
     freqLists.forEach(list => {
         for(let j = 0; j < accumulatorList.length; j++){
@@ -143,8 +139,10 @@ export const collateFrequencyLists = (frequencyLists) => {
         }
     })
     
+    // Slice controls how many ingredients to include in the returned list
     return accumulatorList
     .sort((a,b) => (a.frequency < b.frequency) ? 1 : -1)
     .filter(ingredFrequency => ingredFrequency.frequency !== 0)
-    .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), []);
+    .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), [])
+    .slice(0,3);
 }

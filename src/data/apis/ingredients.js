@@ -1,5 +1,4 @@
 import axios from "axios";
-import {sleep} from '../data.utils';
 
 export const searchIngredients = async (input) => {
     const options = {
@@ -14,15 +13,12 @@ export const searchIngredients = async (input) => {
 
     let returnedData;
     
-    axios.request(options).then((response) => {
-        returnedData = response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
+    return axios.request(options).then((response) => {
+        return returnedData = response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
     }).catch( (error) => {
         returnedData = error;
     });
     
-    await sleep();
-    
-    return returnedData;
 }
 
 export default searchIngredients;
