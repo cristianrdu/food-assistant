@@ -105,28 +105,26 @@ export const convertRecipesSnapshotToMap = (recipes) => {
   });
 };
 
-export const fetchSearchQueryResults = (queryParams) => {
+export const fetchSearchQueryResults = async (queryParams) => {
 
   const data = [];
 
   const parsedQueryParams = generateIngredientKeywords(queryParams.map(param => param.toLowerCase()));
   
-  const recipeRef = firestore.collection('main-recipes');
-
-  return recipeRef
-  .where('ingredKeywords', 'array-contains-any', parsedQueryParams).get()
-  .then(
-    (doc) => {
-      doc.forEach( obj => {    
-        data.unshift(obj.data());    
-      })
-    })
-  .then(() => {return data;})
-  .catch(err => console.log("ERROR: ",err.message))
+  try {
+    const doc = await firestore.collection('main-recipes')
+      .where('ingredKeywords', 'array-contains-any', parsedQueryParams).get();
+    doc.forEach(obj => {
+      data.unshift(obj.data());
+    });
+    return data;
+  } catch (err) {
+    return console.log("ERROR: ", err.message);
+  }
     
 };
 
-export const getRandomRecipes = async (days) => {
+export const generateMealPlan = async (days) => {
   const mealTypes = ['dinner','lunch','breakfast'];
   const promises = [];
   const recipes = firestore.collection("main-recipes");
@@ -177,11 +175,6 @@ export const getRandomRecipes = async (days) => {
   })
 };
 
-export const updateMealPlan = (userId, mealPlan) => {
-  const userRef = firestore.collection("users").doc(userId)
-  userRef.update({ mealPlan })
-  .catch(err => { console.log('ERR', err)});
-};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

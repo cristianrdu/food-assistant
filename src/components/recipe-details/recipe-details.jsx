@@ -45,7 +45,7 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
     };
     
     const handleSubmit = async () => {
-        addToUserHistory(id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, ingred);
+        addToUserHistory({id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes}, ingred);
         setModalOpen(false)
         setAlert({severity:'success',message:'Recipe successfully added to history.',open:true});
     };
@@ -157,8 +157,8 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
 }
 //need to fix order
 const mapDispatchToProps = dispatch => ({
-    addToUserHistory: (id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, ingred) => 
-    dispatch(addToUserHistory(id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes, ingred, dispatch))
+    addToUserHistory: (historyData, ingred) => 
+    dispatch(addToUserHistory(historyData, ingred, dispatch))
 });
 
 const mapStateToProps = (state, ownProps) =>({ 
