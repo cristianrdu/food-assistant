@@ -53,7 +53,6 @@ export default function SignInPage() {
 
   const handleChange = event => {
     const { value, name } = event.target;
-    console.log(value);
     setCredentials({...userCredentials, [name]: value });
   };
 

@@ -46,7 +46,6 @@ export const HistoryCard = ({history, recipeData}) => {
 
   const { addedAt, id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes} = recipeData;
   
-  console.log(instructNotes, ingredNotes, additionalNotes);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };

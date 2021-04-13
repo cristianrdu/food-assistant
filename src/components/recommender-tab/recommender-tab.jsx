@@ -19,7 +19,6 @@ const RecentsListLoader = SpinningLoader(RecentsList);
 const RecommenderTab = ({allTimeUpdated, recentsUpdated}) => {
     const [currentTab, setCurrentTab] = useState(0);
 
-    console.log("test",allTimeUpdated,recentsUpdated)
     const changeCurrentTab = (event, newValue) => {
       setCurrentTab(newValue);
     };
