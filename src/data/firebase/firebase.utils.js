@@ -124,58 +124,6 @@ export const fetchSearchQueryResults = async (queryParams) => {
     
 };
 
-export const generateMealPlan = async (days) => {
-  const mealTypes = ['dinner','lunch','breakfast'];
-  const promises = [];
-  const recipes = firestore.collection("main-recipes");
-  let data = [];
-  
-  for(let i = 0; i < days; i++){
-    mealTypes.forEach(mealType => {
-      let key = recipes.doc().id;
-      let promise = recipes
-      .where('mealType','==', mealType)
-      .where(firebase.firestore.FieldPath.documentId(), '>=', key).limit(1).get()
-      .then(snapshot => {
-        if(snapshot.size > 0) {
-          snapshot.forEach(doc => {
-            data.push({id: doc.id, recipe: doc.data()});
-          });
-          return;
-        } else {
-          recipes
-          .where('mealType','==', mealType)
-          .where(firebase.firestore.FieldPath.documentId(), '<', key).limit(1).get()
-          .then(snapshot => {
-            snapshot.forEach(doc => {
-              data.push({id: doc.id, recipe: doc.data()});
-            });
-            return;
-          })
-          .catch(err => {
-            console.log('Error getting documents', err);
-          });
-        }
-        })
-        .catch(err => {
-          console.log('Error getting documents', err);
-        });
-        promises.push(promise)
-      })
-      
-  }
-
-  await sleep();
-
-  return Promise.all(promises).then(() => {
-    return data;
-  })
-  .catch(err => {
-    console.log(err);
-  })
-};
-
-
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 

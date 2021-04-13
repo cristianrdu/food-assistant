@@ -1,5 +1,5 @@
 import { RecommenderActionTypes } from './recommender.types';
-import { searchRecipes } from '../../data/firebase/recipe.utils';
+import { searchRecipes } from '../../data/firebase/crud.utils';
 
 export const fetchAllTimeSearchResults = (queryParams) => {
   return (dispatch) => {

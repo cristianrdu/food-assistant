@@ -1,4 +1,4 @@
-import { getAllRecipes } from '../../data/firebase/recipe.utils';
+import { getAllRecipes } from '../../data/firebase/crud.utils';
 import RecipeActionTypes from './recipe.types';
 
 export const updateRecipesAsync = () => {
