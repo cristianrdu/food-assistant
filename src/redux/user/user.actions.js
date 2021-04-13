@@ -1,6 +1,6 @@
 import { UserActionTypes } from './user.types';
 import { sortRecipesByDay } from '../../data/data.utils';
-import { postRecipeToUserHistory, updateMealPlan, generateMealPlan } from '../../data/firebase/crud.utils';
+import { postRecipeToUserHistory, updateMealPlan, generateMealPlan, getUserComments } from '../../data/firebase/crud.utils';
 
 export const setCurrentUser = user => ({
   type: UserActionTypes.SET_CURRENT_USER,
@@ -53,3 +53,24 @@ export const setMealPlan = (days) => {
     
   }
 };
+
+export const getComments = () => {
+  return (dispatch, getState) => {
+      const {user} = getState();
+      dispatch({ type: UserActionTypes.GET_USER_COMMENTS_START});
+      getUserComments(user.currentUser.id)
+      .then( data => {
+          dispatch({ 
+              type: UserActionTypes.GET_USER_COMMENTS_SUCCESSFUL,
+              payload: data
+          })
+      })
+      .catch( error => {
+          console.log(error);
+          dispatch({
+              type: UserActionTypes.GET_USER_COMMENTS_FAILURE,
+              payload: error
+          })
+      })
+  }
+}

@@ -62,3 +62,11 @@ export const sortRecipesByDay = (recipes) => {
 
   return data;
 }
+
+export const dateFormat = {
+  hour: "numeric",
+  minute: "numeric",
+  year: "numeric",
+  month: "long",
+  day: "2-digit"
+}

@@ -30,3 +30,8 @@ export const selectIsRecipeUpdated = createSelector(
   [selectRecipeData],
   recipeData => !!recipeData.recipes
 );
+
+export const selectRecipeComments = createSelector(
+  [selectRecipeData],
+  recipeData => recipeData.comments
+)

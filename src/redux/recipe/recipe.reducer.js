@@ -1,8 +1,11 @@
+import RecipesActionTypes from './recipe.types';
 import RecipeActionTypes from './recipe.types';
 
 const INITIAL_STATE = {
   recipes: null,
   isUpdating: false,
+  comments: null,
+  commentsLoading: false,
   errorMsg: undefined
 };
 
@@ -23,6 +26,28 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isUpdating: false,
+        errorMsg: action.payload
+      }
+    case RecipeActionTypes.POST_COMMENT_FAILURE:
+      return {
+        ...state,
+        errorMsg: action.payload
+      }
+    case RecipeActionTypes.GET_RECIPE_COMMENTS_START:
+      return {
+        ...state,
+        commentsLoading: true
+      }
+    case RecipesActionTypes.GET_RECIPE_COMMENTS_SUCCESSFUL:
+      return {
+        ...state,
+        commentsLoading: false,
+        comments: action.payload
+      }
+    case RecipesActionTypes.GET_RECIPE_COMMENTS_FAILURE:
+      return{
+        ...state,
+        commentsLoading: false,
         errorMsg: action.payload
       }
     default:

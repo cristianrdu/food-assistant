@@ -1,17 +1,13 @@
 import firebase from 'firebase/app';
 import { firestore, convertRecipesSnapshotToMap } from './firebase.utils';
 import { singleIngredListFrequency } from '../recommender';
-import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep} from '../data.utils';
+import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat} from '../data.utils';
+
+// Users
 
 export const postRecipeToUserHistory = async (data, recipeIngredients, userId) => {
 
-    const addedAt = new Intl.DateTimeFormat("en-GB", {
-      hour: "numeric",
-      minute: "numeric",
-      year: "numeric",
-      month: "long",
-      day: "2-digit"
-    }).format(new Date());
+    const addedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
 
     const userRef = firestore.collection("users").doc(userId)
     try {
@@ -31,6 +27,8 @@ export const updateMealPlan = (userId, mealPlan) => {
   userRef.update({ mealPlan })
   .catch(err => { console.log('ERR', err)});
 };
+
+// Recipes
 
 export const searchRecipes = async (queryParams) => {
   const parsedQueryParams = generateIngredientKeywords(queryParams.map(param => param.toLowerCase()));
@@ -110,5 +108,56 @@ export const generateMealPlan = async (days) => {
   })
   .catch(err => {
     console.log(err);
+  })
+};
+
+// Comments
+
+export const postCommentToRecipe = async (data) => {
+  const addedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
+
+  return firestore.collection('recipes').doc(data.recipeId).get()
+  .then( doc => {
+    if(!doc.exists){
+      console.log({error: 'Recipe not found'});
+    }
+    return firestore.collection('comments')
+    .add({...data, addedAt});
+  })
+  .catch( err => console.log(err));
+};
+
+export const getRecipeComments = async (recipeId) => {
+  return firestore.collection('comments')
+  .get()
+  .where('recipeId','==', recipeId)
+  .then( snapshot => {
+    snapshot.forEach( doc => { return doc.data();});
+  })
+  .catch( error => {
+    console.log(error);
+    return error;
+  })
+};
+
+export const getUserComments = async (userId) => {
+  return firestore.collection('comments')
+  .get()
+  .where('userId','==', userId)
+  .then( snapshot => {
+    snapshot.forEach( doc => { return doc.data();});
+  })
+  .catch( error => {
+    console.log(error);
+    return error;
+  })
+};
+
+export const deleteComment = async (commentId) => {
+  return firestore.collection('comments').doc(commentId)
+  .delete()
+  .catch(error => {
+    console.log(error);
+    return error;
   })
 };
