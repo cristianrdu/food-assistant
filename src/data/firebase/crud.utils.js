@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import { firestore, convertRecipesSnapshotToMap } from './firebase.utils';
 import { singleIngredListFrequency } from '../recommender';
-import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat} from '../data.utils';
+import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat, calculateAvrg} from '../data.utils';
 
 // Users
 
@@ -109,6 +109,57 @@ export const generateMealPlan = async (days) => {
   .catch(err => {
     console.log(err);
   })
+};
+
+export const likeRecipe = async (recipeId, userId) => {
+  const likedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
+
+  const userRef = firestore.collection("users").doc(userId)
+  try {
+      const doc = await userRef.get();
+      const userData = doc.data();
+      const userLikes = userData.likes;
+      userRef.update({ likes: [...userLikes, { recipeId, likedAt }]});
+  } catch (err) {
+      console.log('ERROR:', err);
+  }
+
+  const recipeRef = firestore.collection("recipes").doc(recipeId)
+  try {
+      const doc = await recipeRef.get();
+      const recipeData = doc.data();
+      recipeRef.update({ likeCount: recipeData.likeCount ? recipeData.likeCount + 1 : 1});
+  } catch (err) {
+      console.log('ERROR:', err);
+  }
+};
+
+export const rateRecipe = async (recipeId, userId, rating) => {
+  const ratedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
+
+  const userRef = firestore.collection("users").doc(userId)
+  try {
+      const doc = await userRef.get();
+      const userData = doc.data();
+      const userRatings = userData.ratings;
+      userRef.update({ ratings: [...userRatings, { recipeId, ratedAt }]});
+  } catch (err) {
+      console.log('ERROR:', err);
+  }
+
+  const recipeRef = firestore.collection("recipes").doc(recipeId)
+  try {
+      const doc = await recipeRef.get();
+      const recData = doc.data();
+      recipeRef.update({ 
+        averageRating: recData.averageRating ? 
+        (recData.averageRating * recData.ratings + rating) / recData.ratings + 1 : rating, 
+        ratings: recData.ratings ?
+        recData.ratings + 1 : 1
+      });
+  } catch (err) {
+      console.log('ERROR:', err);
+  }
 };
 
 // Comments

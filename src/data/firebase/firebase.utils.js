@@ -33,6 +33,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         email,
         creationDate,
         recipeHistory: [],
+        likes: [],
+        ratings: [],
         ingredFrequencyList,
         ...additionalData
       })
