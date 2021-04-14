@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardHeader, CardMedia, CardContent, CardActions, Button, IconButton, Typography } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+// import ShareIcon from '@material-ui/icons/Share';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ export const RecipeCard = ({ history, match, recipeData}) => {
     const classes = useStyles();
 
     const  {id, recipe, searchKeywords} = recipeData;
-    const { desc, img, recipeName } = recipe;
+    const { img, recipeName } = recipe;
     const recipeUrl = match.url === '/' || match.url === '/suggestions' ? 'recipes/all' : match.url;
     return (
         <div className={classes.card}>
@@ -57,9 +57,9 @@ export const RecipeCard = ({ history, match, recipeData}) => {
                   <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
                   </IconButton>
-                  <IconButton aria-label="share">
+                  {/* <IconButton aria-label="share">
                   <ShareIcon />
-                  </IconButton>
+                  </IconButton> */}
                 </CardActions>
             </Card>
         </div>

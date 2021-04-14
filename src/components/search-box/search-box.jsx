@@ -1,5 +1,5 @@
 import React from 'react'
-import AutoComplete from '../material-ui/auto-complete';
+import AutoComplete from '../auto-complete/auto-complete';
 
 import './search-box.css';
 

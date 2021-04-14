@@ -5,19 +5,11 @@ import { selectRecentsRecommendedRecipes } from '../../redux/recommender/recomme
 
 import RecipeCard from '../recipe-card/recipe-card';
 
-import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(2)
-  }
-}));
 
 const RecentsList = ({ recipes }) => {
   return (
-    <div className='cards'>
+    <div>
       { recipes !== null ?
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
           {recipes.map(recipe => (
@@ -26,7 +18,7 @@ const RecentsList = ({ recipes }) => {
             </Grid>
           ))}
         </Grid>
-        : <Typography>You need to add recipes to history first.</Typography>
+      : <Typography>You need to add recipes to history first.</Typography>
       }
     </div>
   );

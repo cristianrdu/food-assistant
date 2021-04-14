@@ -23,7 +23,7 @@ const RecommenderTab = ({allTimeUpdated, recentsUpdated}) => {
 
     return (
         <div>
-            <Tabs textColor="secondary" value={currentTab} onChange={changeCurrentTab}>
+            <Tabs textColor="secondary" value={currentTab} variant="scrollable" onChange={changeCurrentTab}>
                 <Tab label="All-time top ingredients" id = 'tab-All Time Ingredients'/>
                 <Tab label="Recently used ingredients" id = 'tab-Recent Ingredients' />
               </Tabs>

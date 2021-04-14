@@ -10,11 +10,9 @@ import { selectSearchRecipes } from '../../redux/search/search.selectors';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'grid',
-  
     padding: '20px',
     gridGap: '40px',
     flexGrow: 1,
-    padding: theme.spacing(2)
   }
 }));
 

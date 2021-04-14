@@ -2,10 +2,9 @@ import React,{useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import { fetchSearchQueryResults, setSearchToOff } from '../../redux/search/search.actions';
 
-import TextField from "@material-ui/core/TextField";
+import { TextField, CircularProgress } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import searchIngredients from '../../data/apis/ingredients';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
 

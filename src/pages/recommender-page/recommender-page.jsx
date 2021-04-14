@@ -11,14 +11,7 @@ import MealPlan from '../../components/meal-plan/meal-plan';
 import RecommenderTab from '../../components/recommender-tab/recommender-tab';
 
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Slider from '@material-ui/core/Slider';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, makeStyles, AppBar, Tabs, Tab, Slider, Chip, Paper } from '@material-ui/core';
 import TabPanel from '../../components/material-ui/tab-panel';
 
 TabPanel.propTypes = {

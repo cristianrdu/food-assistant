@@ -9,7 +9,7 @@ import { Grid, Typography } from '@material-ui/core/'
 
 const AllTimeList = ({ recipes }) => {
   return (
-    <div className='cards'>
+    <div>
       { recipes !== null ?
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
           {recipes.map(recipe => (
