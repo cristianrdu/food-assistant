@@ -1,27 +1,20 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
+import { selectCommentsLoading, selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
+import { getComments } from '../../redux/recipe/recipe.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { addToUserHistory } from '../../redux/user/user.actions';
+import CommentSection from '../comment-section/comment-section';
+import SpinningLoader from '../loader/loader';
 
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-
-import { makeStyles } from '@material-ui/core/styles';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Typography } from '@material-ui/core';
+import { Button, TextField, makeStyles, 
+    CardMedia, CardHeader, Paper, Grid, Dialog, DialogActions,
+    DialogContent, DialogContentText, DialogTitle, Snackbar } from '@material-ui/core';
 
 // https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
+
+const CommentSectionLoader = SpinningLoader(CommentSection);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,7 +53,7 @@ const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
+const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, commentsLoading}) => {
     const classes = useStyles();
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -71,6 +64,10 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
 
     const { recipe, id } = recipeData;
     const { desc, img, recipeName, ingred, instruct } = recipe;
+
+    useEffect(() => {
+        getComments(id);
+    }, [])
 
     const handleClickOpen = () => {
         if(currentUser) 
@@ -119,22 +116,9 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
         <div >
             <Grid container spacing={2} className={classes.root}>
                 <Grid item xs={12} sm={4}>
-                    {/* <Paper component="ul" className={classes.paperLeft}>
-                        <h3>{recipeName}</h3>
-                        <p>{desc}</p>
-                    </Paper> */}
-                    <Paper component="ul" className={classes.paperLeft}>
-                        {/* <img className={classes.img} src={img} alt=''/> */}
-                        
-                        <CardHeader 
-                            className={classes.title}
-                            title={recipeName}
-                            subheader={desc}
-                        />
-                        <CardMedia
-                            className={classes.media}
-                            image={img}
-                        />
+                    <Paper component="ul" className={classes.paperLeft}>                    
+                        <CardHeader className={classes.title} title={recipeName} subheader={desc}/>
+                        <CardMedia className={classes.media} image={img} />
                     </Paper>
                     <Paper component="ul" className={classes.paperButtons}>
                         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -161,15 +145,9 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
                     </Paper>
                 </Grid>
                 <Grid item xs=  {12} sm={3}>
-                    <Paper className={classes.paper}>
-                        <Typography>Recipe comments:</Typography>
-                    </Paper>
-
+                    <CommentSectionLoader isLoading={commentsLoading} recipeId={id}/>
                 </Grid>
-                
-
             </Grid>
-
             <Dialog open={modalOpen} onClose={handleModalClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add Recipe to History</DialogTitle>
                 <DialogContent>
@@ -210,7 +188,6 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
                 </Button>
                 </DialogActions>
             </Dialog>
-
             <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleAlertClose}>
                 <Alert onClose={handleAlertClose} severity={alert.severity}>
                     {alert.message}
@@ -220,15 +197,16 @@ const RecipeDetails = ({recipeData, currentUser, addToUserHistory}) => {
         </div>
     )
 }
-//need to fix order
+
 const mapDispatchToProps = dispatch => ({
-    addToUserHistory: (historyData, ingred) => 
-    dispatch(addToUserHistory(historyData, ingred, dispatch))
+    addToUserHistory: (historyData, ingred) => dispatch(addToUserHistory(historyData, ingred, dispatch)),
+    getComments: (recipeId) => dispatch(getComments(recipeId, dispatch)),
 });
 
 const mapStateToProps = (state, ownProps) =>({ 
     recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state),
-    currentUser: selectCurrentUser(state)
+    currentUser: selectCurrentUser(state),
+    commentsLoading: selectCommentsLoading(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetails);

@@ -20,6 +20,7 @@ import { withRouter } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 420,
+    borderRadius: '10px',
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.18)'
   },
   title: {

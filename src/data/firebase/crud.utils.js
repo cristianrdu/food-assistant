@@ -165,25 +165,28 @@ export const rateRecipe = async (recipeId, userId, rating) => {
 // Comments
 
 export const postCommentToRecipe = async (data) => {
-  const addedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
-
-  return firestore.collection('recipes').doc(data.recipeId).get()
+  const createdAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
+  return firestore.collection('main-recipes').doc(data.recipeId).get()
   .then( doc => {
     if(!doc.exists){
       console.log({error: 'Recipe not found'});
+      return 'err';
     }
     return firestore.collection('comments')
-    .add({...data, addedAt});
+    .add({...data, createdAt});
   })
   .catch( err => console.log(err));
 };
 
 export const getRecipeComments = async (recipeId) => {
   return firestore.collection('comments')
-  .get()
   .where('recipeId','==', recipeId)
+  .get()
   .then( snapshot => {
-    snapshot.forEach( doc => { return doc.data();});
+    const comments = [];
+    snapshot.forEach( doc => {
+      comments.push({id: doc.id, data: doc.data()});});
+    return comments;
   })
   .catch( error => {
     console.log(error);
@@ -193,8 +196,8 @@ export const getRecipeComments = async (recipeId) => {
 
 export const getUserComments = async (userId) => {
   return firestore.collection('comments')
-  .get()
   .where('userId','==', userId)
+  .get()
   .then( snapshot => {
     snapshot.forEach( doc => { return doc.data();});
   })

@@ -25,7 +25,10 @@ export const postComment = data => {
         dispatch({ type: RecipeActionTypes.POST_COMMENT_START});
         postCommentToRecipe(data)
         .then(
-            dispatch({ type: RecipeActionTypes.POST_COMMENT_SUCCESSFUL })
+            dispatch({ 
+                type: RecipeActionTypes.POST_COMMENT_SUCCESSFUL, 
+                payload: {data: {...data, createdAt: 'just now'}, id: ''}
+            })
         )
         .catch(
             error => {

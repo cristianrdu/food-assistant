@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   recipes: null,
   isUpdating: false,
   comments: null,
-  commentsLoading: false,
+  commentsLoading: true,
   errorMsg: undefined
 };
 
@@ -45,10 +45,16 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
         comments: action.payload
       }
     case RecipesActionTypes.GET_RECIPE_COMMENTS_FAILURE:
-      return{
+      return {
         ...state,
         commentsLoading: false,
         errorMsg: action.payload
+      }
+    case RecipeActionTypes.POST_COMMENT_SUCCESSFUL:
+      return {
+        ...state,
+        commentsLoading: false,
+        comments: [...state.comments, action.payload]
       }
     default:
       return state;

@@ -35,3 +35,8 @@ export const selectRecipeComments = createSelector(
   [selectRecipeData],
   recipeData => recipeData.comments
 )
+
+export const selectCommentsLoading = createSelector(
+  [selectRecipeData],
+  recipeData => recipeData.commentsLoading
+)
