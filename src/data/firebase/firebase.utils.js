@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { sleep, generateIngredientKeywords } from '../data.utils';
+import { generateIngredientKeywords } from '../data.utils';
 import { getEmptyFrequencyList } from '../recommender';
 
 const config = {

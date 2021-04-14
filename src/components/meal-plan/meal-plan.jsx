@@ -5,13 +5,14 @@ import {createStructuredSelector} from 'reselect';
 
 import RecipeCard from '../recipe-card/recipe-card';
 
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,15 +80,32 @@ const MealPlan = ({mealPlan}) => {
           </Tabs>
         {mealPlan.map(data => 
           (<TabPanel value={value} index={data.day - 1}>
-            {data.breakfast.recipe ? (
-              <RecipeCard key={`day-${data.day}-breakfast`} recipeData={{id: data.breakfast.id, recipe: data.breakfast.recipe}}/>
-            ): null}
-            {data.lunch.recipe ? (
-              <RecipeCard key={`day-${data.day}-lunch`} recipeData={{id: data.lunch.id, recipe: data.lunch.recipe}}/>
-            ): null}
-            {data.dinner.recipe ? (
-              <RecipeCard key={`day-${data.day}-dinner`} recipeData={{id: data.dinner.id, recipe: data.dinner.recipe}}/>
-            ): null}
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={4}>
+                <Paper component='ul'>
+                  <Typography> Breakfast </Typography>
+                  {data.breakfast.recipe ? (
+                        <RecipeCard key={`day-${data.day}-breakfast`} recipeData={{id: data.breakfast.id, recipe: data.breakfast.recipe}}/>
+                  ): null}
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Paper component='ul'>
+                  <Typography> Lunch </Typography>
+                  {data.lunch.recipe ? (
+                    <RecipeCard key={`day-${data.day}-lunch`} recipeData={{id: data.lunch.id, recipe: data.lunch.recipe}}/>
+                  ): null}
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Paper component='ul'>
+                  <Typography> Dinner </Typography>
+                  {data.dinner.recipe ? (
+                    <RecipeCard key={`day-${data.day}-dinner`} recipeData={{id: data.dinner.id, recipe: data.dinner.recipe}}/>
+                  ): null}
+                </Paper>
+              </Grid>
+            </Grid>
           </TabPanel>))
         } 
       </div>

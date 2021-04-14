@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import { selectIngredFrequencyList, selectHistoryFrequencyList } from '../../redux/user/user.selectors';
 import { selectAllTimeUpdated, selectRecentsUpdated } from '../../redux/recommender/recommender.selectors';
 
 import AllTimeList from '../recommender-lists/all-time-list';
@@ -9,7 +8,6 @@ import RecentsList from '../recommender-lists/recents-list';
 import SpinningLoader from '../loader/loader';
 import TabPanel from '../material-ui/tab-panel';
 
-import Box from '@material-ui/core/Box';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 

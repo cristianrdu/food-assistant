@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import { firestore, convertRecipesSnapshotToMap } from './firebase.utils';
 import { singleIngredListFrequency } from '../recommender';
-import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat, calculateAvrg} from '../data.utils';
+import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat } from '../data.utils';
 
 // Users
 

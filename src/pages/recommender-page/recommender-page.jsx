@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: 'center',
     maxWidth: '90vw',
+    margin: 'auto'
   },  
   tabs: {
     flexGrow: 1,
@@ -127,85 +128,83 @@ const RecommenderPage = ({fetchRecentsSearchResults, fetchAllTimeSearchResults, 
   }, [fetchRecentsSearchResults]);
 
   return (
-    <div>
-      <Grid container spacing={2} className={classes.root}>
-        <Grid item xs={12} sm={2} className={classes.leftBar}>
-          <Paper component="ul" className={classes.stats}>
-            {frequencyList && frequencyList.length > 0 ? 
-                [<Typography className={classes.chip}>
-                    Your all-time top ingredients: 
-                </Typography>,
-                frequencyList.map((data) => {
-                    return (
-                    <li key={data}>
-                        <Chip label={data} className={classes.chip} color="secondary"/>
-                    </li>
-                    );
-                })] : <Typography className={classes.chip}>
-                  You need to add recipes to history in order to see your top ingredients used.
-              </Typography>}
-          </Paper>
-          <Paper component="ul" className={classes.stats}>
-            {historyFrequencyList && historyFrequencyList.length > 0 ? 
-                [<Typography className={classes.chip}>
-                    Recently used ingredients: 
-                </Typography>,
-                historyFrequencyList.map((data) => {
-                    return (
-                    <li key={data}>
-                        <Chip label={data} className={classes.chip} color="secondary"/>
-                    </li>
-                    );
-                })] : <Typography className={classes.chip}>
-                  You need to add recipes to history in order to see your recent ingredients used.
-              </Typography>}
-          </Paper>
-          <Paper component="ul" className={classes.daySlider}>
-            <Typography id="discrete-slider" gutterBottom>
-              Nr. of days in Meal Plan
-            </Typography>
-            <Slider
-              defaultValue={nrDaysMealPlan * 20}
-              valueLabelFormat={valueLabelFormat}
-              aria-labelledby="discrete-slider"
-              step={null}
-              onChange={setMealPlanDays}
-              valueLabelDisplay="auto"
-              marks={sliderMarks}
-            />
-            <Button 
-            className={classes.sliderButton} 
-            variant="contained" 
-            color="secondary" 
-            onClick={() => setMealPlan(days)}
-            >
-              Generate
-            </Button>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={10}>
-          <div className={classes.tabs}>
-            <AppBar position="static" className={classes.appBar} >
-              <Tabs 
-                textColor="primary"
-                value={currentTab} 
-                onChange={changeCurrentTab} 
-              >
-                <Tab className={classes.tab} label="Suggestions" id = 'tab-Suggestions'/>
-                <Tab className={classes.tab} label="Meal Plan" id = 'tab-Meal Plan' />
-              </Tabs>
-            </AppBar>
-            <TabPanel value={currentTab} index={0}>
-              <RecommenderTab/>
-            </TabPanel>
-            <TabPanel value={currentTab} index={1}>
-              {mealPlanFetched ? 
-              <MealPlan/> : <Typography>You don't have a meal plan set up yet.</Typography>}
-            </TabPanel>
-          </div>
-        </Grid>
+    <Grid container spacing={2} className={classes.root}>
+      <Grid item xs={12} sm={2} className={classes.leftBar}>
+        <Paper component="ul" className={classes.stats}>
+          {frequencyList && frequencyList.length > 0 ?  
+              [<Typography className={classes.chip}>
+                  Your all-time top ingredients: 
+              </Typography>,
+              frequencyList.map((data) => {
+                  return (
+                  <li key={data}>
+                      <Chip label={data} className={classes.chip} color="secondary"/>
+                  </li>
+                  );
+              })] : <Typography className={classes.chip}>
+                You need to add recipes to history in order to see your top ingredients used.
+            </Typography>}
+        </Paper>
+        <Paper component="ul" className={classes.stats}>
+          {historyFrequencyList && historyFrequencyList.length > 0 ? 
+              [<Typography className={classes.chip}>
+                  Recently used ingredients: 
+              </Typography>,
+              historyFrequencyList.map((data) => {
+                  return (
+                  <li key={data}>
+                      <Chip label={data} className={classes.chip} color="secondary"/>
+                  </li>
+                  );
+              })] : <Typography className={classes.chip}>
+                You need to add recipes to history in order to see your recent ingredients used.
+            </Typography>}
+        </Paper>
+        <Paper component="ul" className={classes.daySlider}>
+          <Typography id="discrete-slider" gutterBottom>
+            Nr. of days in Meal Plan
+          </Typography>
+          <Slider
+            defaultValue={nrDaysMealPlan * 20}
+            valueLabelFormat={valueLabelFormat}
+            aria-labelledby="discrete-slider"
+            step={null}
+            onChange={setMealPlanDays}
+            valueLabelDisplay="auto"
+            marks={sliderMarks}
+          />
+          <Button 
+          className={classes.sliderButton} 
+          variant="contained" 
+          color="secondary" 
+          onClick={() => setMealPlan(days)}
+          >
+            Generate
+          </Button>
+        </Paper>
       </Grid>
-    </div>
+      <Grid item xs={12} sm={10}>
+        <div className={classes.tabs}>
+          <AppBar position="static" className={classes.appBar} >
+            <Tabs 
+              textColor="primary"
+              value={currentTab} 
+              onChange={changeCurrentTab} 
+            >
+              <Tab className={classes.tab} label="Suggestions" id = 'tab-Suggestions'/>
+              <Tab className={classes.tab} label="Meal Plan" id = 'tab-Meal Plan' />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={currentTab} index={0}>
+            <RecommenderTab/>
+          </TabPanel>
+          <TabPanel value={currentTab} index={1}>
+            {mealPlanFetched ? 
+            <MealPlan/> : <Typography>You don't have a meal plan set up yet.</Typography>}
+          </TabPanel>
+        </div>
+      </Grid>
+    </Grid>
   )
 }
 

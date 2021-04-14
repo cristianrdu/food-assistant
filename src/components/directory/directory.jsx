@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     minWidth: '90vw',
-    width: '100%',
+    width: '95%',
     justifyContent: 'space-between'
   },
   image: {
