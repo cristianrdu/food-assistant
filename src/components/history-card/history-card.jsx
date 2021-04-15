@@ -46,7 +46,7 @@ export const HistoryCard = ({history, recipeData}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
-  const { addedAt, id, img, desc, recipeName, instructNotes, ingredNotes, additionalNotes} = recipeData;
+  const { addedAt, id, img, recipeName, instructNotes, ingredNotes, additionalNotes} = recipeData;
   
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -71,16 +71,21 @@ export const HistoryCard = ({history, recipeData}) => {
         </IconButton>
       {
         instructNotes || ingredNotes || additionalNotes ?
-      (<IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>)
+        (<React.Fragment>
+
+          <Typography color='primary' style={{marginLeft:'24%'}}>Notes available</Typography> 
+          <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+        </React.Fragment>
+        )
         :null
       } 
       </CardActions>

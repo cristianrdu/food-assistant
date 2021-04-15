@@ -24,12 +24,12 @@ export const postComment = data => {
     return dispatch => {
         dispatch({ type: RecipeActionTypes.POST_COMMENT_START});
         postCommentToRecipe(data)
-        .then(
+        .then( id => {
             dispatch({ 
                 type: RecipeActionTypes.POST_COMMENT_SUCCESSFUL, 
-                payload: {data: {...data, createdAt: 'just now'}, id: ''}
+                payload: {data: {...data, createdAt: 'just now'}, id}
             })
-        )
+        })
         .catch(
             error => {
                 console.log(error);
@@ -47,7 +47,10 @@ export const deleteRecipeComment = commentId => {
         dispatch({ type: RecipeActionTypes.DELETE_COMMENT_START});
         deleteComment(commentId)
         .then(
-            dispatch({ type: RecipeActionTypes.DELETE_COMMENT_SUCCESSFUL })
+            dispatch({ 
+                type: RecipeActionTypes.DELETE_COMMENT_SUCCESSFUL,
+                payload: commentId
+            })
         )
         .catch(
             error => {

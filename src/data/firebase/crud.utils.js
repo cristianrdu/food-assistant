@@ -173,7 +173,8 @@ export const postCommentToRecipe = async (data) => {
       return 'err';
     }
     return firestore.collection('comments')
-    .add({...data, createdAt});
+    .add({...data, createdAt})
+    .then(docRef => {return docRef.id});
   })
   .catch( err => console.log(err));
 };

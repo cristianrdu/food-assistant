@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectRecipeComments } from '../../redux/recipe/recipe.selectors';
-import { postComment } from '../../redux/recipe/recipe.actions';
+import { postComment, deleteRecipeComment } from '../../redux/recipe/recipe.actions';
 
-import { Button, Paper, Divider, List, makeStyles, TextField } from '@material-ui/core/';
-
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import { Grid, Button, Paper, Divider, List, makeStyles, TextField, Typography } from '@material-ui/core/';
 
 const useStyles = makeStyles(() => ({
     commentSection: { 
         padding: "10px 10px",
-        marginTop: 10, 
+        margin: 10, 
     },
     title: {
-        marginBottom: 10,
+        marginBottom: 10
     },
     commentList: {
         height: '50vh', 
         maxHeight: '80vh', 
         overflow: 'auto'
+    },
+    comment:{
+        marginBottom: "20px",
+        marginLeft: "10px", 
+        width: '95%'
     },
     form: {
         width: '100%', 
@@ -26,10 +31,10 @@ const useStyles = makeStyles(() => ({
     },
     button: {
         marginTop: '10px',
-    }
+    },
   }));
 
-const CommentSection = ({comments, postComment, recipeId, currentUser }) => {
+const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRecipeComment}) => {
     
     const classes = useStyles();
     const [formInput, setFormInput] = useState('');
@@ -43,17 +48,20 @@ const CommentSection = ({comments, postComment, recipeId, currentUser }) => {
         event.preventDefault();
         
         if (currentUser) {
-            postComment({
-                content: formInput,
-                recipeId, 
-                userName: currentUser.displayName, 
-                userId: currentUser.id 
-            }) 
-            setFormValue('');
+            if (formInput.trim()) {
+                postComment({
+                    content: formInput,
+                    recipeId, 
+                    userName: currentUser.displayName, 
+                    userId: currentUser.id 
+                }) 
+                setFormValue('');
+            } else {
+                alert("There are only spaces in the comment.");
+            }
         } else {
             alert("You need to log in first.")
         }
-        
     };
 
     return (
@@ -61,18 +69,27 @@ const CommentSection = ({comments, postComment, recipeId, currentUser }) => {
         <Paper className={classes.commentSection}>
             <h3 className={classes.title}>Comment Section</h3>
             <List className={classes.commentList} >
-                { comments.sort((a, b) => { return (a.data.createdAt > b.data.createdAt) ? 1 : -1 }).map(comment =>  
-                <React.Fragment>
-                    <h4 style={{ margin: 0, textAlign: "left" }}>{comment.data.userName}</h4>
-                    <p style={{ textAlign: "left" }}>
-                    {comment.data.content}{" "}
-                    </p>
-                    <p style={{ textAlign: "left", color: "gray" }}>
-                    posted: {comment.data.createdAt}
-                    </p>
-                    <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-                </React.Fragment>
-                )
+                { comments.length > 0 ?
+                comments.sort((a, b) => { return (a.data.createdAt > b.data.createdAt) ? 1 : -1 }).map(comment =>  
+                <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" className={classes.comment}>
+                    <Grid item xs={11}>
+                        <h4 style={{ margin: 0, textAlign: "left" }}>{comment.data.userName}</h4>
+                        <p style={{ textAlign: "left" }}>
+                        {comment.data.content}{" "}
+                        </p>
+                        <p style={{ textAlign: "left", color: "gray" }}>
+                        posted: {comment.data.createdAt}
+                        </p>
+                        <Divider variant="fullWidth"  />
+                    </Grid>
+                    <Grid item xs={1}>
+                        {currentUser.id == comment.data.userId ?
+                        <DeleteForeverRoundedIcon  onClick={() => {deleteRecipeComment(comment.id)}}/>
+                        : undefined
+                        }
+                    </Grid>
+                </Grid>
+                ) : <Typography>There are no comments for this recipe yet.</Typography>
                 }
             </List>
             <form className={classes.form} onSubmit={handleSubmit}>
@@ -99,7 +116,8 @@ const CommentSection = ({comments, postComment, recipeId, currentUser }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    postComment: (data) => dispatch(postComment(data, dispatch))
+    postComment: (data) => dispatch(postComment(data, dispatch)),
+    deleteRecipeComment: (id) => dispatch(deleteRecipeComment(id, dispatch))
 });
 
 const mapStateToProps = (state) =>({ 
