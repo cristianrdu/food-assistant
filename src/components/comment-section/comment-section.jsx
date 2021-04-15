@@ -83,7 +83,7 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                         <Divider variant="fullWidth"  />
                     </Grid>
                     <Grid item xs={1}>
-                        {currentUser.id == comment.data.userId ?
+                        {currentUser && currentUser.id == comment.data.userId ?
                         <DeleteForeverRoundedIcon  onClick={() => {deleteRecipeComment(comment.id)}}/>
                         : undefined
                         }

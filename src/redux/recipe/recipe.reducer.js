@@ -1,5 +1,4 @@
 import RecipesActionTypes from './recipe.types';
-import RecipeActionTypes from './recipe.types';
 
 const INITIAL_STATE = {
   recipes: null,
@@ -11,29 +10,39 @@ const INITIAL_STATE = {
 
 const recipeDataReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case RecipeActionTypes.UPDATE_RECIPES_START:
+    case RecipesActionTypes.ADD_RECIPE_SUCCESSFUL:
+      return {
+        ...state,
+        recipes: [...state.recipes, action.payload]
+      }
+    case RecipesActionTypes.ADD_RECIPE_FAILURE:
+      return {
+        ...state,
+        errorMsg: action.payload
+      }
+    case RecipesActionTypes.UPDATE_RECIPES_START:
       return {
         ...state,
         isUpdating: true
       }
-    case RecipeActionTypes.UPDATE_RECIPES_SUCCESSFUL:
+    case RecipesActionTypes.UPDATE_RECIPES_SUCCESSFUL:
       return {
         ...state,
         isUpdating: false,
         recipes: action.payload
       }
-    case RecipeActionTypes.UPDATE_RECIPES_FAILURE:
+    case RecipesActionTypes.UPDATE_RECIPES_FAILURE:
       return {
         ...state,
         isUpdating: false,
         errorMsg: action.payload
       }
-    case RecipeActionTypes.POST_COMMENT_FAILURE:
+    case RecipesActionTypes.POST_COMMENT_FAILURE:
       return {
         ...state,
         errorMsg: action.payload
       }
-    case RecipeActionTypes.GET_RECIPE_COMMENTS_START:
+    case RecipesActionTypes.GET_RECIPE_COMMENTS_START:
       return {
         ...state,
         commentsLoading: true
@@ -50,13 +59,13 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
         commentsLoading: false,
         errorMsg: action.payload
       }
-    case RecipeActionTypes.POST_COMMENT_SUCCESSFUL:
+    case RecipesActionTypes.POST_COMMENT_SUCCESSFUL:
       return {
         ...state,
         commentsLoading: false,
         comments: [...state.comments, action.payload]
       }
-    case RecipeActionTypes.DELETE_COMMENT_SUCCESSFUL:
+    case RecipesActionTypes.DELETE_COMMENT_SUCCESSFUL:
       return {
         ...state,
         comments: state.comments.filter(comment => comment.id !== action.payload)

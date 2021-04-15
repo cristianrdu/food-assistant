@@ -83,9 +83,10 @@ export const Header = ({currentUser}) => {
   
   useEffect(() => {
     //HEADER TABS VALUE SETTER CODE SECTION
-    if (window.location.pathname === '/' & value !== false) {
+    if ((window.location.pathname === '/' ||
+    window.location.pathname >= '/recipes/all') & value !== false) {
       setValue(false);
-    } else if (window.location.pathname === '/recipes/all' & value !== 0) {
+    } else if (window.location.pathname === '/add-new-recipe' & value !== 0) {
       setValue(0);
     } else if ((window.location.pathname === '/recipe-history' ||
      window.location.pathname === '/sign-in') & value !== 1) {
@@ -113,9 +114,9 @@ export const Header = ({currentUser}) => {
         <Logo className={logo} />
       </Link>
       <Tabs value={value} onChange = {handleChange} className={tabContainer}>
-        <Tab key='RECIPES ALL' className={tab} component={RouterLink} to='/recipes/all' label='Recipes'/>
         {currentUser ? (
           [
+          <Tab key='ADD RECIPE' className={tab} component={RouterLink} to='/add-new-recipe' label='Add Recipe'/>,
           <Tab key='HISTORY' className={tab} component={RouterLink} to='/recipe-history' label='HISTORY'/>,
           <Tab key='SUGGESTIONS' className={tab} component={RouterLink} to='/suggestions' label='SUGGESTIONS'/>,
           <Tab key='SIGN OUT' className={tab} onClick={() => auth.signOut()} label = 'SIGN OUT'/>
@@ -145,12 +146,12 @@ export const Header = ({currentUser}) => {
 
         <Drawer anchor = 'left' open = {drawerOpen} onClose = {handleDrawerClose}>
           <div className={drawerContainer}>
-            <Link component= {RouterLink} to= '/recipes/all' color= 'inherit' key= 'Recipes'>
-              <MenuItem>RECIPES</MenuItem>
-            </Link>
             {
               currentUser ? (
                 [
+                <Link component= {RouterLink} to= '/add-new-recipe' color= 'inherit' key= 'Add Recipe'>
+                  <MenuItem>ADD RECIPES</MenuItem>
+                </Link>,
                 <Link component= {RouterLink} to= '/recipe-history' color= 'inherit' key= 'History'>
                   <MenuItem>HISTORY</MenuItem>
                 </Link>,

@@ -1,4 +1,4 @@
-import { getAllRecipes, getRecipeComments, postCommentToRecipe, deleteComment } from '../../data/crud.utils';
+import { getAllRecipes, getRecipeComments, postCommentToRecipe, deleteComment, addRecipes } from '../../data/crud.utils';
 import RecipeActionTypes from './recipe.types';
 
 export const updateRecipesAsync = () => {
@@ -16,6 +16,25 @@ export const updateRecipesAsync = () => {
                     payload: data
                 })
               }
+        })
+    }
+}
+
+export const addRecipe = data => {
+    return dispatch => {
+        dispatch({type: RecipeActionTypes.ADD_RECIPE_START});
+        addRecipes(data)
+        .then(
+            dispatch({
+                type: RecipeActionTypes.ADD_RECIPE_SUCCESSFUL,
+                payload: data
+            })
+        )
+        .catch( error => {
+            dispatch({
+                type: RecipeActionTypes.ADD_RECIPE_FAILURE,
+                payload: error
+            })
         })
     }
 }
