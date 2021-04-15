@@ -4,7 +4,7 @@ import { fetchSearchQueryResults, setSearchToOff } from '../../redux/search/sear
 
 import { TextField, CircularProgress } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import searchIngredients from '../../data/apis/ingredients';
+import { searchIngredients } from '../../data/apis';
 
 export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
 

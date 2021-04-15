@@ -70,3 +70,14 @@ export const dateFormat = {
   month: "long",
   day: "2-digit"
 }
+
+export const convertRecipesSnapshotToMap = (recipes) => {
+  return recipes.docs.map(doc => {
+    const recipe = doc.data();
+    return {
+      routeCategory: recipe.mealType,
+      id: doc.id,
+      recipe
+    };
+  });
+};

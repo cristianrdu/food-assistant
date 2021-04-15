@@ -1,5 +1,5 @@
 import { SearchActionTypes } from './search.types';
-import { searchRecipes } from '../../data/firebase/crud.utils';
+import { searchRecipes } from '../../data/crud.utils';
 
 export const fetchSearchQueryResults = (queryParams) => {
   return (dispatch) => {

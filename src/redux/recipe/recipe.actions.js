@@ -1,4 +1,4 @@
-import { getAllRecipes, getRecipeComments, postCommentToRecipe, deleteComment } from '../../data/firebase/crud.utils';
+import { getAllRecipes, getRecipeComments, postCommentToRecipe, deleteComment } from '../../data/crud.utils';
 import RecipeActionTypes from './recipe.types';
 
 export const updateRecipesAsync = () => {

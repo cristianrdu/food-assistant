@@ -1,6 +1,6 @@
 import { UserActionTypes } from './user.types';
 import { sortRecipesByDay } from '../../data/data.utils';
-import { postRecipeToUserHistory, updateMealPlan, generateMealPlan, getUserComments } from '../../data/firebase/crud.utils';
+import { postRecipeToUserHistory, updateMealPlan, generateMealPlan, getUserComments } from '../../data/crud.utils';
 
 export const setCurrentUser = user => ({
   type: UserActionTypes.SET_CURRENT_USER,

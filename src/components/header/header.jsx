@@ -18,7 +18,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { auth } from '../../data/firebase/firebase.utils';
+import { auth } from '../../data/firebase.utils';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
     
 const ElevationScroll = (props) => {

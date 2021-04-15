@@ -1,9 +1,41 @@
 import firebase from 'firebase/app';
-import { firestore, convertRecipesSnapshotToMap } from './firebase.utils';
-import { singleIngredListFrequency } from '../recommender';
-import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat } from '../data.utils';
+import { firestore } from './firebase.utils';
+
+import { singleIngredListFrequency, getEmptyFrequencyList } from './recommender';
+import { generateIngredientKeywords, addSearchKeywordsForRecipeCard, sleep, dateFormat, convertRecipesSnapshotToMap } from './data.utils';
 
 // Users
+
+export const addUserToFirebase = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const creationDate = new Date();
+    const ingredFrequencyList = getEmptyFrequencyList();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        creationDate,
+        recipeHistory: [],
+        likes: [],
+        ratings: [],
+        ingredFrequencyList,
+        ...additionalData
+      })
+    } catch (error) {
+      console.log('error creating user', error.message);
+    }
+
+  }
+
+  return userRef;
+};
 
 export const postRecipeToUserHistory = async (data, recipeIngredients, userId) => {
 
@@ -109,6 +141,55 @@ export const generateMealPlan = async (days) => {
   .catch(err => {
     console.log(err);
   })
+};
+
+export const addRecipes = async (collectionKey, recipesData) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch();
+  if(Array.isArray(recipesData)) {
+    recipesData.forEach(data => {
+      const newDocRef = collectionRef.doc();
+      batch.set(newDocRef, data);
+    });
+  } else {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, recipesData);
+  }
+
+  return await batch.commit();
+};
+
+export const addCookbookioDataToDB = () => {
+  const recipes = []
+  var db = firestore.collection("cookbookio-recipes") 
+  db
+  .get()
+  .then((querySnapshot) => {
+      querySnapshot.forEach(
+        (doc) => {
+          const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime, "prep-time": preppingTime} = doc.data();
+          const parsedKeywords = generateIngredientKeywords(ingredients);
+          recipes.push({
+            source: url, 
+            recipeName: name,
+            mealType: 'breakfast',
+            desc: description,
+            img: images[0],
+            ingred: ingredients,
+            instruct: instructions[0].steps,
+            cookTime: cookingTime,
+            prepTime: preppingTime,
+            ingredKeywords: parsedKeywords 
+          });
+      });
+  })
+  .then(() => {
+    addRecipes('main-recipes', recipes);
+  }
+  )
+  
+  return recipes;
 };
 
 export const likeRecipe = async (recipeId, userId) => {

@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import { Link } from 'react-router-dom';
-import { auth } from '../../data/firebase/firebase.utils';
+import { auth } from '../../data/firebase.utils';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';

@@ -10,8 +10,9 @@ import SignUpPage from './pages/sign-up-page/sign-up-page';
 import HomePage from './pages/home-page/home-page';
 import UserHistoryPage from './pages/user-history-page/user-history-page';
 import RecommenderPage from './pages/recommender-page/recommender-page';
-import { auth, createUserProfileDocument, addCookbookioDataToDB, getRandomRecipe } from './data/firebase/firebase.utils';
-import { postCookbookIORecipes } from './data/apis/recipes';
+import { auth } from './data/firebase.utils';
+import { addCookbookioDataToDB, addUserToFirebase } from './data/crud.utils';
+import { postCookbookIORecipes } from './data/apis';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
@@ -22,7 +23,7 @@ const App = ( {setCurrentUser, currentUser} ) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+        const userRef = await addUserToFirebase(userAuth);
   
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
