@@ -15,7 +15,7 @@ export const addUserToFirebase = async (userAuth, additionalData) => {
 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
-    const creationDate = new Date();
+    const creationDate = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
     const ingredFrequencyList = getEmptyFrequencyList();
     try {
       await userRef.set({

@@ -131,8 +131,7 @@ export const singleIngredListFrequency = (ingredientList, frequencyList) => {
 
 export const collateFrequencyLists = (frequencyLists) => {
     let accumulatorList = getEmptyFrequencyList();
-    let freqLists = frequencyLists.length > 3 ? frequencyLists : frequencyLists.slice(0,3)
-    
+    let freqLists = frequencyLists.length < 3 ? frequencyLists : frequencyLists.slice(0,3)
     freqLists.forEach(list => {
         for(let j = 0; j < accumulatorList.length; j++){
             accumulatorList[j].frequency += list[j].frequency;
