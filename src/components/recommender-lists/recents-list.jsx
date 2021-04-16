@@ -12,7 +12,8 @@ const RecentsList = ({ recipes }) => {
     <div>
       { recipes !== null ?
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-          {recipes.map(recipe => (
+          {recipes
+          .map(recipe => (
             <Grid item xs={12} sm={6} md={4} key={recipes.indexOf(recipe)}>
               <RecipeCard key={recipe.id} recipeData={recipe} />
             </Grid>

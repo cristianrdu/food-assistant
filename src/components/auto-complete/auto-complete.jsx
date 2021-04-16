@@ -75,6 +75,7 @@ export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
       <TextField
         {...params}
         variant="outlined"
+        multiline
         placeholder="Search by ingredient..."
         InputProps={{
           ...params.InputProps,

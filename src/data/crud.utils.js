@@ -68,7 +68,8 @@ export const searchRecipes = async (queryParams) => {
       .where('ingredKeywords', 'array-contains-any', parsedQueryParams)
       .get();
   const searchMap = convertRecipesSnapshotToMap(snapshot);
-  return searchMap.map(
+  return searchMap
+  .map(
       searchRecipe => {
           const { id, recipe, routeCategory } = searchRecipe;
           const searchKeywords = addSearchKeywordsForRecipeCard(searchRecipe.recipe.ingred, parsedQueryParams);
@@ -79,7 +80,8 @@ export const searchRecipes = async (queryParams) => {
               searchKeywords
           };
       }
-  );
+  )
+  .sort((a, b) => b.searchKeywords.length - a.searchKeywords.length);
 };
 
 export const getAllRecipes = async () => {

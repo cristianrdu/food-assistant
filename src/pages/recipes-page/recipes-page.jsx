@@ -6,13 +6,11 @@ import {createStructuredSelector} from 'reselect';
 import { updateRecipesAsync } from '../../redux/recipe/recipe.actions';
 import { selectIsRecipeUpdated } from '../../redux/recipe/recipe.selectors';
 
-import RecipeCategorical from '../../components/recipe-categorical/recipe-categorical';
+import MainRecipeList from '../../components/main-recipe-list/main-recipe-list';
 import RecipeDetails from '../../components/recipe-details/recipe-details';
 import SpinningLoader from '../../components/loader/loader';
 
-import './recipes-page.css';
-
-const RecipeCategoricalLoader = SpinningLoader(RecipeCategorical);
+const MainRecipeListLoader = SpinningLoader(MainRecipeList);
 const RecipeDetailsLoader = SpinningLoader(RecipeDetails);
 
 const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
@@ -24,7 +22,7 @@ const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
     <div>
       <Route exact
         path={`${match.path}/:routeUrl`}
-        render={(props) => <RecipeCategoricalLoader isLoading={!isRecipeUpdated} {...props} />}
+        render={(props) => <MainRecipeListLoader isLoading={!isRecipeUpdated} {...props} />}
       />
       <Route 
         path={`${match.url}/:routeUrl/:recipeId`}
@@ -32,7 +30,6 @@ const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
       />
     </div>
   )
-
 }
 
 const mapStateToProps = createStructuredSelector({

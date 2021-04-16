@@ -4,8 +4,8 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectRecipeComments } from '../../redux/recipe/recipe.selectors';
 import { postComment, deleteRecipeComment } from '../../redux/recipe/recipe.actions';
 
-import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import { Grid, Button, Paper, Divider, List, makeStyles, TextField, Typography } from '@material-ui/core/';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Grid, Button, Paper, Divider, List, makeStyles, TextField, Typography, IconButton } from '@material-ui/core/';
 
 const useStyles = makeStyles(() => ({
     commentSection: { 
@@ -70,9 +70,11 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
             <h3 className={classes.title}>Comment Section</h3>
             <List className={classes.commentList} >
                 { comments.length > 0 ?
-                comments.sort((a, b) => { return (a.data.createdAt > b.data.createdAt) ? 1 : -1 }).map(comment =>  
+                comments
+                .sort((a, b) => { return (a.data.createdAt > b.data.createdAt) ? 1 : -1 })
+                .map(comment =>  
                 <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" className={classes.comment}>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                         <h4 style={{ margin: 0, textAlign: "left" }}>{comment.data.userName}</h4>
                         <p style={{ textAlign: "left" }}>
                         {comment.data.content}{" "}
@@ -82,9 +84,11 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                         </p>
                         <Divider variant="fullWidth"  />
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={2}>
                         {currentUser && currentUser.id == comment.data.userId ?
-                        <DeleteForeverRoundedIcon  onClick={() => {deleteRecipeComment(comment.id)}}/>
+                        <IconButton aria-label="delete" onClick={() => {deleteRecipeComment(comment.id)}}>
+                            <DeleteIcon/>
+                        </IconButton>
                         : undefined
                         }
                     </Grid>

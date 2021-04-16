@@ -49,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   button: {
-    marginTop:'10px'
+    marginTop: '10px'
+  },
+  listTitle: {
+    marginLeft: '20px',
   }
 }));
 
@@ -126,7 +129,7 @@ const AddRecipePage = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={2}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="mealType">Meal Type</InputLabel>
               <Select
@@ -153,7 +156,7 @@ const AddRecipePage = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={2}>
             <TextField
               name="cookTime"
               variant="outlined"
@@ -169,7 +172,7 @@ const AddRecipePage = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={2}>
             <TextField
               name="prepTime"
               variant="outlined"
@@ -199,7 +202,7 @@ const AddRecipePage = () => {
             />
           </Grid>
           <Grid item xm={12} sm={6}>
-            <Typography variant="h6">
+            <Typography className={classes.listTitle} variant="h6">
               Ingredients
             </Typography>
             <Box border={1} borderColor='grey.500' className={classes.box}> 
@@ -242,7 +245,7 @@ const AddRecipePage = () => {
             </Grid>
           </Grid>
           <Grid item xm={12} sm={6}>
-          <Typography variant="h6">
+            <Typography className={classes.listTitle} variant="h6">
               Instructions
             </Typography>
             <Box border={1} borderColor='grey.500' className={classes.box}> 
