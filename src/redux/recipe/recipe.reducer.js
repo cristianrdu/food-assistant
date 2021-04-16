@@ -13,7 +13,9 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
     case RecipesActionTypes.ADD_RECIPE_SUCCESSFUL:
       return {
         ...state,
-        recipes: [...state.recipes, action.payload]
+        recipes: state.recipes ? 
+        [...state.recipes, action.payload] :
+        [action.payload]
       }
     case RecipesActionTypes.ADD_RECIPE_FAILURE:
       return {

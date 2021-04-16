@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     textTransform: 'capitalize'
   },
+  title2: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 const MainRecipeList = ({ recipes, match }) => {
@@ -38,7 +42,7 @@ const MainRecipeList = ({ recipes, match }) => {
             </Grid>
           ))}
         </Grid> :
-        <Typography className={classes.title} component="h1" variant="h5">
+        <Typography className={classes.title2}>
         There are no recipes available for this category.
         </Typography>
       }

@@ -12,6 +12,10 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(2)
+    },
+    title: {
+        display: 'flex',
+        justifyContent: 'center'
     }
 }));
 
@@ -29,7 +33,7 @@ export const UserHistoryPage = ({userHistory}) => {
                     </Grid>
                 ))}
             </Grid>
-            : <Typography>There are no recipes added to history yet.</Typography>
+            : <Typography className={classes.title}>There are no recipes added to history yet.</Typography>
             }
         </div>
     )

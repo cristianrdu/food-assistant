@@ -73,7 +73,7 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                 comments
                 .sort((a, b) => { return (a.data.createdAt > b.data.createdAt) ? 1 : -1 })
                 .map(comment =>  
-                <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" className={classes.comment}>
+                <Grid key={`comment-${comments.indexOf(comment)}`} container spacing={2} direction="row" justify="flex-start" alignItems="flex-start" className={classes.comment}>
                     <Grid item xs={10}>
                         <h4 style={{ margin: 0, textAlign: "left" }}>{comment.data.userName}</h4>
                         <p style={{ textAlign: "left" }}>
@@ -93,7 +93,7 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                         }
                     </Grid>
                 </Grid>
-                ) : <Typography>There are no comments for this recipe yet.</Typography>
+                ) : <Typography key='no-comments'>There are no comments for this recipe yet.</Typography>
                 }
             </List>
             <form className={classes.form} onSubmit={handleSubmit}>

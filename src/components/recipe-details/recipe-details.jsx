@@ -10,7 +10,7 @@ import SpinningLoader from '../loader/loader';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Button, TextField, makeStyles, 
     CardMedia, CardHeader, Paper, Grid, Dialog, DialogActions,
-    DialogContent, DialogContentText, DialogTitle, Snackbar } from '@material-ui/core';
+    DialogContent, DialogContentText, DialogTitle, Snackbar, Typography } from '@material-ui/core';
 
 // https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
 
@@ -62,8 +62,9 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
     const [additionalNotes, setAdditional] = useState('');
     const [alert, setAlert] = useState({severity:'',message:'',open:false});
 
-    const { recipe, id } = recipeData;
-    const { desc, img, recipeName, ingred, instruct } = recipe;
+
+    const { recipe, id } = recipeData ? recipeData : {};
+    const { desc, img, recipeName, ingred, instruct } = recipe ? recipe : {};
 
     useEffect(() => {
         getComments(id);
@@ -114,6 +115,10 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
 
     return (
         <div >
+            {
+                recipeData ? (
+            <React.Fragment>
+                
             <Grid container spacing={2} className={classes.root}>
                 <Grid item xs={12} sm={4}>
                     <Paper component="ul" className={classes.paperLeft}>                    
@@ -129,17 +134,17 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
                 <Grid item xs={12} sm={5}>
                     <Paper className={classes.paperRight}>
                         <h3>Ingredients: </h3>
-                        <ul>
+                        <ul key='ingreds'>
                             {ingred.map(ingredient =>(
-                                <li key={ingredient.key}>{ingredient}</li>
+                                <li key={`ingred-${ingred.indexOf(ingredient)}`}>{ingredient}</li>
                             ))}
                         </ul>
                     </Paper>
                     <Paper className={classes.paperRight}>
                         <h3>Instructions:</h3>
-                        <ol>
+                        <ol key='instructs'>
                             {instruct.map(instruction =>(
-                                <li key={instruction.key}>{instruction}</li>
+                                <li key={`instruct-${instruct.indexOf(instruction)}`}>{instruction}</li>
                             ))}
                         </ol>
                     </Paper>
@@ -194,6 +199,10 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
                 </Alert>
             </Snackbar>
 
+            </React.Fragment>    
+            ) : 
+            <Typography style={{display:'flex', justifyContent:'center'}}> Recipe not found. </Typography>
+            }
         </div>
     )
 }

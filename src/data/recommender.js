@@ -28,7 +28,7 @@ const mainIngredientList = [
     'yogurt',
     //Vegetables
     'shallot',
-    'pea',
+    'peas',
     'onion',
     // 'garlic', // *
     'brussels sprout', 

@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { addRecipe } from '../../redux/recipe/recipe.actions';
+import { useHistory } from 'react-router-dom';
+
 
 import { makeStyles,
   Button,
@@ -16,7 +20,7 @@ import { makeStyles,
   ListItemText,
   ListItemSecondaryAction,
   IconButton, 
-  Box} from '@material-ui/core';
+  Box } from '@material-ui/core';
   import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,10 +60,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AddRecipePage = () => {
+export const AddRecipePage = ({addRecipe}) => {
+  let history = useHistory();
   const [recipeData, setRecipeData] = useState({
-    source: '',
-    userMade: true,
+    source: 'user',
+    user: {},
     recipeName: '',
     mealType: '',
     desc: '',
@@ -101,13 +106,21 @@ const AddRecipePage = () => {
   
   const submitRecipe = event => {
     event.preventDefault();
+    if (recipeData.ingred.length && recipeData.instruct.length) {
+
+      addRecipe(recipeData);
+      alert("Recipe added to the database");
+      history.push('/');
+    } else {
+      alert("You need to add instructions and/or ingredients first");
+    }
+
   }
 
   const handleChange = event => {
     const { name, value } = event.target;
 
     setRecipeData({...recipeData, [name]: value });
-    console.log(recipeData)
   };
   return(
     <Container component="main" maxWidth="md">
@@ -119,26 +132,13 @@ const AddRecipePage = () => {
       <form className={classes.form} onSubmit={submitRecipe}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField 
-              name="recipeName"
-              variant="outlined"
-              required
-              fullWidth
-              id="recipeName"
-              label="Recipe Name"
-              onChange={handleChange}
-            />
+            <TextField name="recipeName" variant="outlined" required 
+            fullWidth id="recipeName" label="Recipe Name" onChange={handleChange} />
           </Grid>
           <Grid item xs={12} sm={2}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="mealType">Meal Type</InputLabel>
-              <Select
-                name="mealType" 
-                id="mealType"
-                value={recipeData.mealType}
-                onChange={handleChange}
-                label="Meal Type"
-              >
+              <Select name="mealType" id="mealType" value={recipeData.mealType} onChange={handleChange} label="Meal Type" >
                 <MenuItem value={'breakfast'}>Breakfast</MenuItem>
                 <MenuItem value={'lunch'}>Lunch</MenuItem>
                 <MenuItem value={'dinner'}>Dinner</MenuItem>
@@ -146,60 +146,19 @@ const AddRecipePage = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              name="img"
-              variant="outlined"
-              required
-              fullWidth
-              id="img"
-              label="Link to image"
-              onChange={handleChange}
-            />
+            <TextField name="img" variant="outlined" required fullWidth id="img" label="Link to image" onChange={handleChange} /> 
           </Grid>
           <Grid item xs={12} sm={2}>
-            <TextField
-              name="cookTime"
-              variant="outlined"
-              required
-              type="time"
-              fullWidth
-              defaultValue="00:00"
-              label="Cooking Time"
-              id="cookTime"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleChange}
-            />
+            <TextField name="cookTime" variant="outlined" required type="time" fullWidth defaultValue="00:00" 
+              label="Cooking Time" id="cookTime" InputLabelProps={{ shrink: true,}} onChange={handleChange}/>
           </Grid>
           <Grid item xs={12} sm={2}>
-            <TextField
-              name="prepTime"
-              variant="outlined"
-              required
-              type="time" 
-              fullWidth
-              defaultValue="00:00"
-              label="Preparation Time"
-              id="prepTime"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleChange}
-            />
+            <TextField name="prepTime" variant="outlined" required type="time" fullWidth defaultValue="00:00"
+              label="Preparation Time" id="prepTime" InputLabelProps={{shrink: true,}} onChange={handleChange}/>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              name="desc"
-              variant="outlined"
-              required
-              fullWidth
-              multiline
-              rowsMax="5"
-              id="desc"
-              label="Recipe Description"
-              onChange={handleChange}
-            />
+            <TextField name="desc" variant="outlined" required fullWidth multiline 
+            rowsMax="5" id="desc" label="Recipe Description" onChange={handleChange}/>
           </Grid>
           <Grid item xm={12} sm={6}>
             <Typography className={classes.listTitle} variant="h6">
@@ -208,14 +167,11 @@ const AddRecipePage = () => {
             <Box border={1} borderColor='grey.500' className={classes.box}> 
               <List dense className={classes.list}>
                 { recipeData.ingred.map(item =>
-                  (<ListItem>
+                  (<ListItem key={`ingred-${recipeData.ingred.indexOf(item)}`}>
                     <ListItemText primary={item}/>
                     <ListItemSecondaryAction>
-                      <IconButton 
-                      edge="end" 
-                      aria-label="delete" 
-                      onClick={() => {removeIngredientFromList(recipeData.ingred.indexOf(item))}}
-                      >
+                      <IconButton edge="end" aria-label="delete" 
+                      onClick={() => {removeIngredientFromList(recipeData.ingred.indexOf(item))}}>
                         <DeleteIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
@@ -225,20 +181,12 @@ const AddRecipePage = () => {
             </Box>
             <Grid container spacing={2}>
               <Grid item xs={10}>
-                <TextField
-                name="ingredField"
-                id="ingredField"
-                label="Add Ingredients"
-                variant="outlined"
-                fullWidth
-                value={ingredient}
-                onChange={(event) => {
-                  setIngredient(event.target.value);
-                }}
-                />
+                <TextField name="ingredField" id="ingredField" label="Add Ingredients" variant="outlined"
+                fullWidth value={ingredient} onChange={(event) => {setIngredient(event.target.value);}}/>
               </Grid>
               <Grid item xs={2}>
-                <Button form='ingreds' className= {classes.button} variant="outlined" color="primary" onClick={addIngredientToList}>
+                <Button form='ingreds' className= {classes.button} 
+                variant="outlined" color="primary" onClick={addIngredientToList}>
                   ADD
                 </Button>
               </Grid>
@@ -251,14 +199,11 @@ const AddRecipePage = () => {
             <Box border={1} borderColor='grey.500' className={classes.box}> 
               <List dense className={classes.list}>
                 { recipeData.instruct.map(item =>
-                  (<ListItem>
+                  (<ListItem key={`instruct-${recipeData.instruct.indexOf(item)}`}>
                     <ListItemText primary={item} secondary={`Step ${recipeData.instruct.indexOf(item) + 1}`}/>
                     <ListItemSecondaryAction>
-                      <IconButton 
-                      edge="end" 
-                      aria-label="delete" 
-                      onClick={() => {removeInstructionFromList(recipeData.instruct.indexOf(item))}}
-                      >
+                      <IconButton edge="end" aria-label="delete" 
+                      onClick={() => {removeInstructionFromList(recipeData.instruct.indexOf(item))}}>
                         <DeleteIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
@@ -268,17 +213,8 @@ const AddRecipePage = () => {
             </Box>
             <Grid container spacing={2}>
               <Grid item xs={10}>
-                <TextField
-                name="instructField"
-                id="instructField"
-                label="Add Instructions"
-                variant="outlined"
-                fullWidth
-                value={instruction}
-                onChange={(event) => {
-                  setInstruction(event.target.value);
-                }}
-                />
+                <TextField name="instructField" id="instructField" label="Add Instructions" variant="outlined"
+                fullWidth value={instruction} onChange={(event) => { setInstruction(event.target.value);}}/>
               </Grid>
               <Grid item xs={2}>
                 <Button className= {classes.button} variant="outlined" color="primary" onClick={addInstructionToList}>
@@ -297,4 +233,8 @@ const AddRecipePage = () => {
   )
 }
 
-export default AddRecipePage
+const mapDispatchToProps = dispatch => ({
+  addRecipe: (data) => dispatch(addRecipe(data, dispatch))
+});
+
+export default connect(null, mapDispatchToProps)(AddRecipePage);

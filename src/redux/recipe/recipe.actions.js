@@ -1,18 +1,19 @@
 import { getAllRecipes, getRecipeComments, postCommentToRecipe, deleteComment, addRecipes } from '../../data/crud.utils';
-import RecipeActionTypes from './recipe.types';
+import { generateIngredientKeywords } from '../../data/data.utils';
+import RecipesActionTypes from './recipe.types';
 
 export const updateRecipesAsync = () => {
     return dispatch => {
-        dispatch({ type: RecipeActionTypes.UPDATE_RECIPES_START });
+        dispatch({ type: RecipesActionTypes.UPDATE_RECIPES_START });
         getAllRecipes().then( data =>{
             if(data instanceof Error) {
                 dispatch({
-                    type: RecipeActionTypes.UPDATE_RECIPES_FAILURE,
+                    type: RecipesActionTypes.UPDATE_RECIPES_FAILURE,
                     payload: data
                 })
               } else {
                 dispatch({
-                    type: RecipeActionTypes.UPDATE_RECIPES_SUCCESSFUL,
+                    type: RecipesActionTypes.UPDATE_RECIPES_SUCCESSFUL,
                     payload: data
                 })
               }
@@ -21,18 +22,27 @@ export const updateRecipesAsync = () => {
 }
 
 export const addRecipe = data => {
-    return dispatch => {
-        dispatch({type: RecipeActionTypes.ADD_RECIPE_START});
-        addRecipes(data)
+    return (dispatch, getState) => {
+        dispatch({type: RecipesActionTypes.ADD_RECIPE_START});
+        const { user } = getState();
+        const ingredKeywords = generateIngredientKeywords(data.ingred)
+        const recipe = {
+            ...data, 
+            user: {
+                    id: user.currentUser.id, 
+                    name: user.currentUser.displayName
+                },
+            ingredKeywords};
+        addRecipes('main-recipes', recipe)
         .then(
             dispatch({
-                type: RecipeActionTypes.ADD_RECIPE_SUCCESSFUL,
-                payload: data
+                type: RecipesActionTypes.ADD_RECIPE_SUCCESSFUL,
+                payload: recipe
             })
         )
         .catch( error => {
             dispatch({
-                type: RecipeActionTypes.ADD_RECIPE_FAILURE,
+                type: RecipesActionTypes.ADD_RECIPE_FAILURE,
                 payload: error
             })
         })
@@ -41,11 +51,11 @@ export const addRecipe = data => {
 
 export const postComment = data => {
     return dispatch => {
-        dispatch({ type: RecipeActionTypes.POST_COMMENT_START});
+        dispatch({ type: RecipesActionTypes.POST_COMMENT_START});
         postCommentToRecipe(data)
         .then( id => {
             dispatch({ 
-                type: RecipeActionTypes.POST_COMMENT_SUCCESSFUL, 
+                type: RecipesActionTypes.POST_COMMENT_SUCCESSFUL, 
                 payload: {data: {...data, createdAt: 'just now'}, id}
             })
         })
@@ -53,7 +63,7 @@ export const postComment = data => {
             error => {
                 console.log(error);
                 dispatch({ 
-                    type: RecipeActionTypes.POST_COMMENT_FAILURE,
+                    type: RecipesActionTypes.POST_COMMENT_FAILURE,
                     payload: error
                 })
             }
@@ -63,11 +73,11 @@ export const postComment = data => {
 
 export const deleteRecipeComment = commentId => {
     return dispatch => {
-        dispatch({ type: RecipeActionTypes.DELETE_COMMENT_START});
+        dispatch({ type: RecipesActionTypes.DELETE_COMMENT_START});
         deleteComment(commentId)
         .then(
             dispatch({ 
-                type: RecipeActionTypes.DELETE_COMMENT_SUCCESSFUL,
+                type: RecipesActionTypes.DELETE_COMMENT_SUCCESSFUL,
                 payload: commentId
             })
         )
@@ -75,7 +85,7 @@ export const deleteRecipeComment = commentId => {
             error => {
                 console.log(error);
                 dispatch({ 
-                    type: RecipeActionTypes.DELETE_COMMENT_FAILURE,
+                    type: RecipesActionTypes.DELETE_COMMENT_FAILURE,
                     payload: error
                 })
             }
@@ -85,18 +95,18 @@ export const deleteRecipeComment = commentId => {
 
 export const getComments = recipeId => {
     return dispatch => {
-        dispatch({ type: RecipeActionTypes.GET_RECIPE_COMMENTS_START});
+        dispatch({ type: RecipesActionTypes.GET_RECIPE_COMMENTS_START});
         getRecipeComments(recipeId)
         .then( data => {
             dispatch({ 
-                type: RecipeActionTypes.GET_RECIPE_COMMENTS_SUCCESSFUL,
+                type: RecipesActionTypes.GET_RECIPE_COMMENTS_SUCCESSFUL,
                 payload: data
             })
         })
         .catch( error => {
             console.log(error);
             dispatch({
-                type: RecipeActionTypes.GET_RECIPE_COMMENTS_FAILURE,
+                type: RecipesActionTypes.GET_RECIPE_COMMENTS_FAILURE,
                 payload: error
             })
         })
