@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
     textColor: 'primary'
   },
+  dayTitle: {
+    margin: '30px',
+    display: 'flex',
+    justifyContent: 'center'
+  }
 }));
 // https://www.techiedelight.com/initialize-array-with-range-from-0-to-n-javascript/
 // https://stackoverflow.com/questions/57739391/firestore-query-for-loop-with-multiple-values
@@ -82,28 +87,22 @@ const MealPlan = ({mealPlan}) => {
           (<TabPanel value={value} index={data.day - 1}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
-                <Paper component='ul'>
-                  <Typography> Breakfast </Typography>
-                  {data.breakfast.recipe ? (
-                        <RecipeCard key={`day-${data.day}-breakfast`} recipeData={{id: data.breakfast.id, recipe: data.breakfast.recipe}}/>
-                  ): null}
-                </Paper>
+                <Typography color="primary" className={classes.dayTitle} component="h1" variant="h5"> Breakfast </Typography>
+                {data.breakfast.recipe ? (
+                      <RecipeCard key={`day-${data.day}-breakfast`} recipeData={{id: data.breakfast.id, recipe: data.breakfast.recipe}}/>
+                ): null}
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Paper component='ul'>
-                  <Typography> Lunch </Typography>
-                  {data.lunch.recipe ? (
-                    <RecipeCard key={`day-${data.day}-lunch`} recipeData={{id: data.lunch.id, recipe: data.lunch.recipe}}/>
-                  ): null}
-                </Paper>
+                <Typography color="primary" className={classes.dayTitle} component="h1" variant="h5"> Lunch </Typography>
+                {data.lunch.recipe ? (
+                  <RecipeCard key={`day-${data.day}-lunch`} recipeData={{id: data.lunch.id, recipe: data.lunch.recipe}}/>
+                ): null}
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Paper component='ul'>
-                  <Typography> Dinner </Typography>
-                  {data.dinner.recipe ? (
-                    <RecipeCard key={`day-${data.day}-dinner`} recipeData={{id: data.dinner.id, recipe: data.dinner.recipe}}/>
-                  ): null}
-                </Paper>
+                <Typography color="primary" className={classes.dayTitle} component="h1" variant="h5"> Dinner </Typography>
+                {data.dinner.recipe ? (
+                  <RecipeCard key={`day-${data.day}-dinner`} recipeData={{id: data.dinner.id, recipe: data.dinner.recipe}}/>
+                ): null}
               </Grid>
             </Grid>
           </TabPanel>))

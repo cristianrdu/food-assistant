@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, makeStyles } from '@material-ui/core/';
+import { Grid, makeStyles, Typography } from '@material-ui/core/';
 
 import RecipeCard from '../recipe-card/recipe-card';
 
@@ -14,8 +14,12 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridGap: '30px',
     margin: 'auto'
-    // paddingLeft: '20px',
   },
+  title: {
+    display: 'flex',
+    justifyContent: 'center',
+    textTransform: 'capitalize'
+  }
 }));
 
 const RecipeCategorical = ({ recipes, match }) => {
@@ -23,7 +27,7 @@ const RecipeCategorical = ({ recipes, match }) => {
 
   return (
     <div className={classes.root}>
-      <h2 style={{justifyContent:'center', display:'flex'}}>{match.params.routeUrl} Recipes</h2>
+      <Typography className={classes.title} color="primary" component="h1" variant="h5"> {match.params.routeUrl} Recipes</Typography>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
           {recipes.map(recipe => (
             <Grid item xs={12} sm={6} md={3} key={recipes.indexOf(recipe)}>
