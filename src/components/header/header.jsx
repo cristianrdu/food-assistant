@@ -105,6 +105,7 @@ export const Header = ({currentUser}) => {
     setResponsiveness();
 
     window.addEventListener('resize', () => setResponsiveness());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const displayDesktop = () => {

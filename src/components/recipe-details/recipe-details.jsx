@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { connect } from 'react-redux';
 import { selectCommentsLoading, selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
+import { processTimers } from '../../data/data.utils';
 import { getComments } from '../../redux/recipe/recipe.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { addToUserHistory } from '../../redux/user/user.actions';
@@ -11,6 +12,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { Button, TextField, makeStyles, 
     CardMedia, CardHeader, Paper, Grid, Dialog, DialogActions,
     DialogContent, DialogContentText, DialogTitle, Snackbar, Typography } from '@material-ui/core';
+import TimerIcon from '@material-ui/icons/Timer';
 
 // https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
 
@@ -64,10 +66,13 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
 
 
     const { recipe, id } = recipeData ? recipeData : {};
-    const { desc, img, recipeName, ingred, instruct } = recipe ? recipe : {};
-
+    const { desc, img, recipeName, ingred, instruct, cookTime, prepTime, source, user } = recipe ? recipe : {};
+    
+    const cookingTime = cookTime ? processTimers(cookTime) : undefined;
+    const preppingTime = prepTime ? processTimers(prepTime) : undefined;
     useEffect(() => {
         getComments(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleClickOpen = () => {
@@ -125,6 +130,24 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
                         <CardHeader className={classes.title} title={recipeName} subheader={desc}/>
                         <CardMedia className={classes.media} image={img} />
                     </Paper>
+                    <Paper component="ul" className={classes.paperLeft} style={{display: 'flex', justifyContent:'center',  gap:'20px'}}>
+                        { user ?
+                            <Typography> Made By: {user.name}</Typography> :
+                            <Typography> Source: <a href={source}>Link</a></Typography> 
+                        }
+                        { cookingTime ?
+                        <Fragment>
+                            <TimerIcon/>
+                            <Typography>Cook Time: {cookingTime}</Typography> 
+                        </Fragment>
+                        : undefined }
+                        { preppingTime ? 
+                        <Fragment>
+                            <TimerIcon/>
+                            <Typography>Prep Time: {preppingTime} </Typography>
+                        </Fragment>
+                        : undefined }
+                    </Paper> 
                     <Paper component="ul" className={classes.paperButtons}>
                         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                             Add to History

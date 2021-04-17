@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, makeStyles, Typography, Paper } from '@material-ui/core/';
+import { Grid, makeStyles, Typography } from '@material-ui/core/';
 
 import RecipeCard from '../recipe-card/recipe-card';
 

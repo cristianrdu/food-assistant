@@ -11,8 +11,6 @@ import { makeStyles,
   Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { withRouter } from 'react-router-dom';
@@ -66,9 +64,6 @@ export const HistoryCard = ({history, recipeData}) => {
         <Button size="small" color="primary" onClick={() => history.push(`recipes/all/${id}`)}>
         View Recipe
         </Button>
-        <IconButton aria-label="add to favorites">
-        <FavoriteIcon />
-        </IconButton>
       {
         instructNotes || ingredNotes || additionalNotes ?
         (<React.Fragment>

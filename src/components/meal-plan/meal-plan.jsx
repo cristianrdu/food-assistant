@@ -5,7 +5,6 @@ import {createStructuredSelector} from 'reselect';
 
 import RecipeCard from '../recipe-card/recipe-card';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';

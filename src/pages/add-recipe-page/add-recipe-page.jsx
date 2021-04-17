@@ -86,7 +86,7 @@ export const AddRecipePage = ({addRecipe}) => {
   };
 
   const removeIngredientFromList = (index) => {
-    const data = recipeData.ingred.filter(a => a != recipeData.ingred[index])
+    const data = recipeData.ingred.filter(a => a !== recipeData.ingred[index])
     setRecipeData({...recipeData, ingred: data});
   };
 
@@ -98,7 +98,7 @@ export const AddRecipePage = ({addRecipe}) => {
   };
 
   const removeInstructionFromList = (index) => {
-    const data = recipeData.instruct.filter(a => a != recipeData.instruct[index])
+    const data = recipeData.instruct.filter(a => a !== recipeData.instruct[index])
     setRecipeData({...recipeData, instruct: data});
   };
 

@@ -2,10 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Button, IconButton, Typography } from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-// import ShareIcon from '@material-ui/icons/Share';
-
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,12 +51,6 @@ export const RecipeCard = ({ history, match, recipeData}) => {
                   <Button size="small" color="primary" onClick={() => history.push(`${recipeUrl}/${id}`)}>
                   View Recipe
                   </Button>
-                  <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                  </IconButton>
-                  {/* <IconButton aria-label="share">
-                  <ShareIcon />
-                  </IconButton> */}
                 </CardActions>
             </Card>
         </div>

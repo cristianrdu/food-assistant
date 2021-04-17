@@ -85,7 +85,7 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                         <Divider variant="fullWidth"  />
                     </Grid>
                     <Grid item xs={2}>
-                        {currentUser && currentUser.id == comment.data.userId ?
+                        {currentUser && currentUser.id === comment.data.userId ?
                         <IconButton aria-label="delete" onClick={() => {deleteRecipeComment(comment.id)}}>
                             <DeleteIcon/>
                         </IconButton>
@@ -103,7 +103,6 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
                 label="Type something here"
                 variant="outlined"
                 required
-                autoFocus
                 multiline
                 fullWidth
                 rowsMax={4}
