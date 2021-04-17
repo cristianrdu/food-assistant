@@ -33,7 +33,7 @@ export const RecipeCard = ({ history, match, recipeData}) => {
     const classes = useStyles();
 
     const  {id, recipe, searchKeywords} = recipeData;
-    const { img, recipeName } = recipe;
+    const { img, recipeName, mealType } = recipe;
     const recipeUrl = match.url === '/' || match.url === '/suggestions' ? 'recipes/all' : match.url;
     return (
         <div className={classes.card}>
@@ -43,7 +43,7 @@ export const RecipeCard = ({ history, match, recipeData}) => {
                 { searchKeywords ?     
                   (<CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
-                    {`Contains: ${searchKeywords.join(', ')}`}
+                    {`Category: ${mealType};  Contains: ${searchKeywords.join(', ')}`}
                     </Typography>
                   </CardContent>) 
                 : null }

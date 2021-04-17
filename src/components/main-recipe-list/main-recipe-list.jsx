@@ -43,7 +43,7 @@ const MainRecipeList = ({ recipes, match }) => {
           ))}
         </Grid> :
         <Typography className={classes.title2}>
-        There are no recipes available for this category.
+        There are no recipes available for this category yet.
         </Typography>
       }
     </div>
