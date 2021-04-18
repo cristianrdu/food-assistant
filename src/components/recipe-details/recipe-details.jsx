@@ -67,7 +67,7 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
 
     const { recipe, id } = recipeData ? recipeData : {};
     const { desc, img, recipeName, ingred, instruct, cookTime, prepTime, source, user } = recipe ? recipe : {};
-    
+    console.log("TETETE", cookTime," ", prepTime)
     const cookingTime = cookTime ? processTimers(cookTime) : undefined;
     const preppingTime = prepTime ? processTimers(prepTime) : undefined;
     useEffect(() => {

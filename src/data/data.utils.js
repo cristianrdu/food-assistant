@@ -89,7 +89,8 @@ export const processTimers = (timer) => {
   if(letterRegExp.test(timer)) {
     const minuteIdx = timer.indexOf('M')
     const hours = timer.includes('H') ? `0${timer[timer.indexOf('H') - 1]}` : '00'
-    return `${hours}:${timer[minuteIdx - 2]}${timer[minuteIdx - 1]}`;
+    const minutes = timer[minuteIdx - 1] === '0' ? '00' : `${timer[minuteIdx - 2]}${timer[minuteIdx - 1]}`
+    return `${hours}:${minutes}`;
   } 
   
   return timer;
