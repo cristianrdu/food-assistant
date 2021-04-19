@@ -9,7 +9,7 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 
 import { auth } from './data/firebase.utils';
 import { addCookbookioDataToDB, addUserToFirebase } from './data/crud.utils';
-import { postCookbookIORecipes } from './data/apis';
+// import { postCookbookIORecipes } from './data/apis';
 
 import Header from './components/header/header'
 import RecipesPage from './pages/recipes-page/recipes-page';
