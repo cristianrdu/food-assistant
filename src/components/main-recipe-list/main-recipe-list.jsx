@@ -1,10 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Grid, makeStyles, Typography } from '@material-ui/core/';
 
 import RecipeCard from '../recipe-card/recipe-card';
-
-import { selectCategoricalRecipes } from '../../redux/recipe/recipe.selectors';
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,8 +47,4 @@ const MainRecipeList = ({ recipes, match }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  recipes: selectCategoricalRecipes(ownProps.match.params.routeUrl)(state)
-});
-
-export default connect(mapStateToProps)(MainRecipeList);
+export default MainRecipeList;

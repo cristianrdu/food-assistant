@@ -1,17 +1,12 @@
 import React,{useEffect} from 'react';
 import { Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-import {createStructuredSelector} from 'reselect';
-import { updateRecipesAsync } from '../../redux/recipe/recipe.actions';
-import { selectIsRecipeUpdated } from '../../redux/recipe/recipe.selectors';
-
-import MainRecipeList from '../../components/main-recipe-list/main-recipe-list';
-import RecipeDetails from '../../components/recipe-details/recipe-details';
+import MainRecipeListContainer from '../../components/main-recipe-list/main-recipe-list-container';
+import RecipeDetailsContainer from '../../components/recipe-details/recipe-details-container';
 import SpinningLoader from '../../components/loader/loader';
 
-const MainRecipeListLoader = SpinningLoader(MainRecipeList);
-const RecipeDetailsLoader = SpinningLoader(RecipeDetails);
+const MainRecipeListLoader = SpinningLoader(MainRecipeListContainer);
+const RecipeDetailsLoader = SpinningLoader(RecipeDetailsContainer);
 
 const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
   useEffect(() => {
@@ -32,13 +27,5 @@ const RecipesPage = ({updateRecipesAsync, match, isRecipeUpdated}) => {
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  isRecipeUpdated: selectIsRecipeUpdated
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateRecipesAsync: () => dispatch(updateRecipesAsync())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipesPage);
+export default RecipesPage;
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import AutoComplete from '../auto-complete/auto-complete';
+import AutoCompleteContainer from '../auto-complete/auto-complete-container';
 
 import './search-box.css';
 
 const SearchBox = () => {
     return (
         <div className='search-box'>
-            <AutoComplete/>
+            <AutoCompleteContainer/>
         </div>
     )
 }

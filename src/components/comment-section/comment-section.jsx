@@ -1,8 +1,4 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { selectRecipeComments } from '../../redux/recipe/recipe.selectors';
-import { postComment, deleteRecipeComment } from '../../redux/recipe/recipe.actions';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Grid, Button, Paper, Divider, List, makeStyles, TextField, Typography, IconButton } from '@material-ui/core/';
@@ -118,14 +114,5 @@ const CommentSection = ({comments, postComment, recipeId, currentUser, deleteRec
     )
 }
 
-const mapDispatchToProps = dispatch => ({
-    postComment: (data) => dispatch(postComment(data, dispatch)),
-    deleteRecipeComment: (id) => dispatch(deleteRecipeComment(id, dispatch))
-});
 
-const mapStateToProps = (state) =>({ 
-    comments: selectRecipeComments(state),
-    currentUser: selectCurrentUser(state),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentSection);
+export default CommentSection;

@@ -1,7 +1,4 @@
 import React,{useState, useEffect} from "react";
-import { connect } from 'react-redux';
-import { fetchSearchQueryResults, setSearchToOff } from '../../redux/search/search.actions';
-
 import { TextField, CircularProgress } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { searchIngredients } from '../../data/apis';
@@ -92,9 +89,4 @@ export const AutoComplete = ({setSearchToOff, fetchSearchQueryResults}) => {
   )
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchSearchQueryResults: (queryParams) => dispatch(fetchSearchQueryResults(queryParams, dispatch)),
-  setSearchToOff: () => dispatch(setSearchToOff(dispatch))
-});
-
-export default connect(null, mapDispatchToProps)(AutoComplete);
+export default AutoComplete;

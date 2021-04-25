@@ -1,10 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import { setMealPlan } from '../../redux/user/user.actions';
-import { selectHistoryFrequencyList, selectIngredFrequencyList, selectNrDaysMealPlan, selectMealPlanFetched } from '../../redux/user/user.selectors';
-import { fetchAllTimeSearchResults, fetchRecentsSearchResults } from '../../redux/recommender/recommender.actions';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -202,17 +197,4 @@ const RecommenderPage = ({fetchRecentsSearchResults, fetchAllTimeSearchResults, 
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  frequencyList: selectIngredFrequencyList,
-  historyFrequencyList: selectHistoryFrequencyList,
-  mealPlanFetched: selectMealPlanFetched,
-  nrDaysMealPlan: selectNrDaysMealPlan
-});
-
-const mapDispatchToProps = dispatch => ({
-  setMealPlan: (days) => dispatch(setMealPlan(days, dispatch)),
-  fetchAllTimeSearchResults: (queryParams) => dispatch(fetchAllTimeSearchResults(queryParams, dispatch)),
-  fetchRecentsSearchResults: (queryParams) => dispatch(fetchRecentsSearchResults(queryParams, dispatch))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecommenderPage);
+export default RecommenderPage;

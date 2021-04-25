@@ -1,20 +1,12 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import { selectAllTimeUpdated, selectRecentsUpdated } from '../../redux/recommender/recommender.selectors';
-
-import AllTimeList from '../recommender-lists/all-time-list';
-import RecentsList from '../recommender-lists/recents-list';
-import SpinningLoader from '../loader/loader';
+import AllTimeListContainer from '../recommender-lists/all-time-list-container';
+import RecentsListContainer from '../recommender-lists/recents-list-container';
 import TabPanel from '../material-ui/tab-panel';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-const AllTimeListLoader = SpinningLoader(AllTimeList);
-const RecentsListLoader = SpinningLoader(RecentsList);
-
-const RecommenderTab = ({allTimeUpdated, recentsUpdated}) => {
+const RecommenderTab = () => {
     const [currentTab, setCurrentTab] = useState(0);
 
     const changeCurrentTab = (event, newValue) => {
@@ -28,20 +20,14 @@ const RecommenderTab = ({allTimeUpdated, recentsUpdated}) => {
                 <Tab label="Recently used ingredients" id = 'tab-Recent Ingredients' />
               </Tabs>
               <TabPanel value={currentTab} index={0}>
-                <AllTimeListLoader isLoading={!allTimeUpdated}/>
+                <AllTimeListContainer/>
               </TabPanel>
               <TabPanel value={currentTab} index={1}>
-                <RecentsListLoader isLoading={!recentsUpdated}/>
+                <RecentsListContainer/>
               </TabPanel>
         </div>
     )
 }
 
-const mapStateToProps = createStructuredSelector({
-  allTimeUpdated: selectAllTimeUpdated,
-  recentsUpdated: selectRecentsUpdated,
-});
-
-
-export default connect(mapStateToProps, null)(RecommenderTab);
+export default RecommenderTab;
 

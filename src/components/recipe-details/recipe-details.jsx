@@ -1,11 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { selectCommentsLoading, selectRecipeDetails } from '../../redux/recipe/recipe.selectors';
 import { processTimers } from '../../data/data.utils';
-import { getComments } from '../../redux/recipe/recipe.actions';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { addToUserHistory } from '../../redux/user/user.actions';
-import CommentSection from '../comment-section/comment-section';
+import CommentSectionContainer from '../comment-section/comment-section-container';
 import SpinningLoader from '../loader/loader';
 
 import MuiAlert from '@material-ui/lab/Alert';
@@ -14,9 +9,7 @@ import { Button, TextField, makeStyles,
     DialogContent, DialogContentText, DialogTitle, Snackbar, Typography } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 
-// https://stackoverflow.com/questions/36392048/how-can-i-get-ownprops-using-reselect-on-redux
-
-const CommentSectionLoader = SpinningLoader(CommentSection);
+const CommentSectionLoader = SpinningLoader(CommentSectionContainer);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,6 +63,7 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
     console.log("TETETE", cookTime," ", prepTime)
     const cookingTime = cookTime ? processTimers(cookTime) : undefined;
     const preppingTime = prepTime ? processTimers(prepTime) : undefined;
+
     useEffect(() => {
         getComments(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,16 +224,6 @@ const RecipeDetails = ({getComments, recipeData, currentUser, addToUserHistory, 
     )
 }
 
-const mapDispatchToProps = dispatch => ({
-    addToUserHistory: (historyData, ingred) => dispatch(addToUserHistory(historyData, ingred, dispatch)),
-    getComments: (recipeId) => dispatch(getComments(recipeId, dispatch)),
-});
 
-const mapStateToProps = (state, ownProps) =>({ 
-    recipeData: selectRecipeDetails(ownProps.match.params.recipeId)(state),
-    currentUser: selectCurrentUser(state),
-    commentsLoading: selectCommentsLoading(state)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetails);
+export default RecipeDetails;
 

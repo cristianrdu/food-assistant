@@ -12,12 +12,12 @@ import { addCookbookioDataToDB, addUserToFirebase } from './data/crud.utils';
 // import { postCookbookIORecipes } from './data/apis';
 
 import Header from './components/header/header'
-import RecipesPage from './pages/recipes-page/recipes-page';
+import RecipesPageContainer from './pages/recipes-page/recipes-page-container';
 import SignInPage from './pages/sign-in-page/sign-in-page';
 import SignUpPage from './pages/sign-up-page/sign-up-page';
 import HomePage from './pages/home-page/home-page';
 import UserHistoryPage from './pages/user-history-page/user-history-page';
-import RecommenderPage from './pages/recommender-page/recommender-page';
+import RecommenderPageContainer from './pages/recommender-page/recommender-page-container';
 import AddRecipePage from './pages/add-recipe-page/add-recipe-page';
 
 import { ThemeProvider } from '@material-ui/styles';
@@ -54,12 +54,12 @@ const App = ( {setCurrentUser, currentUser} ) => {
         <Header/>
         <Switch>
           <Route exact path='/' component={HomePage} />
-          <Route path='/recipes' component={RecipesPage} />
+          <Route path='/recipes' component={RecipesPageContainer} />
           <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignInPage/> )}/>
           <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignUpPage/> )}/>
           <Route exact path='/add-new-recipe' render={() => currentUser ? ( <AddRecipePage/> ) : ( <Redirect to='/sign-in' /> )}/>
           <Route exact path='/recipe-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
-          <Route exact path='/suggestions' render={() => currentUser ? ( <RecommenderPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
+          <Route exact path='/suggestions' render={() => currentUser ? ( <RecommenderPageContainer/> ) : ( <Redirect to='/recipes/all' /> )}/>
         </Switch>
       </ThemeProvider>
     </div>
