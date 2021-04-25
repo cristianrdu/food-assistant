@@ -100,6 +100,7 @@ export const parseRecipeIngredients = (recipesHistory) => {
     return frequencyArray
     .sort((a,b) => (a.frequency < b.frequency) ? 1 : -1) // Sorts the array by frequency
     .slice(0, 10) // Gets top ten ingredients in the frequencyArray
+    // eslint-disable-next-line no-sequences
     .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), []); // Picks only the ingredient property values, leaving out the frequency property;
 }
 
@@ -142,6 +143,7 @@ export const collateFrequencyLists = (frequencyLists) => {
     return accumulatorList
     .sort((a,b) => (a.frequency < b.frequency) ? 1 : -1)
     .filter(ingredFrequency => ingredFrequency.frequency !== 0)
+    // eslint-disable-next-line no-sequences
     .reduce((acc, frequencyObject) => (acc.push(frequencyObject.ingredient), acc), [])
     .slice(0,3);
 }

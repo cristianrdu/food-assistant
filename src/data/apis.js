@@ -15,6 +15,7 @@ export const searchIngredients = async (input) => {
   };
 
   return axios.request(options).then((response) => {
+      // eslint-disable-next-line no-sequences
       return response.data.hints.reduce((a, o) => (a.push(o.food.label), a), []) ;
   }).catch( (error) => {
       return error;
