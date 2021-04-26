@@ -84,12 +84,13 @@ export const convertRecipesSnapshotToMap = (recipes) => {
 
 // https://stackoverflow.com/questions/61550004/check-if-string-contains-any-letter-javascript-jquery
 export const processTimers = (timer) => {
+  console.log(timer)
   const letterRegExp = /[a-zA-Z]/g;
 
   if(letterRegExp.test(timer)) {
     const minuteIdx = timer.indexOf('M')
     const hours = timer.includes('H') ? `0${timer[timer.indexOf('H') - 1]}` : '00'
-    const minutes = timer[minuteIdx - 1] === '0' ? '00' : `${timer[minuteIdx - 2]}${timer[minuteIdx - 1]}`
+    const minutes = timer[minuteIdx - 1] === '0' && timer[minuteIdx - 2] === '0' ? '00' : `${timer[minuteIdx - 2]}${timer[minuteIdx - 1]}`
     return `${hours}:${minutes}`;
   } 
   
