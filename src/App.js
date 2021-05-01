@@ -55,11 +55,11 @@ const App = ( {setCurrentUser, currentUser} ) => {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/recipes' component={RecipesPageContainer} />
-          <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignInPage/> )}/>
-          <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/recipes/all' /> ) : ( <SignUpPage/> )}/>
+          <Route exact path='/sign-in' render={() => currentUser ? ( <Redirect to='/' /> ) : ( <SignInPage/> )}/>
+          <Route exact path='/sign-up' render={() => currentUser ? ( <Redirect to='/' /> ) : ( <SignUpPage/> )}/>
           <Route exact path='/add-new-recipe' render={() => currentUser ? ( <AddRecipePage/> ) : ( <Redirect to='/sign-in' /> )}/>
-          <Route exact path='/recipe-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/recipes/all' /> )}/>
-          <Route exact path='/suggestions' render={() => currentUser ? ( <RecommenderPageContainer/> ) : ( <Redirect to='/recipes/all' /> )}/>
+          <Route exact path='/recipe-history' render={() => currentUser ? ( <UserHistoryPage/> ) : ( <Redirect to='/sign-in' /> )}/>
+          <Route exact path='/suggestions' render={() => currentUser ? ( <RecommenderPageContainer/> ) : ( <Redirect to='/sign-in' /> )}/>
         </Switch>
       </ThemeProvider>
     </div>

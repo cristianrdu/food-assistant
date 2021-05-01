@@ -93,7 +93,9 @@ export const getAllRecipes = async () => {
     return error;
   }
 };
-
+// These two link resources contain the functions that were adapted to generate a random document Key in order to integrate the meal Plan
+// https://firebase.google.com/docs/reference/js/firebase.firestore.FieldPath
+// https://firebase.google.com/docs/reference/admin/node/admin.firestore.FieldPath
 export const generateMealPlan = async (days) => {
   const mealTypes = ['dinner','lunch','breakfast'];
   const promises = [];
@@ -102,33 +104,39 @@ export const generateMealPlan = async (days) => {
   
   for(let i = 0; i < days; i++){
     mealTypes.forEach(mealType => {
-      let key = recipes.doc().id;
       let promise = recipes
       .where('mealType','==', mealType)
-      .where(firebase.firestore.FieldPath.documentId(), '>=', key).limit(1).get()
+      // verifies if there are any keys present AFTER the assigned doc().id key
+      .where(firebase.firestore.FieldPath.documentId(), '>=', recipes.doc().id)
+      .limit(1)
+      .get()
       .then(snapshot => {
+        // if the second 'where' condition is met and the database returns the snapshot containing one document, get the data.
         if(snapshot.size > 0) {
           snapshot.forEach(doc => {
             data.push({id: doc.id, recipe: doc.data()});
           });
           return;
+          // else verify if there are any keys present BEFORE the assigned doc().id key
         } else {
           recipes
           .where('mealType','==', mealType)
-          .where(firebase.firestore.FieldPath.documentId(), '<', key).limit(1).get()
+          .where(firebase.firestore.FieldPath.documentId(), '<', recipes.doc().id)
+          .limit(1)
+          .get()
           .then(snapshot => {
             snapshot.forEach(doc => {
               data.push({id: doc.id, recipe: doc.data()});
             });
             return;
           })
-          .catch(err => {
-            console.log('Error getting documents', err);
+          .catch(error => {
+            console.log(error);
           });
         }
         })
-        .catch(err => {
-          console.log('Error getting documents', err);
+        .catch(error => {
+          console.log(error);
         });
         promises.push(promise)
       })
