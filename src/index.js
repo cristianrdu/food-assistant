@@ -6,13 +6,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 
 import './index.css';
-import App from './App';
+import AppContainer from './App-container';
 
 ReactDOM.render( 
   <Provider store={store}>
     <BrowserRouter>
       <PersistGate persistor={persistor}>
-        <App />
+        <AppContainer />
       </PersistGate>
     </BrowserRouter>
   </Provider>,

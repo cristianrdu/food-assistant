@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import { createSelector } from 'reselect';
 import { collateFrequencyLists } from '../../data/recommender';
 

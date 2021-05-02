@@ -65,7 +65,9 @@ const recipeDataReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         commentsLoading: false,
-        comments: [...state.comments, action.payload]
+        comments: state.comments ? 
+        [...state.comments, action.payload] :
+        [action.payload]
       }
     case RecipesActionTypes.DELETE_COMMENT_SUCCESSFUL:
       return {

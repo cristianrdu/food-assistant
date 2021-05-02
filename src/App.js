@@ -1,12 +1,6 @@
 import React, {useEffect} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import { createStructuredSelector } from 'reselect';
-
-import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
-import { selectCurrentUser } from './redux/user/user.selectors';
-
 import { auth } from './data/firebase.utils';
 import { /*addCookbookioDataToDB ,*/ addUserToFirebase } from './data/crud.utils';
 // import { postCookbookIORecipes } from './data/apis';
@@ -66,17 +60,5 @@ const App = ( {setCurrentUser, currentUser} ) => {
   );
 }
 
-
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
  
