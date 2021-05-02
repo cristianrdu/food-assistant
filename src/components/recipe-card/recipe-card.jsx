@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: 420,
       borderRadius: '10px',
       boxShadow: '0 0 30px rgba(0, 0, 0, 0.18)',
+      minWidth: 250
     },
     title: {
       color:'#42850c'
