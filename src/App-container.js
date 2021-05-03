@@ -12,10 +12,10 @@ const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser
   });
   
-  const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
-  });
-  
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
 const AppContainer = compose(
     connect(mapStateToProps,mapDispatchToProps),
 )(App);

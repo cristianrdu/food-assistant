@@ -7,11 +7,12 @@ export const generateIngredientKeywords = (ingredients) => {
     
     return keywords;
 }
+
 export const sleep = (delay = 1000) => {
     return new Promise((resolve) => {
       setTimeout(resolve, delay);
     });
-  }
+}
 
 export const addSearchKeywordsForRecipeCard = (ingredList, queryIngredients) => {
   const ingredString = ingredList.join();
@@ -70,7 +71,7 @@ export const dateFormat = {
   month: "long",
   day: "2-digit"
 }
-
+// Converts the firebase snapshot data into JSON
 export const convertRecipesSnapshotToMap = (recipes) => {
   return recipes.docs.map(doc => {
     const recipe = doc.data();
@@ -82,18 +83,21 @@ export const convertRecipesSnapshotToMap = (recipes) => {
   });
 };
 
-// https://stackoverflow.com/questions/61550004/check-if-string-contains-any-letter-javascript-jquery
+// Parses the structure of the timers from the database into readable timers for the front-end component
 export const processTimers = (timer) => {
-  console.log(timer)
-  const letterRegExp = /[a-zA-Z]/g;
+  const letterRegExp = /[a-zA-Z]/;
 
   if(letterRegExp.test(timer)) {
-    const minuteIdx = timer.indexOf('M')
     const hours = timer.includes('H') ? `0${timer[timer.indexOf('H') - 1]}` : '00'
-    const minutes = timer[minuteIdx - 1] === '0' && timer[minuteIdx - 2] === '0' ? '00' : `${timer[minuteIdx - 2]}${timer[minuteIdx - 1]}`
+    const minuteIdx = timer.indexOf('M')
+    const minutes = timer.indexOf('M') !== -1 ? 
+      timer[minuteIdx - 1] === '0' && timer[minuteIdx - 2] === '0' ? 
+      '00' : `${
+        timer[minuteIdx - 2] === 'H' ? '0' : timer[minuteIdx - 2]
+      }${timer[minuteIdx - 1]}` 
+    : '00'
     return `${hours}:${minutes}`;
   } 
-  
   return timer;
 
 }

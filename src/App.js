@@ -20,9 +20,11 @@ import createMuiTheme from './components/material-ui/Theme';
 
 const App = ( {setCurrentUser, currentUser} ) => {
   useEffect(() => {
-    const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await addUserToFirebase(userAuth);
+    // User subscription configured through the adaption of code and followed steps from Firestore documentation:
+    // https://firebase.google.com/docs/auth/web/manage-users
+    const userSubstriction = auth.onAuthStateChanged(async userToken => {
+      if (userToken) {
+        const userRef = await addUserToFirebase(userToken);
   
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
@@ -31,13 +33,14 @@ const App = ( {setCurrentUser, currentUser} ) => {
           });
         });
       } else {
-        setCurrentUser(userAuth);
+        setCurrentUser(userToken);
       }
     }, error => console.log("error: ",error));
+    // These function calls are used to populate the database with recipe data.
     // addCookbookioDataToDB();
     // postCookbookIORecipes('https://www.allrecipes.com/recipe/261547/chorizo-breakfast-tacos-with-potato-hash-and-eggs/');
     return () => {
-      unsubscribeFromAuth();
+      userSubstriction();
     };
 
   }, [setCurrentUser]);

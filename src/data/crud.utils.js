@@ -96,6 +96,7 @@ export const getAllRecipes = async () => {
 // These two link resources contain the functions that were adapted to generate a random document Key in order to integrate the meal Plan
 // https://firebase.google.com/docs/reference/js/firebase.firestore.FieldPath
 // https://firebase.google.com/docs/reference/admin/node/admin.firestore.FieldPath
+// https://stackoverflow.com/questions/48788805/query-by-documentid-in-firebase-function
 export const generateMealPlan = async (days) => {
   const mealTypes = ['dinner','lunch','breakfast'];
   const promises = [];
@@ -142,9 +143,9 @@ export const generateMealPlan = async (days) => {
       })
       
   }
-
+  // slow down the promises in order for all the data to be fetched
   await sleep();
-
+  // return promise data
   return Promise.all(promises).then(() => {
     return data;
   })
@@ -157,6 +158,7 @@ export const addRecipes = async (collectionKey, recipesData) => {
   const collectionRef = firestore.collection(collectionKey);
 
   const batch = firestore.batch();
+  //Check if the data is an array of multiple recipes, or just a single recipe
   if(Array.isArray(recipesData)) {
     recipesData.forEach(data => {
       const newDocRef = collectionRef.doc();
@@ -179,7 +181,9 @@ export const addCookbookioDataToDB = () => {
       querySnapshot.forEach(
         (doc) => {
           const {name, description, images, ingredients, instructions, url, "cook-time": cookingTime, "prep-time": preppingTime} = doc.data();
+          // Generate the necessary keywords
           const parsedKeywords = generateIngredientKeywords(ingredients);
+          // Add the data through the standardised database template
           recipes.push({
             source: url, 
             recipeName: name,
@@ -202,6 +206,7 @@ export const addCookbookioDataToDB = () => {
   return recipes;
 };
 
+// likeRecipe:: functionality for future appication work/improvements
 export const likeRecipe = async (recipeId, userId) => {
   const likedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
 
@@ -225,6 +230,7 @@ export const likeRecipe = async (recipeId, userId) => {
   }
 };
 
+// rateRecipe:: functionality for future appication work/improvements
 export const rateRecipe = async (recipeId, userId, rating) => {
   const ratedAt = new Intl.DateTimeFormat("en-GB", dateFormat).format(new Date());
 
@@ -286,6 +292,7 @@ export const getRecipeComments = async (recipeId) => {
   })
 };
 
+// getUserComments:: functionality for future appication work/improvements
 export const getUserComments = async (userId) => {
   return firestore.collection('comments')
   .where('userId','==', userId)
