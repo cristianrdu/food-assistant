@@ -1,3 +1,21 @@
+# Primary Objective
+This project’s primary objective is to provide users a convenient way of finding great recipe suggestions for their everyday meals. Additionally, it shall provide a meal-planning feature which will help them create a better routine and save time.
+
+# Secondary Objectives
+
+| Objective  | Description |
+| ------------- | ------------- |
+| Fully functional user authentication system  | The user is able to create an account and use it to log in on the web application. Only a username and a password will be required to create the account. The functionality is implemented using  Firebase.  |
+| Relevant and up-to-date recipe database | The user will have access to a wide range of recipes. This will be accomplished through the periodical update of the database by the application maintainer(s), as well as through the user’s ability to add recipes to the main recipe database.  |
+| Recipe search  | The user will be able to search through the app’s database using the ingredient keywords.  |
+| Recipe categorical Browsing  | The user will be able to browse through the recipes of a selected category (i.e. dinner, lunch, breakfast).  |
+| Random recipe  suggestion feature  | The user will be able to generate recipe suggestions based on their history of recipes used.   |
+| Meal-Plan generation  | The user will be able to generate meal plans consisting of three meals for a set number of days.  |
+
+
+Link to the application: https://food-assistant-29fb3.web.app/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
